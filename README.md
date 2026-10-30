@@ -1,6 +1,9 @@
-# Code for "A triangular window walk on random binary matrices"
+# Code for "A triangular window walk on random binary matrices: a conjectured arcsine limit and a candidate mechanism"
+
+**Preprint:** https://doi.org/10.5281/zenodo.23804106
 
 This folder reproduces every number reported in the paper.
+
 
 ## Requirements
 
