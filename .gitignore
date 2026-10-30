@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+_results/
+_dist/
+_enum_small.json
+*.out
