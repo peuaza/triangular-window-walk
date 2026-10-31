@@ -26,7 +26,12 @@ def walk_bin(B):
                 b1 = a[x] > a[y]
             else:
                 seg = a[y:x + 1]
-                b1 = (np.corrcoef(seg[:-1], seg[1:])[0, 1] > 0) if seg.std() > 1e-9 else (a[x] > a[y])
+                u, v = seg[:-1], seg[1:]
+                if u.std() < 1e-12 or v.std() < 1e-12:
+                    # 约定 A（论文 Remark 1）：自相关无定义时取 b1 = 0
+                    b1 = False
+                else:
+                    b1 = np.corrcoef(u, v)[0, 1] > 0
             o = ("B" if b1 else "D") if b2 else ("C" if b1 else "A")
             ny, nx = {"A": (y - 1, x), "B": (y + 1, x), "C": (y, x + 1), "D": (y, x - 1)}[o]
             if ny < y0: hit = "top"; break

@@ -16,8 +16,10 @@ def b1_of(a, B, y, x):
     if m == 1: return a[y] > 0.5
     if m == 2: return a[x] > a[y]
     seg = a[y:x + 1]
-    if seg.std() < 1e-9: return a[x] > a[y]
-    return np.corrcoef(seg[:-1], seg[1:])[0, 1] > 0
+    u, v = seg[:-1], seg[1:]
+    if u.std() < 1e-12 or v.std() < 1e-12:
+        return False          # 约定 A：自相关无定义时 b1 = 0
+    return np.corrcoef(u, v)[0, 1] > 0
 
 def walk(B):
     """B: n×2 的 0/1 矩阵（原样使用，不再二值化）"""
