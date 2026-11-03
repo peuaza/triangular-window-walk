@@ -41,24 +41,29 @@ Monte Carlo runs use `numpy.random.default_rng` with fixed seeds, so results are
 `walk_bin.py` implements the map of Section 2 on an `n x 2` binary matrix.
 It is imported by all other scripts. No re-binarisation is performed.
 
-## Scripts by table
+## Scripts by item
 
-| Paper | Script | Output |
+Paper 1 has two tables and six figures. This is the mapping, in the order they appear.
+
+| item in paper 1 | script | what it prints |
 |---|---|---|
-| Table 1 (`n <= 12`, exact) | `wm_exact.py` (n=4..11), `wm12.py` (n=12) | matrices / delta count / rate |
-| Table 1 (legacy) | `enum_small.py` | same quantity, earlier implementation; superseded by `wm_exact.py` |
-| Table 2 (distribution) | `arcsine_conv.py` | sd, median, KS vs arcsine, n=48..512 |
-| Table 3 (rate, convention A) | `confirm_c.py`, `quarter.py` | rate at n=256..2048 |
-| Table 3 (convention B) | `fallback_big.py` | rate at n=256..2048 |
-| Table 4 (conditional spread) | `p_cond.py` | conditional mean/sd of p by ac bin |
-| Table 5 (reversal rate) | `ac_corr3.py`, `switch_m.py` | rho(m), s(m) |
-| Link 1 | `ac_path.py` | autocorrelation of local ac along the path |
-| Link 2 | `cluster_src.py` | reversal rate vs abs(ac) |
+| Table 1: exhaustive check of the reduction, $n\le 12$ | `wm_exact.py` (n=4..11), `wm12.py` (n=12) | matrices, classes, inconsistent classes |
+| Table 2: specification sensitivity, n=256 | `_spec_sens.py` | rate, sd, median and KS for the four variants |
+| Fig. 2, 4, 5: histogram, trend and Q-Q against the arcsine | `arcsine_conv.py` | sd, median, KS, n=48..512 |
+| Fig. 6: reversal rate against $rccosho(m)/\pi$ | `ac_corr3.py`, `switch_m.py` | $ho(m)$, $s(m)$ |
+| Fig. 1, 3: flowchart and one walk | — | schematic, no data |
+| rate at n=256..2048, convention A | `confirm_c.py`, `quarter.py` | rate |
+| rate, convention B (revisit terminates) | `fallback_big.py` | rate |
+| conditional spread of the output | `p_cond.py` | conditional mean and sd by ac bin |
+| Link 1 | `ac_path.py` | autocorrelation of the local ac along the path |
+| Link 2 | `cluster_src.py` | reversal rate against absolute ac |
 | Link 3 | `excursion.py`, `fano.py` | excursion lengths; Fano factor of reversal intervals |
 | Link 4 | `by_switch.py`, `maxrun_by_k.py` | longest-run share by number of reversals |
-| Link 5 | `burst_pos.py` | burst position vs fraction |
+| Link 5 | `burst_pos.py` | burst position against fraction |
 | Section 2.6 | `segments.py`, `qseg.py` | decomposition into segments; segment statistics |
 | — | `run_all.py` | driver: runs everything, records wall-clock time |
+
+> `enum_small.py` is a legacy implementation of Table 1, superseded by `wm_exact.py`.
 
 ## Notes
 
