@@ -1,8 +1,23 @@
-# Code for "A triangular window walk on random binary matrices: a conjectured arcsine limit and a candidate mechanism"
+# Code for the triangular-window-walk papers
 
-**Preprint:** concept DOI 10.5281/zenodo.23804105
+**Paper 1 preprint:** concept DOI 10.5281/zenodo.23804105
 
-This folder reproduces every number reported in the paper.
+This repository holds the code for three papers that share the same tape and the same walk. The
+scripts at the root belong to paper 1; the two subdirectories belong to the papers that grew out of
+it, and each has its own README.
+
+| folder | paper |
+|---|---|
+| `.` (root) | *A triangular window walk on random binary matrices: a conjectured arcsine limit* |
+| `family/` | *Memory and randomness control the shape: a family of limit laws from a triangular-window walk* |
+| `bthm0/` | *A memoryless two-header tape machine: what linear time explains, and what our predictor costs* |
+
+Nothing at the root was moved when the subdirectories were added, so every path in the paper-1
+README below still resolves.
+
+## Paper 1
+
+This folder reproduces every number reported in paper 1.
 
 ## Reproducing everything
 
