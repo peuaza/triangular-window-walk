@@ -412,8 +412,15 @@ beyond that point. At $B=o(n)$ the gap to the exact cost diverges, so exactness 
 impossible on any tape and the question is quantitative. Second, the conjecture is stated for
 the middle class only: for a linear rule a predictor at $B=o(n)$ is short by the same
 diverging factor, and the analogous constant is a different number, which we do not claim.
-Third, the constant is asserted to be uniform in $\rho$, which is the part we can least
-support and the part most worth testing.
+Third, $\kappa$ is a single constant and is the supremum over both arguments,
+\[
+\kappa=\sup_{\rho}\ \sup_{B=o(n)}\ \limsup_{n}R^2(\rho;n,B),
+\]
+so a rule that scores lower at a given budget says something about that rule and nothing
+about $\kappa$. What the measurements give is a lower bound: if some predictor reaches
+$R^2=.56$ at a sub-linear budget, then $\kappa\ge.56$, and the conjecture is that $\kappa<1$.
+The bracket $.56\le\kappa<1$ is the honest statement, and the upper end is the part we are
+asserting rather than measuring.
 
 \subsection{What a measurement can and cannot establish}
 
