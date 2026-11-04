@@ -261,12 +261,82 @@ earlier version of this work did was to identify them.
 
 \section{The worst-case spectrum}\label{sec:spectrum}
 
-\emph{This section is being written.} The results it will report: the bound
-$\binom{n+2}{3}$ is sharp; an explicit rule attains
-$\binom{n+2}{3}-n^2+\lfloor n/2\rfloor$ steps with fitted exponent $3.0098\pm.0024$; every
-exponent between $2$ and $3$ is attained by capping the construction at
-$n^{(\beta-1)/2}$ columns; and a random rule takes $6.8$ steps per region on average,
-independently of $n$.
+Section~\ref{sec:order} showed that a rule can be linear in expectation while its trajectory
+is quadratic. This section goes the other way and asks how expensive a rule can be at all,
+in the worst case over tapes.
+
+\subsection{The bound is sharp}
+
+\begin{theorem}[General bound]\label{thm:upper2}
+Every strategy takes at most $\binom{n+2}{3}$ steps, on every tape.
+\end{theorem}
+
+\begin{proof}
+Let the segments be $k=0,\dots,K$ with boxes $[L_k,R_k]$ of length $M_k$, and let $P_k$ be the
+set of cells visited in segment $k$. Inside a segment the region is fixed, and a repeated
+pair $(\ell,r)$ ends the run, so the cells of $P_k$ are distinct and lie in the box:
+$|P_k|\le\binom{M_k+1}{2}$. A segment that does not end the run ends with a cut, which
+removes at least one cell, so $M_{k+1}\le M_k-1$ and $M_k\le n-k$, with $K\le n$. Hence
+\[
+\text{steps}=\sum_k|P_k|\le\sum_{k=0}^{n-1}\binom{n-k+1}{2}=\binom{n+2}{3}.
+\]
+\end{proof}
+
+Two remarks. The bound is largest when the cuts are single, since then $M_k=n-k$ and the
+sum is $n^3/6$; double cuts give $n^3/12$. And the bound counts \emph{pairs}: to saturate it
+a segment must visit every cell of its box, that is, a Hamiltonian path of the box, and this
+must happen for $\Theta(n)$ consecutive boxes.
+
+\subsection{An explicit rule attains $n^3/6$}
+
+\begin{theorem}[Attainment]\label{thm:attain}
+There is a strategy whose run takes $\binom{n+2}{3}-n^2+\lfloor n/2\rfloor$ steps on a tape
+of its construction, that is $n^3/6-n^2/2+O(n)$.
+\end{theorem}
+
+The construction is a column boustrophedon. Start at $c_0=(0,n-1)$, run down column $0$,
+advance $\ell$ by one, run up column $1$ to $c_1=(1,n-1)$, advance $\ell$ again, and so on,
+so that every corner $c_k=(k,n-1)$ lies on the orbit in order. Every segment ends at the
+same last cell $z$, where the field asks for a left cut; the box becomes $[k+1,n-1]$ and the
+headers restart exactly at $c_{k+1}$. The field is ``next cell of the orbit'', with a left
+cut at $z$ and a halt everywhere else.
+
+Because one field serves every segment, each segment is a suffix of the orbit, and the total
+is $\sum_k(|P|-i_k)$ where $i_k$ is the index of the corner $c_k$. Summing the
+multiplicities of the cells gives, in closed form,
+\[
+\text{steps}=\binom{n+2}{3}-n^2+\lfloor n/2\rfloor ,
+\]
+verified exactly for $n=16,\dots,4096$, with a log--log exponent $3.0098\pm.0024$ over
+$n=64,\dots,4096$. The deficit from Theorem~\ref{thm:upper2} is $n^2-\lfloor n/2\rfloor$, and
+its two sources are visible in the count: each even column loses two cells at its foot, and
+each odd column reaches its corner only at the end, so the cells below the corner carry one
+fewer multiplicity. Each contributes $n^2/2$.
+
+\subsection{Every intermediate exponent, and why the natural rules miss them}
+
+Capping the tour at $K=n^{(\beta-1)/2}$ columns gives runs whose fitted exponents are
+$2.27\pm.002$, $2.53\pm.003$ and $2.80\pm.003$ for targets $2.25$, $2.5$ and $2.75$. So the
+attainable exponents are dense in $(2,3)$, and together with the linear rules of
+Section~\ref{sec:order} the worst-case spectrum covers $[1,3]$.
+
+The rules of Section~\ref{sec:machine} do not come near it, and the reason is structural
+rather than informational. A rule drawn at random takes an average of $6.8$ steps per
+region, independently of $n$, so a random field is linear. What the extremal construction
+needs is that the same field drives $\Theta(n)$ segments \emph{and} that the box shrinks by
+one cell at a time; the two together cost only $O(n^2)$, which is the deficit of
+Theorem~\ref{thm:attain}, and closing it is open. The content channel is not the
+obstruction: a window of length $\ge 2\log_3 n$ determines its own position on a random
+tape, so $\varphi$ can name a cell once $n$ is large.
+
+\subsection{The spectrum is a worst-case object}
+
+The construction's field is keyed to the tape it runs on, and that tape has probability
+about $2^{-n}$ under the ensemble. On any other tape the same field behaves as a random one
+and the run is linear. So the continuous spectrum of this section is a statement about
+worst case over tapes, and it coexists with the collapse to linearity in expectation
+recorded in Section~\ref{sec:order}. Both statements are about the same rules; what differs
+is who chooses the tape.
 
 \section{What a sub-linear predictor can recover}\label{sec:ceiling}
 
