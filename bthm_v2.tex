@@ -509,44 +509,60 @@ Budgets are charged in reads, the score is taken over every output-producing tap
 unfinished tapes counted as errors, and only points at which no tape has finished
 ($\mathrm{fin}=0$) enter a fit. The quantity is $c=B/g_\rho$, the fraction of the exact cost.
 
-\begin{conjecture}[Exponential risk]\label{conj:exp}
-For every rule $\rho$ that is not fully linear there are constants $A_\rho\in(0,1)$ and
-$\lambda>0$, with $\lambda$ independent of $\rho$, such that
+\subsection{What the measurements give}
+
+Budgets are charged in reads, the score is taken over every output-producing tape with the
+unfinished tapes counted as errors, and only points at which no tape has finished enter a
+fit. The quantity is $c=B/g_\rho$, the fraction of the exact cost.
+
+\paragraph{The exact threshold is model-free.} For $n\le 10$ the optimal error of every
+adaptive predictor can be computed by dynamic programming over the cylinders of the ensemble,
+and the answer is unambiguous: the smallest budget at which the error reaches zero is $B=n$
+for each rule, that is, exactness requires reading every cell. The optimal error at half the
+tape is $.30$, $.23$ and $.23$ at $n=9$ for the concavity rule and two of the four, so the
+risk at a fixed budget is bounded away from one by a quantity that owes nothing to a
+particular predictor.
+
+\paragraph{The shape is an exponential, but its rate belongs to the predictor.} Within one
+predictor family the excess risk is well described by
 \[
-1-R^2\big(\rho;\,n,\,c\,g_\rho(n)\big)\ =\ A_\rho\,e^{-\lambda c}+o(1)
+1-R^2(\rho;n,c\,g_\rho)\ \approx\ A_\rho\,e^{-\lambda c},
 \]
-uniformly for $c$ in a fixed compact subinterval of $(0,1)$.
+with one $\lambda$ for all rules and sizes and an amplitude $A_\rho$ that is the measured
+one-read value. For a depth-three gradient booster fitted on one identical ten-point window
+at four sizes and three rules this gives $\lambda=1.96\pm.04$ and $A_\rho=.660,.686,.748$,
+four numbers describing $96$ curves to rms $.027$ against a seed noise of $.027$ to $.034$;
+the hypothesis that $\lambda$ varies with $n$ is rejected at $F(9,920)=0.31$.
+
+The rate, however, is not a property of the information. Changing only the predictor moves
+it outside the seed noise: a ridge regression on the same features gives $\lambda=1.96$ to
+$2.23$ (statistically indistinguishable from the booster, $p=.95$), a shallow tree $1.88$ to
+$2.20$, a boosted model with five times the iterations $1.52$ to $1.76$, and a nearest-neighbour
+predictor $1.87$ to $3.03$; the deviations are significant at $p<.001$ in every case but the
+ridge. A stronger learner therefore does not merely score better, it decays more slowly, and
+the constant $1.96$ describes the booster and not the rule. We report the law as an
+empirical form that holds within a family, and we make no claim that $\lambda$ is universal.
+
+\paragraph{What survives as a statement about the rules.} Two things. The risk at a fixed
+fraction of the exact cost is stable in $n$: at $B=n^{0.75}$ the same predictor gives
+$.560,.506,.516$ for $n=256,512,1024$, and $.560,.560,.568$ across three seeds at $n=256$, so
+the level is a property of the rule and the ensemble rather than of the sample. And at
+$B=c\,n$ with $c$ fixed the curves for the four rules differ by a factor of about two and
+keep their order, which is the same order the exact computation puts them in: the rule whose
+certificate is the longest is the hardest to predict. Neither statement depends on the
+exponential fit.
+
+We therefore state the ceiling as an inequality rather than as a law.
+
+\begin{conjecture}[Ceiling]\label{conj:ceiling2}
+Let $\rho$ be linear in expectation and superlinear in the worst case. Then for every
+$c\in(0,1)$ the risk $R^2(\rho;n,c\,n)$ is bounded away from one as $n\to\infty$.
 \end{conjecture}
 
-The measurements support it with a specific pair of numbers. Fitting on one identical
-ten-point window $c\in[.02,.20]$ at every size, for the rules longest-run, pattern and
-palindrome, gives
-\[
-\lambda=1.96\pm.04,\qquad A_\rho=.660,\ .686,\ .748 ,
-\]
-where the amplitudes are not fitted but are the measured values of $1-R^2$ at $B=1$. Four
-numbers then describe $96$ curves, that is $960$ cells, to rms $.027$ and maximum $.077$
-$\kappa$-units, against a seed-to-seed noise of $.027$ to $.034$. The hypothesis that the
-rate varies with $n$ is rejected: one $\lambda$ with a level per (rule,$n$) against a
-$\lambda$ per $n$ gives $F(9,920)=0.31$, $p=.97$, and by rule only the run-count rule moves.
-
-Three qualifications. The rate does not need rescaling by $n$: replacing $c$ by
-$\lambda(n)c$ changes the residual from $.0412$ to $.0397$, which is a $3.6$ per cent
-difference at a noise level of $.027$ to $.034$, so the invariant is the function
-$e^{-1.96c}$ itself and not a rescaled variable. The run-count rule is the exception: its
-rate rises from $.81$ to $1.84$ with $n$ and its level drifts by $-0.063$ per $e$-fold,
-closing to the common rate only at $n=1024$; it is also the rule with the largest per-epoch
-query cost, $4.2$ reads against $1.9$ to $2.9$. And the fit window stops at $c=.20$ because
-beyond it tapes begin to finish and $R^2$ changes quantity; the half-life $\ln 2/\lambda=.35$
-is therefore an extrapolation, and we report the measured three-quarter point instead,
-$c_{.75}=.137$ to $.168$.
-
-What the law says in words is that the unexplained variance of the output decays
-exponentially in the fraction of the exact cost a predictor is allowed to spend, at a rate
-that is the same for rules of very different internal structure. The half-life is a little
-over a third of the cost. Since $A_\rho>0$, the risk is strictly below one at every $c<1$
-and tends to one only as the whole cost is spent, which is the quantitative form of the
-statement that a small predictor is neither helpless nor omniscient.
+The evidence is the exact computation at $n\le10$, which gives $B^\star=n$, and the measured
+levels, which are $.22$ to $.43$ at half the tape and move by at most $.03$ between the two
+largest sizes. What the evidence does not give is a value for the bound: any number we quote
+is the score of one predictor, and a better predictor lowers it.
 
 \section{Reproducibility}\label{sec:repro}
 
