@@ -1,0 +1,983 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{definition}{Definition}
+\newcommand{\sd}{\mathrm{sd}}
+\title{A memoryless two-header tape machine:\\
+what linear time explains, and what our predictor costs}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A tape of $n$ cells, each the average of a pair of bits, is read by two headers that move inside a
+region. At each step the rule evaluates a fixed function of the window between them and chooses one of
+eight actions --- move a header, cut a cell from the left, the right or both, or halt --- and outputs
+the position where the headers meet. We ask what linear time explains, and what a predictor with little
+memory recovers.
+
+For the canonical rule we construct an exact simulator costing $5.3$ reads per cell, flat from $n=32$
+to $1024$; the same construction covers all twenty-four move tables and steps of one to three cells
+at $n=256$, and the two rules that first looked expensive are not in that class either. For four further rules no such simulator is known: their trajectories are quadratic (a fitted
+exponent $2.089\pm.026$ on the median and $1.977\pm.042$ on the mean), and a simulation carrying
+$O(\log n)$ bits costs $0.62\,n^2$ reads, about eleven reads per step. On the first of them, a predictor confined to $o(n^2)$ reads recovers $R^2=.58$ of the output at $n=256$, with two seeds agreeing to $.004$, and so the ceiling constant is at least $.56$ once the selection
+over budgets is accounted for --- at $n=256$; at $n=512$ the same procedure gives $.37$, and we claim
+no mode of convergence, so this is a finite-$n$ lower bound and not an asymptotic one.
+
+For the expensive side we prove a chain of structural facts, each verified by exhaustive computation: the second bit is a
+prefix-average comparison; with the other bit forced false the rule is exactly a largest-concavity
+scan, checked on every admissible sequence for $n=6,\dots,13$. A counting
+argument over the cells a machine reads cannot separate the classes --- such a bound can never exceed $n$, and $n$ is
+on the cheap side --- and neither can an argument about memory, since the rule is simulable with
+$\Theta(\log n)$ bits. What separates them is repeated reads: the scan costs $\Theta(n^2)$ reads in
+expectation, and a single-head machine with $O(\log n)$ bits needs $\Omega(n^2/\log n)$ of them once
+the cut-to-cut communication is at its measured size, so no such machine decides the output in linear
+time.
+
+\end{abstract}
+
+\section{Introduction}
+
+Two papers precede this one. The first proposes an arcsine limit for a triangular walk on a random
+binary matrix \citep{luo-tww}; the second varies the specification and maps the shapes that result
+\citep{luo-family}. The present paper studies the machine behind that walk without its
+cycle-handling mechanism, and it is organised around two questions.
+
+\emph{How much does linear time explain?} For the rules of this class that we can put in it, all of
+it: if the moves are bounded and the cuts fall on the boundary, the output is computable exactly in
+$O(n)$ reads with $O(\log n)$ bits of state, so no fitted model is needed and no ceiling applies. Four
+others are candidates for the expensive class: their bits are cheap and their trajectories are long,
+and they are the subject of Section~\ref{sec:walk} and of the ceiling in
+Section~\ref{sec:ceiling}. Between the two sit four rules --- the interior cut, the far end, the
+median and the rule that ignores the window --- whose simulators are linear per step but whose read
+ratio grows with $n$ on the samples we have; we report their numbers and put none of them in either
+class.
+
+\emph{What does exact prediction cost?} Less than a rebuild suggests. A cut removes a boundary
+cell, so the accumulators kept over the region lose one term; the window's are copied from them
+when the headers restart, and nothing is rebuilt from the tape. A predictor that carries them follows the walk in
+$O(n)$ reads with $O(\log n)$ bits of state, measured at $5.3\,n$ reads per tape from $n=32$ to
+$1024$ (Table~\ref{tab:sim}), against $n$ to $2n$ for the machine itself, which is handed the two-bit
+window function and never computes it.
+
+\emph{What we can prove.} One direction only: if a rule's every move shrinks the window, and its
+feature can be updated when one cell leaves, then the output is computable in $2n$ reads. The
+converse is false, and Section~\ref{sec:barrier} explains why every natural attempt to state it dies
+on a legal counterexample. In the other direction Section~\ref{sec:lower} proves two structural facts about the longest-run
+rule and derives a corollary from them: it is a largest-concavity scan once one bit is forced
+false, checked on every admissible sequence for $n=6,\dots,13$; and the quadratic cost of that scan
+is an upper bound rather than a measurement. The consequence is negative and it is the point:
+no argument that counts reads can separate the classes, because a linear budget already sits on the
+cheap side. What has to be proved is a bound on memory.
+
+\section{The machine}\label{sec:machine}
+
+\paragraph{Tape and measure.} $\tau\in\{0,\tfrac12,1\}^n$: $n$ cells, the $i$-th the average of bit $i$ of column one and bit $i$ of column two.
+Each of the two columns is drawn uniformly from the $\binom nh$ subsets of size $h=\lceil n/2\rceil$,
+independently across columns, so for even $n$ the cell law is $P(0)=P(1)=\tfrac14$ and
+$P(\tfrac12)=\tfrac12$, and for odd $n$, where $h=(n+1)/2$, it is
+$\big(\frac{n-1}{2n}\big)^2$, $\frac{n^2-1}{2n^2}$ and $\big(\frac{n+1}{2n}\big)^2$; the cells are
+negatively correlated. Tapes are drawn independently of one another.
+
+\paragraph{The lag-one autocorrelation.} One window function recurs below, in the canonical rule
+and in the rule of Section~\ref{sec:sims} that ignores the window: the lag-one autocorrelation of
+a tape,
+\[
+\mathrm{ac}_1=\frac{\sum_{i=1}^{n-1}(a_i-\bar a)(a_{i+1}-\bar a)}{\sum_{i=1}^{n}(a_i-\bar a)^2},
+\qquad \bar a=\frac1n\sum_{i=1}^{n}a_i,
+\]
+with $\mathrm{ac}_1=0$ when the denominator vanishes. It is computable in one pass with five running
+scalars.
+
+\paragraph{Reads.} A \emph{read} is one access to one cell of the tape. The predictors below are
+charged one read per cell they touch, so a pass over a window of length $m$ costs $m$ reads.
+
+\paragraph{State and actions.} Fix $n\ge3$. A region $[L,R]$ and two headers $(\ell,r)$ with
+$L\le\ell\le r\le R$, initially $L=\ell=0$ and $R=r=n-1$. At each step the rule chooses one of eight
+actions:
+\[
+\ell\mapsto\ell+1,\qquad \ell\mapsto\ell-1,\qquad r\mapsto r+1,\qquad r\mapsto r-1,
+\]
+\[
+L\mapsto L+1\ \ (\text{left cut}),\qquad R\mapsto R-1\ \ (\text{right cut}),\qquad
+\text{both (double cut)},\qquad \text{halt}.
+\]
+The three cuts are actions in their own right. They may be taken at any step, not only
+when a header has reached a boundary, and a rule may cut with both headers far from the ends.
+Each cut removes one cell from each side it names, so the region only shrinks; after any cut the
+headers restart at $(\ell,r)=(L,R)$. The tape is read-only.
+
+\paragraph{Definition.} A \emph{strategy} is a fixed function
+\[
+f(\varphi(\tau[\ell..r]),\ n,\ \ell,\ r,\ L,\ R)\ \longrightarrow\
+\{\ell{+}1,\ \ell{-}1,\ r{+}1,\ r{-}1,\ \text{left cut},\ \text{right cut},\ \text{double cut},\ \text{halt}\},
+\]
+where $\varphi$ is a fixed function of the window with a finite value set. The geometry is part of the
+input: a strategy may depend on $\ell$, $r$, $L$ and $R$ as well as on the window. It has no other
+memory, and in particular it cannot count its own steps.
+
+A run is defined as follows.
+\begin{enumerate}
+\item Start at $(L,R,\ell,r)=(0,n-1,0,n-1)$.
+\item If $\ell=r$, the run stops and outputs $\delta=\ell/(n-1)$.
+\item If the state $(L,R,\ell,r)$ has occurred before, the run ends with no output: a rule without
+memory repeats from there, and we stop rather than follow the repetition.
+\item Otherwise the rule reads the window, evaluates $f$, and acts:
+\begin{enumerate}
+\item a move is legal only if it keeps both headers inside $[L,R]$, and if it brings them together or
+past each other the run stops and outputs $\delta$ at the position the moving header reaches;
+\item a cut is legal only if the region keeps at least one cell, and it acts on the region as
+described above;
+\item halt ends the run with no output.
+\end{enumerate}
+\end{enumerate}
+
+\paragraph{Moving outside the region is not an action.} Forcing a header past a boundary is not a legal
+action, and the model does not repair it: a rule that wants to discard the cell behind a boundary has
+to say so, and the action that says so is a cut. The rules studied below are written as four-move
+tables; read as strategies, they choose the cut on the side a move would have left and halt once the
+region is small. Those are choices of those rules, not clauses of the model. A rule that halts
+instead, or that keeps walking in a two-cell region, is an equally legal strategy and a different one.
+
+\paragraph{Outcomes.} Three endings. A meeting outputs $\delta=\ell/(n-1)$. A halt outputs nothing. A
+repeated state outputs nothing.
+
+\paragraph{The canonical rule.} It is the special case in which $\varphi$ takes values in
+$\{0,1\}^{2}$ and $f$ depends on the two bits alone, together with two conventions for what to do when the
+table's move is illegal: it chooses the cut on the side the move would have left --- and the double
+cut when both headers are on the boundary, which is the only case in which both sides are left at
+once --- and it halts once the region has fewer than three cells. The double-cut case is what makes
+Theorem~\ref{thm:concavity} read as it does. The two bits are $b_1$, the sign of the lag-one
+autocorrelation of the window (with $b_1=[a_r>a_\ell]$ at length two and $[a_\ell>1/2]$ at length one),
+and $b_2$, the comparison of the window mean with the mean of its first
+$\max(1,\lfloor m/2\rfloor)$ cells. The move is
+\[
+(b_2,b_1)\mapsto
+\begin{cases}
+(1,1)&\ell\mapsto\ell+1,\\
+(1,0)&r\mapsto r-1,\\
+(0,1)&r\mapsto r+1,\\
+(0,0)&\ell\mapsto\ell-1.
+\end{cases}
+\]
+Two of the four moves enlarge the window, which is what the theorem in Section~\ref{sec:thm}
+excludes. Both comparisons are strict: an exactly zero autocorrelation counts as negative, and a
+window mean exactly equal to the mean of its first half counts as $b_2=0$.
+
+\section{Two classes of strategy}\label{sec:classes}
+
+A strategy of this model is a window function $\varphi$ together with a decision function $f$ that
+sees $\varphi$, both header positions and both boundaries, and returns one of the eight
+actions of Section~\ref{sec:machine}. What separates strategies for our purposes is not
+what they read but what their output costs.
+
+\begin{definition}[Pointer and walk]
+A strategy is a \emph{pointer} strategy if its output can be computed in $O(n)$ cell reads with
+$O(\log n)$ bits of state, and a \emph{walk} strategy if it cannot. The names are descriptive: a pointer
+strategy sweeps the tape and stops, while a walk strategy's headers return to cells they have already
+read, and the returning is what costs.
+\end{definition}
+
+The classification is operational, and every claim below is a construction (a simulator with a read
+count) unless it says otherwise. The second half of the definition is negative, so a rule is placed
+on the expensive side only with the evidence we have: a simulator of cost $\Theta(n^2)$ and no
+$O(n)$ one. We write "no $O(n)$ simulator is known" where that is all we can say, and
+Section~\ref{sec:ceiling} states what would be needed to turn it into a lower bound.
+
+\subsection{Simulators, and what they do and do not classify}
+\label{sec:sims}
+
+\paragraph{What the $O(n)$ claims are, and are not.} Every read count in this subsection is a
+construction with a measured step count: the simulator costs $O(1)$ reads per step, and the number
+of steps is measured on a finite grid rather than bounded. Only the monotone case has a bound on
+the steps, and that is why it is the only one stated as a theorem. A rule whose run were longer
+than the tapes we ran would cost more than the table says.
+
+Of the rules below, two are cheap with a ratio that stays flat across the sizes we can run --- the
+canonical rule, and the monotone family of Theorem~\ref{thm:monotone}. Four others have a simulator
+whose ratio grows with $n$: the interior-cut rule, the far-end rule, the median rule and the rule
+that ignores the window. We report their numbers and leave them unclassified, because a ratio that
+grows is not evidence of a linear bound and we cannot tell it from a slow drift on the samples we
+have.
+
+\paragraph{Monotone rules: $2n$ reads.} If every move of the rule shrinks the window, then each cell
+leaves the window at most once and a rule that updates its feature when a cell leaves is exact in $2n$
+reads: one read when the cell enters, one when it leaves. This is Theorem~\ref{thm:monotone} and it
+covers every rule whose move table has no enlarging move.
+
+\paragraph{The canonical rule: $5.3\,n$ reads.} The rule of Section~\ref{sec:machine} enlarges the window
+on two of its four moves, so the theorem does not apply. It is cheap anyway, and the reason is where
+its cuts fall: it never chooses a cut action, so a cut happens only when a move would leave the
+region, and the cell removed is then the boundary cell on that side. Keeping accumulators for the
+region as well as for the window --- the window's are copied from the region's when a cut restarts the
+headers --- costs $O(1)$ per step, and the measured cost is $5.3\,n$ reads per tape, flat from $n=32$
+to $n=1024$ (Table~\ref{tab:sim}). The construction is in Section~\ref{sec:cost}.
+
+\paragraph{All twenty-four move tables: $4.0$ to $5.1\,n$ reads.} The bound does not depend on which move
+each pair of bits selects, only on how far a move can go. Replacing the table by any of the twenty-four
+permutations of the four moves leaves the argument intact; measured over $120$ tapes at $n=256$, reads
+per tape lie between $3.96\,n$ and $5.05\,n$, with no window ever rebuilt.
+
+\paragraph{Steps of one, two and three cells: $5.0$ to $5.4\,n$ reads.} The same holds when a move moves
+the header by two or three cells: a cut still removes the boundary cell only, and the accumulators still
+lose one term. Measured reads per tape are $5.0$ to $5.4\,n$ with no rebuild.
+
+\paragraph{A rule that cuts inside the window: $10.6$ to $17.3\,n$ reads.} A rule may also cut where it likes
+rather than at the boundary. Take the canonical bits and moves and add one cut action: when the window
+contains three consecutive ones, cut at the first of them and keep the left part. The rule is still
+memoryless --- the decision is a function of the window --- but the new window is not a deletion of the
+old one, so the accumulators have to be read again from $L$ to the cut. Measured over $200$ tapes, reads
+per tape are $17.0\,n$, $17.3\,n$ and $10.6\,n$ at $n=128,256,512$: the ratio does not grow with $n$, so
+the rule is pointer, and the rebuilding it does is paid for by the cuts it avoids.
+
+\paragraph{A rule that ignores the window: $0.7\,n$ steps.} With $b_2=[2m>n]$ and $b_1$ the sign of the
+lag-one autocorrelation, the walk marches inward and meets on most tapes in $0.69$ steps per cell, which
+is pointer by the definition. We mention it because a fitted model scores well on it while the rule is exactly simulable:
+a pointer strategy can look statistically rich and still be computable exactly, which is why $R^2$ on a
+pointer strategy says nothing about the ceiling.
+
+\paragraph{A rule that cuts at the far end: between $5.6\,n$ and $17\,n$ reads, and not classified.} This rule needs an action that the machine
+of Section~\ref{sec:machine} does not have --- a cut at an interior position $p$, discarding the
+cells to its right --- and we include it here as an extension, because it is the natural test of
+whether interior cuts are expensive. The canonical bits and moves, plus that action, applied when the
+window is longer than $n/2$ and its second half contains a cell equal to one: cut at that cell and
+keep the left part. The rule is memoryless and both of its bits are aggregates. An
+earlier draft reported $\Theta(n^2)$ reads for it; that number was measured by an implementation that
+rebuilt the window after every cut. A cut action at a boundary removes one cell from the side it
+names, so an accumulator kept over the region survives it; an interior cut removes a suffix and is a
+different action, treated below, and the window that a cut resets to the region can be copied from the
+region's accumulators in constant time. Carrying the two sets, reads per tape on tapes that produce an
+output are $5.55\,n$, $6.08\,n$, $6.92\,n$, $13.5\,n$ and $17.0\,n$ at $n=128,256,512,1024,2048$,
+against $31.8\,n$, $68.4\,n$, $179.0\,n$, $1352\,n$ and $3186\,n$ for the rebuild-per-cut
+implementation. The two agree on $160/160$ output-producing tapes at each size, so the difference is the
+implementation and not the rule.
+
+The ratio grows by a factor of three over a sixteenfold range, which the meeting counts alone
+might explain --- fourteen tapes at $n=1024$ and ten at $n=2048$ --- but we cannot separate the two
+effects. We therefore do not put this rule in either class: it is not evidence for the cheap side,
+and it is not used in Section~\ref{sec:ceiling}.
+
+\paragraph{The median rule: three counters, $8.9$ to $13.8\,n$ reads, and not classified.} Take the canonical table and cut
+policy and replace $b_2$ by the comparison of the window mean with the window \emph{median}. A median
+is not an aggregate over an alphabet that grows with the window, but this tape has three values: with
+$c_0,c_1,c_2$ the counts of $0,\tfrac12,1$ in the window, the $k$-th smallest cell is $0$ if
+$k\le c_0$, $1$ if $k\le c_0+c_1$ and $2$ otherwise, so the median --- and, for even $m$, the mean of
+the two central order statistics --- is a function of three counters, each $O(\log n)$ bits.
+Reads per tape on tapes that produce an output are $12.3\,n$, $8.9\,n$, $13.6\,n$ and $13.8\,n$ at
+$n=128,256,512,1024$, against $550\,n$, $1{,}061\,n$ and $2{,}941\,n$ for a driver that recomputes the
+median at every step; the two agree on $200/200$ tapes at $n=128,256,512$. The ratio grows by half over that range, as it does for the far-end rule, so we
+do not put this rule in either class either: the construction is linear per step and
+the trajectory is not.
+
+\subsection{The walk class}
+\label{sec:walk}
+
+Four rules are in it. All keep the canonical move table and take their second bit from the
+\emph{arrangement} of the window rather than from a sum; all four are simulated with $O(\log n)$ bits
+of state; and in all four the cost is quadratic because the run is long, not because a step is
+expensive.
+
+\paragraph{The longest run: $0.62\,n^2$ reads from a long run, not from a costly bit.} Let $b_1$ be
+the sign of ``the longest maximal run of cells equal to $1$ in the window exceeds $m/4$''. The
+threshold is a constant fraction of the window, so the bit can be decided from a few witnesses: if
+the window contains $s$ cells that are not $1$, the longest run exceeds $t=\lfloor m/4\rfloor$ exactly
+when some gap between consecutive such cells, or between one of them and a boundary, exceeds $t$. A
+greedy scan jumps $t+1$ cells at a time and looks back for a non-$1$ cell, so deciding $b_1$ reads
+$5.69$ to $5.89$ cells per step and stores four positions, which is $O(\log n)$ bits. The total per
+step is about eleven reads once the initial scan of the tape and one rebuild per cut are counted;
+that is what makes $0.62\,n^2$ compatible with a mean of $.054\,n^2$ steps. Measured on the tapes that
+produce an output, the cost is $0.62\,n^2$ reads at $n=256$ and $0.63\,n^2$ at $n=512$, against
+$9.8\,n^2$ and $20.1\,n^2$ for a driver that recomputes the longest run at every step; the two agree
+on $60/60$ tapes at each size.
+
+What makes the rule expensive is the length of its trajectory. The number of steps scales as
+a fitted exponent over $n=128,\dots,2048$ that depends on the estimator: $2.089\pm.026$ on the median
+and $1.977\pm.042$ on the mean. We quote both because they disagree, and the mean ratio is the one the
+cost statement uses. The mean of steps$/n^2$ is flat --- $.053$, $.052$ and
+$.048$ at $n=1024$, $2048$ and $4096$ --- while the median falls over the same range, from $.034$ at $n=1024$ to
+between $.018$ and $.024$ at $2048$ --- two runs of different size disagree there --- and $.0095$ at
+$4096$, with the ninetieth percentile rising from $.135$ to $.165$. The quadratic cost is
+therefore carried by the tail: a typical tape is cheaper than $n^2$, and the mean is what the
+asymptotic statement is about.
+
+\paragraph{Three more, with bits that cost one read per step.} The same table with $b_1$ replaced by
+(a) the comparison of the number of maximal runs of equal cells with $m/2$, (b) the presence of a
+fixed three-cell pattern, and (c) the test of whether the window is a palindrome. Each of these admits
+a constant-cost update --- a count of adjacent unequal pairs, a count of matching start positions, a
+pair of rolling hashes --- so a step costs one read. All three are nevertheless quadratic, because the
+trajectory is: steps$/n^2$ is $.046$, $.051$ and $.054$ at $n=256$, and $.063$ to $.069$ at $n=512$
+across the family.
+
+\begin{center}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+rule & tapes & meetings & best $R^2$ at $n^2/\ln n$ & fold SE & control \\
+\midrule
+longest run & 8000 & 1919 & $.58$ & $.014$ & $-.02$ \\
+fixed pattern & 500 & 152 & $.41$ & $.039$ & $-.11$ \\
+palindrome & 2000 & 255 & $.37$ & $.050$ & $-.06$ \\
+run count & 1800 & 330 & $.28$ & $.017$ & $-.07$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Four rules, one budget, and a spread of a factor of two in what a predictor can recover: the class
+is not homogeneous in predictability, which is what a single number for $\kappa$ would hide.
+
+At $n=512$ the pattern rule gives $.37$ on $65$ meetings and the other two fall to about $-.17$, on
+$80$ and $43$ meetings. Those samples are too small to separate a real drop from noise, and the
+shuffled controls are of the same size as the values, so we report the numbers and read no trend
+into them.
+
+Only the first of the four is evidence about a ceiling. The other three cost about $.05\,n^2$ reads
+to simulate exactly, and the budget $n^2/\ln n$ is $.18\,n^2$ at $n=256$ and $.16\,n^2$ at $n=512$
+--- larger than their exact cost. A predictor with that budget can therefore simulate them
+outright and reach $R^2=1$, so their scores measure the gradient booster we fitted and not a
+ceiling. The longest-run rule is different: its exact cost is $0.62\,n^2$, above the budget at every
+size we can run, and it is the only one of the four we use in Section~\ref{sec:ceiling}. None of the four is predicted well, and the two with the lowest scores are not the two with
+the widest laws --- the last column is the same to within a third across the four.
+
+The four are not four unrelated objects. Counting the pair $(b_2,b_1)$ along the trajectory splits
+them into two regimes: at $n=128$ the longest-run and palindrome rules have the pair $(1,0)$ on $92$ per cent of
+steps and $(0,0)$ on about $8$, while for the run-count and pattern rules it is $(1,1)$ on about $90$.
+So there are two dynamical regimes with two members each, and the class is a pair of regimes rather
+than a list. Figure~\ref{fig:ws} shows the four at $n=128$, where the budget is small enough that two of them are
+predicted not at all; at $n=256$, with the larger budget of the table above, all four land between
+$.28$ and $.58$. The moral is the one an earlier draft got wrong. We had been classifying bits by
+whether a sum can
+carry them, and every candidate that failed that test turned out to have an $O(1)$-per-step
+implementation. The property that separates the classes is not the cost of a step but the length of
+the run: a rule whose bits rarely push the headers together keeps cutting and restarting, and
+$\Theta(n)$ cuts with $\Theta(n)$ steps between them is $\Theta(n^2)$ reads whatever a step costs.
+
+\paragraph{No shortcut is known.} Seven summaries of the tape computable in $O(n)$ reads were tested
+against the exact stopping position: the argmax and argmin of the centred walk, the centre of mass of
+the cells equal to $1$, the midpoint of the longest run of them, the median of their positions, a
+block-sum argmax at scale $\sqrt n$, and the last index at which the running rate reaches $1/4$. None
+reproduces the output: the best of them, the centre of mass, is exact on $6$ of $50$ tapes at $n=64$
+and on $0$ of $58$ at $n=256$, with a mean absolute error of $.106\,n$ to $.127\,n$. Coarsening the
+simulation to blocks of $2$, $4$ and $8$ cells does not degrade gracefully but collapses, returning
+the right answer on $0$ to $3$ of $46$ tapes. And replacing $b_1$ by the constant false leaves the step
+count at $.061$ to $.076\,n^2$, so the long trajectory is a property of the move table's dynamics and
+not of the bit: with one bit forced constant, the headers can only shrink, every few steps cut, and
+the run restarts.
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=.94\textwidth]{figs/ws_longrun.png}\\[1pt]
+\includegraphics[width=.94\textwidth]{figs/ws_runs.png}\\[1pt]
+\includegraphics[width=.94\textwidth]{figs/ws_pattern.png}\\[1pt]
+\includegraphics[width=.94\textwidth]{figs/ws_pal.png}
+\caption{The four walk rules at $n=128$, each simulated for as many steps as the budget $n^2/\ln n$
+allows (about a third of the trajectory). Left panel of each pair: out-of-fold prediction against
+the strategy's output, with the diagonal for reference. Right panel: the density of the strategy's
+$\delta$ and of the predictor's, on the same bins. From top to bottom, the longest-run rule
+($R^2=.53$), the run-count rule ($.02$), the fixed-pattern rule ($.46$) and the palindrome rule
+($-.02$). The two rules that resist prediction have outputs of the same spread as the two that do not,
+so the difference is not the width of the law.}
+\label{fig:ws}
+\end{figure}
+
+\section{A theorem: monotone rules are predictable}\label{sec:thm}
+
+\begin{theorem}[Monotone rules are predictable]\label{thm:monotone}
+Fix a strategy $(\varphi,f)$ with $f$ monotone: every move is $\ell\mapsto\ell+1$ or $r\mapsto r-1$,
+no cut action and no halt action is ever chosen, so
+exactly one cell leaves the window per step. Suppose further that the predictor may read the initial window, and that the state $s_0$ determining
+$\varphi$ on it is computable from that window in $O(n)$ reads with $O(\log n)$ bits of workspace ---
+a hypothesis that a finite value set of $\varphi$ does not by itself supply. Suppose $\varphi$ is
+\emph{incrementally computable}:
+there is a machine $M$ with $O(\log n)$ bits of workspace which, given the window $[\ell,r]$, a state
+$s$ that determines $\varphi(\tau[\ell..r])$, and the cell that is about to leave, produces in $O(1)$
+steps a state $s'$ that determines $\varphi$ on the new window. Then there is a predictor with
+$O(\log n)$ bits of workspace that computes $\delta$ in at most $2n$ reads.
+\end{theorem}
+
+\begin{proof}
+The predictor keeps $(\ell,r)$ and $s$; initially it reads the whole window, $n$ reads, and computes
+$s_0$ by the hypothesis just stated. At each step it evaluates $\varphi$ from $s$, applies $f$, and calls $M$ with the cell that
+leaves. By induction on the step the predictor's $(s,\ell,r)$ equals the rule's at every step: the
+base case is the initial window, and the step case is the definition of $M$. Hence the first time the
+headers would coincide is the same for both, and the predicted $\delta$ equals the rule's. One cell
+is read per step, so the total is $n$ for the initial window plus at most $n-1$ for the steps.
+\end{proof}
+
+The hypothesis is met by the two features of the canonical rule separately. The three window sums
+$S_1=\sum a_i$, $S_2=\sum a_i^2$, $S_3=\sum a_ia_{i+1}$ are updated by subtracting one term, and
+$\varphi$ can be evaluated from them; the mean of the first half is updated by moving its two ends by
+at most one cell each. So both features are maintainable along a move, and a monotone rule that
+reads them is cheap by the theorem.
+This does not contradict the measurements of Section~5, and the difference is where the cost comes
+from. A move changes the window by one cell, and there the maintenance is constant. A cut does not:
+it restarts the window at the region, so the window's sums cannot be carried across it by a single
+deletion. What keeps the canonical rule cheap is the second set of sums, the one kept over the
+region: those lose one term at the cut, and the window's are copied from them
+(Section~\ref{sec:cost}). The cost is then $O(1)$ per cut and not a rebuild, which is why the
+canonical rule does not pay for the $n/2$ cuts it makes.
+
+\paragraph{Scope.} The theorem covers monotone rules only. The canonical rule is not one: two of
+its four moves enlarge the window. So the bound of $2n$ reads says nothing about it, and the
+measurements of the next section are not a counterexample to the theorem but a statement about a
+rule outside its hypothesis.
+
+\section{What simulation costs}\label{sec:cost}
+
+Cutting is an action the rule may take at any time, at any place; nothing in the model ties a cut to
+an exit. The canonical rule never chooses it, and that is what makes its simulation cheap --- not the
+machine. We record the observation for the canonical rule first, then say what remains true when a
+rule cuts wherever it likes.
+
+\paragraph{The canonical rule.} A cut fires only when a move would leave the region, so it removes the
+boundary cell on the side the header would have left and the headers restart at $(\ell,r)=(L,R)$. Two
+sets of accumulators therefore suffice: the region's, which lose one term at the cut, and the
+window's, which are copied from the region's when the headers restart. Neither is ever rebuilt from
+the tape, and the cost is $O(1)$ per step.
+
+Carrying, in each set, the window sum, the sum of squares, the sum of adjacent products and a running sum for the head window $[\ell,\ell+k-1]$ and the two
+boundary values $a_\ell$, $a_r$ gives a simulation with $O(1)$ reads per step. With cells held scaled
+by two, both bits become exact integer comparisons, $Sk>S_hm$ for the mean test and $(m-1)R_r-AB>0$
+for the sign of the autocorrelation. The state is a fixed number of integers, so $O(\log n)$ bits.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{rccccc}
+\toprule
+$n$ & tapes & meetings & reads per tape & reads$/n$ & reads$/n^2$ \\
+\midrule
+32   & 300 & 85 & 168.2   & 5.26 & .164 \\
+64   & 300 & 69 & 340.2   & 5.32 & .083 \\
+128  & 300 & 74 & 685.2   & 5.35 & .042 \\
+256  & 300 & 49 & 1361.8  & 5.32 & .021 \\
+512  & 150 & 22 & 2733.0  & 5.34 & .010 \\
+1024 & 100 & 20 & 5501.4  & 5.37 & .005 \\
+\bottomrule
+\end{tabular}
+\caption{Reads per tape for the exact simulation of the canonical rule, on tapes that produce an
+output. The ratio reads$/n$ is flat at $5.3$ across a thirtyfold range of $n$, so the fraction of the
+budget $n^2$ that the simulation uses falls like $5.3/n$. Seeds and commands
+are in the repository. All rows use the exact tie convention,
+where an exactly zero autocorrelation counts as negative; emulating the published float convention instead
+costs $6.0\,n$ reads, a $13$ per cent increase that changes no output.}
+\label{tab:sim}
+\end{table}
+
+Two checks fix what ``exact'' means here. The simulation agrees with a from-scratch integer
+recomputation of the same window, state and both bits, on every tape at $n=32,\dots,256$; the rows at
+$n=512$ and $1024$ are not recomputed that way, since the from-scratch check is quadratic per tape.
+It also reproduces the published floating-point implementation bit for bit when the same tie-break
+is emulated, $250/250$ at $n=64$, $200/200$ at $n=128$ and $120/120$ at $n=256$; those samples are
+smaller than the table's $300$ because the float emulation is the slower of the two drivers. The tie-break matters,
+because $\mathrm{corr}>0$ is decided by roundoff at exactly zero autocorrelation, which happens on
+$6$ to $14$ per cent of steps since the tapes are integer-valued. Under the exact convention, where a
+tie counts as negative, the cost is $5.3n$ reads; under the published convention it is $6.0n$.
+
+\paragraph{Cuts elsewhere.} A rule that cuts at an interior position, or cuts a block rather than a
+single cell, restarts from a window that is not a deletion of the old one: it can be longer, and the
+accumulators must be rebuilt from its cells. The cost is then $T+\sum_j w_j$. That was the source of
+the quadratic measurement in an earlier draft, and it is not where the expense actually lies: a rule
+can keep the region's accumulators and pay $O(1)$ per cut, which is how the far-end rule is simulated
+in Section~\ref{sec:classes}. What makes the four rules of Section~\ref{sec:walk} expensive is
+neither the cut nor the bit but the number of steps.
+
+\paragraph{Where this sits in the classical picture.} Simulating a machine with several heads by one
+with a single head is an old problem. A multi-tape or multi-head machine can be simulated by a
+single-head one in quadratic time \citep{hartmanis-stearns1965}, by a two-tape machine in
+$O(n\log n)$ \citep{hennie-stearns1966}, and Hennie's crossing-sequence argument gives an
+$\Omega(n^2)$ lower bound for a single tape that recognises the palindromes
+\citep{hennie1965}. The fastest possible simulation is therefore known to lie between a nonlinear
+lower bound and the quadratic upper bound, and the gap has stayed open
+\citep{kutrib2010}. Our measurements sit inside that gap: with $O(\log n)$ bits the canonical rule costs $5.3\,n$ reads,
+and the four rules of Section~\ref{sec:walk} cost $\Theta(n^2)$. The other two points that are often
+quoted for this trade-off --- $n^2/\log n$ at $O(\log^2 n)$ bits and $n$ at $O(n)$ bits --- come from
+the checkpointing construction of an earlier draft; the first of them is an upper bound that
+construction, not a measurement we make here, and the second is trivial, since $O(n)$ bits holds the
+tape.
+
+\paragraph{Multi-head automata and pebbles.} Two-way finite automata are no stronger than one-way
+ones \citep{rabin-scott1959}, but adding heads does add power: $k+1$ heads are strictly stronger than
+$k$ \citep{rosenberg1966}, and the hierarchy survives even when the heads carry no state
+\citep{kutrib-malcher2009}. A machine that can tell when two of its heads coincide is a sensing-head
+automaton \citep{petersen1995}, and a machine that may drop markers on the tape is a pebble automaton
+\citep{blum-hewitt1967}. Our machine sits between the two: it has two heads, it can detect coincidence,
+and it can cut --- but a cut is not a pebble. A pebble is placed where the machine chooses and can be
+lifted; our two boundaries only move inward, the place where they stop is set by the first exit of the
+walk rather than chosen, and a cut destroys the cells behind it for good. That is why the questions
+asked here --- how many reads a given workspace buys, and how much of the output a given amount of
+memory determines --- do not reduce to the known hierarchy results.
+
+\section{What cannot be proved this way}\label{sec:barrier}
+
+It is natural to conjecture the converse of the theorem: that a rule which may grow the window again
+is not exactly predictable without running the walk. That conjecture is false, and the refutation is
+structural rather than accidental.
+
+\paragraph{A probe that cycles.} A rule of this shape is easy to write down and we give it without
+counts: fix a word $w$ of length $L\approx\log_4 n$, advance $\ell$ while the window does not begin
+with $w$, then bring $r$ to $\ell$, and send the run into a cycle when the position falls in a fixed
+interval. Such a rule cycles on some tapes, has a spread output on the ones where it meets, and is
+reproduced by a one-pass predictor on every tape where it outputs, because on those tapes the output
+is a function of the first hit of $w$. So a rule can cycle, have a spread output and be perfectly
+predictable \emph{conditional on producing one}; what the one-pass predictor does not do is say in
+advance whether the run will output or cycle. We record the construction as an obstacle to any
+classification by cycles, and not as a measurement.
+
+\paragraph{What else fails.} Influence does not separate the classes: the exchange measurements of
+Section~\ref{sec:lower} show that the canonical rule has a quarter to a half of its cells pivotal,
+and a monotone rule that costs $2n$ reads has cells that matter just as much. Nor does cutting, for
+the reason given above: a rule may cut and still be cheap.
+
+
+
+\paragraph{Why a class-level lower bound is hard to state.} A lower bound of the form "every
+rule in the class costs at least $g(n)$ reads" fails as soon as the class contains one cheap
+rule, because that rule is a counterexample. Feature-syntax classes tend to contain a monotone
+member, since a feature that can be updated in constant time is exactly what makes a monotone rule
+monotone. So such bounds are hard to state for classes defined by the form of the feature, and the
+two other natural conditions --- cycles, cutting --- are refuted by the probes above.
+\section{The ceiling, and the rules that test it}\label{sec:ceiling}
+
+Everything in Section~\ref{sec:cost} is about rules whose output can be computed in linear time. For
+those, no statistical question arises: an exact simulation reaches $R^2=1$ and a fitted model's value
+measures the model, not the rule. The conjecture is about the rules that are left.
+
+\paragraph{Statistical conventions.} The ensemble is the one of Section~\ref{sec:machine}: two
+independent uniform $\lceil n/2\rceil$-subsets of $[n]$, one per column, and the tape their average.
+Write $\Delta_n\in[0,1]\cup\{\bot\}$ for the output random variable, with $\bot$ on the tapes that halt or repeat, and $P(\Delta_n\ne\bot)$ for the meeting rate. A run either outputs $\delta\in[0,1]$ or outputs nothing, and every $R^2$ in this paper is computed
+\emph{conditional on producing an output}, on the tapes where $\delta$ exists; the number of such
+tapes is reported beside each figure, and the meeting rate is the fraction of all tapes. We claim no
+mode of convergence: every number here is an out-of-fold estimate at a stated $n$ and a stated
+budget, and the conjecture is about the limit that those estimates would approach if the pattern held.
+
+\begin{conjecture}[Ceiling]
+Let a rule of this class have an output that cannot be computed in $O(n)$ cell reads with $O(\log n)$
+bits of state. Then every predictor that reads the tape in $o(n^2)$ reads with $O(\log n)$ bits
+of memory has $R^2\le\kappa$ for a constant $\kappa<1$.
+\end{conjecture}
+\paragraph{What the budget excludes.} The simulations of Section~\ref{sec:walk} cost $0.62\,n^2$ reads,
+so a budget that is $o(n^2)$ is eventually below the cost of following a trajectory, while a budget of
+$c\,n^2$ is not: a predictor that spends $c\,n^2$ can follow the run to its end and reach $R^2=1$. That
+is why the conjecture names $o(n^2)$, and every measurement below stays inside it: the budgets used run from
+$19\,n$ to $82\,n$, all of which are $o(n^2)$.
+
+\paragraph{The class has four candidates.} Four rules are candidates for the hypothesis of the
+conjecture --- no $O(n)$ simulator is known for any of them --- and they are listed
+in Section~\ref{sec:walk}: the longest-run rule and the three whose bits cost one read per step but
+whose trajectories still run for $\Theta(n^2)$ steps. On the first of them we can measure the quantity
+the conjecture bounds.
+
+\paragraph{The ceiling moves with the budget, so we report the curve.} On the longest-run rule at
+$n=256$ it scores $.58$ at the $n^2/\ln n$ budget of Section~\ref{sec:walk}; raising the budget towards
+$n^2$ but staying inside $o(n^2)$ buys more. With $1919$ meetings and a shuffled-label control between
+$-.003$ and $-.026$, a predictor that knows the first $s$ steps of the trajectory scores
+
+\begin{center}
+\small
+\begin{tabular}{rrrrrrrr}
+\toprule
+$s$ & 24 & 32 & 48 & 64 & 96 & 128 \\
+reads & $18.2\,n$ & $22.9\,n$ & $30.8\,n$ & $37.0\,n$ & $45.4\,n$ & $49.6\,n$ \\
+$R^2$ & $.416$ & $.442$ & $.486$ & $.529$ & $.579$ & $.580$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All rows come from $8000$ tapes at $n=256$, of which $1919$ produce an output. A second seed of
+$8000$ tapes, with $1939$ meetings, gives $.583$ at the same budget, and the two agree to $.004$.
+The bootstrap resamples the output-producing tapes with replacement, four thousand times; in each
+resample it recomputes the out-of-fold $R^2$ at every budget of the grid from the stored predictions,
+takes the maximum over the grid, and reports the fifth percentile of that maximum. Taking the maximum over the budget grid inside each bootstrap resample --- the selection the
+curve actually performs --- the one-sided $95$ per cent bound is $.563$ for the first seed and
+$.561$ for the second, so we record
+\[
+\kappa\ \ge\ .56\quad(\text{one-sided }95\%,\ \text{selection-adjusted}).
+\]
+The same selection-adjusted procedure at $n=512$, on $900$ tapes of which $198$ produce an output,
+peaks at $.48$ with a bound of $.39$. The drop from $.56$ is about three standard errors of that
+sample, so it is not a null result; but with $198$ meetings the interval is wide and a power
+statement would need several thousand tapes. We read it as a check rather than as an estimate: the
+value does not rise with $n$, whereas a ceiling of one would rise.
+The selection over the budget grid is accounted for by maximising inside each resample, but nothing
+in the construction accounts for a search over rules, over feature sets, or over the number of
+trajectory prefixes, and a wider search would lower the bound again. Nor does it locate $\kappa$: a cheaper way
+of evaluating the window bit buys more of the trajectory inside the same budget and pushes the estimate
+up, as the difference between $5.7$ and $9$ reads per step already shows. What the curve does establish
+is that the value is not an artefact of a starved predictor --- the largest budget buys about a third of
+the exact simulation's reads and the best use we found of them leaves more than a third of the variance
+unexplained --- and that where the curve saturates is a better question than the constant.
+
+\section{The lower bound}
+\label{sec:lower}
+
+The classification of Section~\ref{sec:classes} puts a rule on the expensive side when no $O(n)$
+simulator is known. Turning that into a theorem needs a lower bound. This section gives the structural
+facts we can prove, each checked exhaustively on small $n$ --- and then shows that they
+cannot settle the classification, for a reason that changes what the missing argument has to be.
+
+\subsection*{The rule, restated}
+
+Let $A_j=\mathrm{mean}(a[L..L+j-1])$ be the average of the first $j$ cells of the region, and let
+$m=r-L+1$ be the window when the window starts at $L$.
+
+\begin{lemma}[The second bit is a prefix-average test]\label{lem:prefix}
+$b_2([L,r])=0$ if and only if $A_{\lfloor m/2\rfloor}\ge A_m$.
+\end{lemma}
+
+\begin{proof}
+$b_2=1$ means the mean of the first $k=\max(1,\lfloor m/2\rfloor)$ cells is below the mean of the
+window. For $m=2k$ and $m=2k+1$ both comparisons reduce, after multiplying by $2k$ and $m$, to
+$A_k<A_m$.
+\end{proof}
+
+Checked on $20{,}000$ random windows of lengths $2$ to $200$: no mismatch. The sequence
+$B_m=A_m-A_{\lfloor m/2\rfloor}$ is not monotone in $m$ --- it changes sign $9.7$, $14.9$ and $24.2$
+times on average at $n=128,256,512$, and fewer than $4$ per cent of the pairs have at most one sign
+change --- so the test cannot be located by binary search.
+
+\begin{theorem}[The rule with $b_1$ forced false is a largest-concavity scan]\label{thm:concavity}
+Set $b_1\equiv0$, so the move is $r\mapsto r-1$ when $b_2=1$ and $\ell\mapsto\ell-1$ otherwise.
+Starting from the region $[L,R]$, let
+\[
+m^\star=\max\{m\in[2,R-L+1]\;:\;A_{\lfloor m/2\rfloor}\ge A_m\},
+\]
+with $m^\star$ undefined if the set is empty. Then: if $R-L+1<3$ the run halts; if $m^\star$ is
+undefined the headers meet and the output is $L/(n-1)$; if $m^\star=R-L+1$ the region is cut on both
+sides; otherwise it is cut on the left. One epoch therefore costs as many $b_2$ tests as the scan from
+$R$ down to $m^\star$, about $0.1\,n$ on average.
+\end{theorem}
+
+\begin{proof}
+An epoch starts with $\ell=L$ and $r=R$. If $b_2(L,R)=0$ the move is $\ell\mapsto\ell-1$, which
+leaves the region, and since $r=R$ as well the cut is the double one. If $b_2(L,R)=1$ the move is
+$r\mapsto r-1$, which stays inside and leaves $\ell=L$; the same test then applies to the shorter
+window, and $r$ decreases by one at each step until either $b_2(L,r)=0$ --- and then the move
+$\ell\mapsto\ell-1$ leaves the region with $r<R$, so the cut is the left one --- or $r=L$, at which
+point $\ell=r$ and the run outputs $L$. The largest $m$ with $b_2(L,L+m-1)=0$ is therefore exactly
+the value of $m^\star$ that decides the epoch, and the three cases of the statement correspond to
+the three endings.
+\end{proof}
+
+The proposition was also checked, tape for tape against the naive implementation, on every admissible \emph{sequence} for
+$n=6,\dots,13$ --- $141$ sequences at $n=6$ and $201{,}643$ at $n=13$, all agreeing. Since the walk
+depends on the tape only through the sequence of cell values, this is exhaustive for the dynamics;
+what it is not is exhaustive for the ensemble, which weights a sequence by the number of matrices
+that realise it, and that weighting is what the measured rates in Section~\ref{sec:walk} carry. This is the structural reason the
+trajectory is long: each epoch rescans the region from its right end down to the largest concavity of
+the prefix averages, and there are $\Theta(n)$ epochs.
+
+\begin{corollary}[The scan is quadratic]
+For the rule with $b_1\equiv0$, a run performs at most $\binom{n+1}{2}$ tests of $b_2$, hence $O(n^2)$
+steps.
+\end{corollary}
+
+\begin{proof}
+Every epoch ends with a cut, and a cut removes at least one cell, so there are at most $n$ epochs. An
+epoch on a region of length $M$ tests $b_2$ at most $M$ times, because the scan moves $r$ down by one
+at each test. Summing over the epochs and using that the region only shrinks gives at most
+$\sum_{M=1}^{n}M=n(n+1)/2$ tests.
+\end{proof}
+
+So the quadratic cost of the walk rules is not only measured: for the $b_1\equiv0$ rule it is proved as
+an upper bound, and the measurements of Section~\ref{sec:walk} put the mean at $.06\,n^2$ with a fitted
+exponent of about $2$. The matching lower bound is proved, unconditionally.
+The passage from the $b_1\equiv0$ rule to the full one is not proved; Lemma~\ref{lem:short} says the difference is confined to windows of
+length below $4\rho=O(\log n)$, and the measurements agree to $2.3$ per cent at $n=64$ and to
+four decimal places from $n=256$ on.
+
+\paragraph{A lower bound on the first epoch.} The first epoch is a statement about the whole tape,
+and there the quadratic cost can be bounded below. Write the tape in doubled units,
+$a_i=2\tau_i\in\{0,1,2\}$, so that the cell mean is $1$ and $s^2=\tfrac12$ --- the hypothesis
+$s^2\ge\tfrac14$ used below is then satisfied with room to spare; in the original units of
+Section~\ref{sec:machine} the same cell has variance $\tfrac18$. Let $X_m=\sum_{i\le m}(a_i-1)$, and put $\mathcal V_M(\theta)=(X_{\lfloor\theta M\rfloor}-2X_{\lfloor\theta M/2\rfloor})/(s\sqrt M)$.
+Under the ensemble $\mathcal V_M$ converges in $C[0,1]$ to $\mathcal V(\theta)=B(\theta)-2B(\theta/2)$,
+with $B$ a Brownian bridge, and the discrete test differs from $\mathcal V_M$ by $O(1/(s\sqrt M))$
+uniformly, so for every $c\in(0,1)$
+\[
+\liminf_{M\to\infty}P(\mathrm{cost}_0\ge cM)\ \ge\ P\Big(\sup_{\theta\in[1-c,1]}\mathcal V(\theta)<0\Big)=:p(c).
+\]
+A Gaussian concentration bound for that supremum (Borell--Tsirelson--Ibragimov--Sudakov, with
+Dudley's entropy estimate), applied conditionally on $\mathcal V(1)=b$ and then integrated over $b$ of
+both signs --- which is where a factor $\tfrac12$ enters, and forgetting it is an error of a factor
+two --- gives $p(.05)\ge.080$. The display may use $\sup\mathcal V<0$ because
+$\mathcal V\stackrel{d}{=}-\mathcal V$, so that event has the same probability as
+$\inf\mathcal V>0$. Hence
+\[
+E[\mathrm{cost}_0]\ \ge\ .004\,M
+\]
+for all large $M$. The measured constant is $.130$ at $n=4096$ over $3000$ tapes, so the theorem is
+thirty times weaker than the truth; it is nevertheless a bound, and the only bound in the paper that
+is linear rather than quadratic in the wrong direction.
+The limit is attained to within one per cent in simulation: at $n=4096$ over $3000$ tapes, $P(\mathrm{cost}_0\ge cM)$ equals the
+Brownian value to within one per cent at $c=.05,.1,.2,.3,.5$ (ratios $0.991$ to $1.003$), and the
+sharpest constant the \emph{simulated} limit gives is $c\,p(c)=.057$ at $c=.3$; the rigorous constant
+is the $.004$ above, and the gap between them is the price of the concentration bound, not of the
+limit. A purely combinatorial proof of the
+same statement, with the worse constant $3.7\times10^{-4}$ and no functional limit theorem, is in
+the repository; it rests on two exact lemmas and a scale separation between the chord and the
+bridge of a four-block decomposition.
+
+\paragraph{The run costs $\Theta(n^2)$.} The passage from one epoch to the whole run cannot be made by
+conditioning --- bounding each epoch given the history is exactly what fails pathwise --- so the epochs
+are compared with suffixes instead. The frontier inequality says that for $R\le R^{\prime\prime}$ the
+cost of a window $[L,R]$ is at least the cost of $[L,R^{\prime\prime}]$ minus $R^{\prime\prime}-R$.
+The reason is not that a longer window costs more --- it need not --- but that the tests at every
+$m\le M$ are the same for both windows, since they read only cells up to $L+m-1$; the scan of the
+shorter window is therefore the restriction of the longer one's, and the two costs differ by at most
+the number of added cells. Take $R^{\prime\prime}=n-1$ and write $\delta_i=n-1-R_i$. Since $L$
+advances by one per epoch and $R$ by at most one, $\delta_0=0$ and
+$\delta_{i+1}-\delta_i\in\{0,1\}$, so $\delta_i\le i$ and
+\[
+\mathrm{cost}_i\ \ge\ \mathrm{cost}(L_i,n-1)-i .
+\]
+Three things must be said about the next step. The object bounded is $\mathrm{cost}_i\cdot 1\{A_i\}$,
+not a conditional expectation: the event $A_i$ that epoch $i$ exists is not a function of the prefix,
+since the first epoch tests the whole tape, so the suffix is conditioned on the history and no
+unconditional law applies to it directly. What is used instead is
+\[
+E[\mathrm{cost}_i 1\{A_i\}]\ \ge\ E[\mathrm{cost}(L_i,n-1)]-(n-i)P(A_i^c)-i,
+\]
+the middle term being the trivial bound $\mathrm{cost}\le n-i$ on the complement: the conditioning is
+paid for, not assumed away.
+
+Second, a suffix does not have balanced counts, and the single-epoch theorem was stated for a balanced
+multiset. The extension is true and is proved. The test is exactly invariant under adding a constant to
+every cell, so the multiset may be centred before it is normalised; the covariance identity
+$\mathrm{Cov}(Y_i,Y_j)=s^2i(M-j)/(M-1)$ then holds for \emph{any} multiset, and the contrast of the
+resulting bridge is the same functional $\mathcal V$; and a quantitative CLT for linear permutation
+statistics, proved by Stein's method of exchangeable pairs, has an error
+$2.89\,(K/s)/\sqrt m+O(1/M)$ that depends on $K/s\le4$ alone and not on the composition. The
+hypothesis $s^2\ge1/4$ fails only on suffixes that are almost constant, which happens with
+probability $e^{-\Theta(M)}$.
+
+Third, $q_N=P(A_N^c)$, the probability that the run meets before epoch $N$. A meet forces, for some
+$i<N$, the absence of a concavity at every scale of the fixed block $[i,i+n-2i-1]$, because the test
+set is an initial segment in $m$; hence $P(\text{meet before }N)\le\sum_{i<N}f(n-2i)$, where $f(M)$ is
+the probability that a \emph{fresh} uniform $M$-window has no concavity at all. On the dyadic chain
+$X_{2^j}>2X_{2^{j-1}}$ the normalised walk is a supermartingale with
+$E[e^{-3u_{j+1}}\mid\text{survival}]\le\frac14e^{-3u_j}$, which gives $f(M)\le2100\,M^{-2}$; summing
+over the $\Theta(n)$ blocks, $P(\text{meet before }(n-1)/4)\le1050/n$.
+
+Summing the epoch bound over the first $N=c_0n/(1+c_0)$ epochs, then,
+\[
+E[T]\ \ge\ \Big(\frac{c_0^2}{2(1+c_0)}-o(1)\Big)\,n^2 ,
+\]
+with $c_0=.004$ from the rigorous half of the previous paragraph, giving $8.1\times10^{-6}n^2$, and
+with the measured $c_0=.130$ giving $7.5\times10^{-3}n^2$. Against the upper bound $\binom{n+1}{2}$
+the run is quadratic in expectation, with no hypothesis left and a gap of five orders of magnitude
+between the two constants.
+
+\paragraph{Quadratic in expectation, not on every tape.} The corollary bounds the cost; the
+measurements say what it is. Over $2000$ tapes at $n=1024$, $E[T]/n^2=.0540\pm.0014$, and the ratio
+stays between $.048$ and $.059$ from $n=1024$ to $4096$. It is not a pathwise statement: the median
+is $.025\,n^2$ against a mean of $.054\,n^2$, the standard deviation is of the order of the mean, and
+$P(T\le n)=.17$ --- on those tapes almost every epoch is a double cut and the run costs $0.6\,n$. So
+"the walk asks $\Theta(n^2)$ questions" is an expectation and not a law.
+
+\paragraph{What controls the cost.} One statistic carries most of it. Write $\Delta$ for the
+difference between the sums of the two halves of the tape. Then $E[T/n^2\mid\Delta\ge0]=.090$ to
+$.104$ and $E[T/n^2\mid\Delta<0]=.012$ to $.016$, stable over $n=128$ to $4096$; the correlation of
+$T/n^2$ with $\Delta/\sigma_\Delta$ is $+.74$, and $88$ per cent of $E[T]$ comes from the
+$\Delta\ge0$ half. The drift persists into the sub-tapes --- $52$ per cent of epochs meet a window
+with positive drift against $21$ per cent of fresh windows --- which is why the cost does not
+concentrate.
+
+\begin{lemma}[$b_1$ fires only on short windows]\label{lem:short}
+Let $\rho$ be the longest run of cells equal to $1$ in the whole tape. If $b_1=1$ at a window of
+length $m$ then $m<4\rho$. Since $\rho=O(\log n)$ with high probability, every window longer than
+$O(\log n)$ is governed by Theorem~\ref{thm:concavity}.
+\end{lemma}
+
+\begin{proof}
+If $b_1=1$ the window contains a run of more than $m/4$ cells equal to $1$; that run is a run of the
+whole tape, so $\rho>m/4$ and $m<4\rho$.
+\end{proof}
+
+Measured over $40$ tapes per size, no tape violated $m<4\rho$, and $b_1$ was true on $0.84$, $0.31$,
+$0.12$ and $0.03$ per cent of steps at $n=64,128,256,512$ --- about five steps per tape, always at the
+tail of an epoch. Forcing $b_1\equiv0$ leaves steps$/n^2$ at $.0673$, $.0484$, $.0645$, $.0688$, against
+$.0658$, $.0482$, $.0645$, $.0688$ for the full rule.
+
+\begin{theorem}[General upper bound]\label{thm:upper}
+Every strategy of the model is simulable with $O(n^2)$ bits of state and $O(n^3)$ steps, where a step
+is one evaluation of $\varphi$ on the current window at unit cost.
+\end{theorem}
+
+\begin{proof}
+The region only shrinks, so it changes at most $n$ times. Between two changes $[L,R]$ is fixed and the
+headers range over the $\binom{n+1}{2}$ pairs with $L\le\ell\le r\le R$; the rule is deterministic, so
+the segment either meets or revisits a pair, and a revisit ends the run. Hence a segment has $O(n^2)$
+steps and a run $O(n^3)$, and detecting a revisit needs only the pairs of the current segment because
+the region never grows.
+\end{proof}
+
+So the cost of a rule in this model lies between the certificate bound below and $O(n^3)$ steps, and
+the four rules of Section~\ref{sec:walk} sit at $\Theta(n^2)$ measured, with a $0.62\,n^2$
+construction.
+
+\subsection*{Why none of this settles the classification}
+
+\paragraph{Why memoising does not help.} A natural objection is that the tests repeat: the scan asks
+the same question of shifting windows, so a simulator could cache the answers. It cannot. Every
+contrast $(L,m)$ --- the comparison of the mean of $a[L..L+\lfloor m/2\rfloor-1]$ with that of
+$a[L..L+m-1]$ --- is asked at most once in a run, because the anchor $L$ increases by exactly one per
+epoch and the scan within an epoch uses a fixed anchor. What is reusable is the prefix sums and not
+the decisions, and one left-to-right pass with three counters evaluates a whole epoch in
+$O(\log n)$ bits. The run is a single-anchor sweep; all of its cost is the iteration, and none of it
+is redundant computation. The one further model in which a superlinear bound does follow is a machine
+whose memory is additive and whose decisions are exact: there the same accounting gives
+$T\ge\sum_e\max(0,\ell_e-2r)$ over the epoch lengths $\ell_e$, which at $s=O(\log n)$ is again
+$\Omega(n^2)$. Dropping additivity is the branching-program problem, and dropping exactness returns
+the certificate bound $n-1$. A machine that reads in a fixed order in $p$ passes does no better: it
+crosses each cut $2p$ times, so the cut lemma gives $p=\Omega(n/s)$ and $T=\Omega(n^2/s)$, and it
+cannot escape by choosing a cheaper order, because the one-way communication complexity of the output
+is the same for every balanced cut --- about $0.73\,n$ bits, measured exhaustively at $n=6,8,10,12$.
+
+\paragraph{Why no read-counting argument can separate.} The exchange argument is the general form of
+every read-based bound: a simulator that reads a set $S$ of cells behaves identically on all tapes
+agreeing with the input on $S$, so $T\ge|S|$, and $|S|\le n$ by definition. The bound therefore caps
+at $n$, and $n$ is on the cheap side of Definition~\ref{sec:classes}. It can be sharpened: computing minimum
+certificates exhaustively --- the smallest set of cells that determines the output --- gives
+$K_{\mathrm{global}}=n-1$ for $n=6,\dots,13$: every set of $n-2$ cells fails to determine the output
+somewhere, and $n-1$ always suffices. An earlier run reported the opposite, and the cause was a
+projection written over the cells outside the read set rather than inside it, which silently tests
+two-cell sets; with the direction corrected the result reproduces independently. What survives is the structural point, which does not depend on it: any
+argument that counts the cells a machine reads can prove at most a linear bound, and a linear bound
+is exactly what the cheap class allows. \emph{The classification is therefore not a statement about
+distinct cells at all; it is a statement about repeats.} It cannot be a statement about space
+either, since $\delta$ is computable with $\Theta(\log n)$ bits. What has to be proved is that no
+machine with $O(\log n)$ bits computes the output in $O(n)$ reads, which --- since a read set never
+has more than $n$ cells --- means proving $\Omega(n\,\mathrm{polylog}\,n)$ repeat reads.
+
+\paragraph{An $O(n)$-read algorithm exists and is wrong on half the tapes.} The scan of
+Theorem~\ref{thm:concavity} can be shortened by assuming that the largest concavity position does not
+increase when $L$ advances, which would make the whole run cost $O(n)$ tests. The assumption fails on about
+a third of consecutive pairs at $n=12$, and the resulting algorithm is exact on
+$92$, $86$, $54$ and $81$ per cent of the tapes at $n=8,10,11,12$ and on $52$ and $50$ per cent at
+$n=64$ and $256$ --- with a mismatch rate that does not fall as $n$ grows. This is the closest thing to
+a linear-read simulator that we have, and it is not one.
+
+\paragraph{Why the obvious arguments cannot work.} Every lower bound of cut type --- a single cut,
+all cuts aggregated, $p$-pass, pointer, external memory --- obeys one conservation law. Let $T$ reads
+have mean jump length $\bar J$ on a machine with $s$ bits, and let $\mathrm{CC}_k(\delta)$ be the
+two-way communication complexity of $\delta$ at the cut after cell $k$. Then
+\[
+T\,\bar J\,s\ \ge\ \sum_{k=1}^{n-1}\mathrm{CC}_k(\delta)-ns .
+\]
+Aggregating over the $n$ cuts gains a factor $n$; charging the jumps loses exactly a factor $n$,
+because a single read may cross all $n$ cuts. With $\sum_k\mathrm{CC}_k\le\log_2 3\cdot n^2/4$ this
+caps the whole family at $.396\,n/\log_2 n$ reads, whatever the memory, and the conjecture is
+stronger than the law by about $\log^2 n$. The two regimes are worth separating. If the reads
+are sequential, $\bar J=1$, the law reads $T\ge\big(\sum_k\mathrm{CC}_k(\delta)-ns\big)/s$. What is
+proved about the sum is an \emph{upper} bound, $\log_2 3\cdot n^2/4=.396\,n^2$, and an upper bound is
+the wrong direction here: to bound $T$ below one needs $\sum_k\mathrm{CC}_k$ to be large. It is:
+measured over all balanced cuts the sum is $95$ to $98$ per cent of that maximum, and on that
+measurement the single-head bound is $\approx.38\,n^2/s$, i.e. $\Omega(n^2/\log n)$ at
+$s=O(\log n)$. That is a superlinear bound for single-head machines, but it rests on the measured size
+of $\sum_k\mathrm{CC}_k$ and not on a proof of it, and we flag it as such. For random access the same
+expression degrades to $\approx.38\,n/\log_2 n$, which is below the certificate bound $n-1$ and proves
+nothing. What survives is a necessary condition on any counterexample: an
+$O(\log n)$-bit machine that reads $n\,\mathrm{polylog}\,n$ cells must have mean jump
+$\Omega(n/\log^3 n)$. The conjecture is a statement about machines that teleport. There is also no room for a space lower bound: $\delta$
+is computable with $\Theta(\log n)$ bits, since the walk can be simulated, so $\omega(\log n)$ space
+is not merely unproved but false. The conjecture is therefore a statement about repeat reads alone.
+
+\paragraph{What is left open, stated precisely.} A machine with $s$ bits that halts cannot repeat a
+configuration, so $T\le2^{s+O(1)}$: state caps reads, and $O(\log n)$ bits already allows
+$\mathrm{poly}(n)$ of them. Twelve bits above $\log_2 n$ suffice for $n\,\mathrm{polylog}\,n$. The
+question is therefore not a coarse separation of space from time but the shape of one curve: whether
+$T(s)$ is a step at $s=\Theta(n)$ or the smooth $2^{\Theta(s)}$. Since $T=|S|+\text{repeats}$ with
+$|S|\le n$, a proof needs $\Omega(n\,\mathrm{polylog}\,n)$ \emph{repeat} reads, which is a
+branching-program lower bound of width $\mathrm{poly}(n)$ --- and no superlinear branching-program
+bound is known for any explicit function. The three routes we tried each have a provable ceiling:
+a one-way cut gives at most $0.79\,n/\log_2n$, counting states bounds $T$ from above rather than
+below, and an adversary that keeps two outputs alive dies once $n-1$ cells have been read, because
+every $(n-1)$-set is a certificate. The obstruction is the machine's memory and not the data's redundancy: $n$ reads always suffice, since
+a machine with $O(n)$ bits can hold the tape, and the question is what $O(\log n)$ bits can do. We do not have
+such an argument, and the two standard routes fail on this function: the prefix-separation test needed
+for a one-way streaming bound is false (same-profile prefixes with identical output on every common
+suffix occur in $45$ per cent of pairs at $n=6$ and $14$ per cent at $n=10$), and no fooling set for
+the dynamical stopping position is known to us.
+
+\section{The questions this leaves}
+
+The question an earlier draft left open --- is the output of the \emph{canonical} rule computable in
+$O(n)$ reads with $O(\log n)$ bits? --- is answered by a construction whose step count is measured rather than
+bounded: $5.3\,n$ reads, from the observation that a cut removes a boundary cell and never a
+window. That answer is about one rule and not about the class.
+Four rules are in it; no $O(n)$ simulator is known for any of them, and the difference between them and the
+canonical rule is the length of the trajectory rather than the cost of a step.
+
+Three questions remain. The first is a lower bound for the walk class: we know no $O(n)$ simulator for
+the four rules of Section~\ref{sec:walk}, and we have an argument that their trajectories are
+$\Theta(n^2)$ steps long, but an argument is not a proof, and no reduction shows that following the
+trajectory is necessary. The second is the constant: $\kappa\ge.56$ on one rule, and no
+upper bound at all --- we do not know whether a predictor inside the budget can reach $.7$ or $.9$ on
+the longest-run rule, and the number should be expected to move as better ways are found to evaluate
+the window bit, since a cheaper evaluation buys more steps of trajectory inside the same budget. The
+third is the one the classification does not reach: for an observer restricted to aggregates of the
+initial tape, with no access to the trajectory, what is the best possible $R^2$? A formal statement
+would need the restriction written as a class of computable functions rather than as a read budget,
+and we do not have such a class.
+
+\section*{Reproducibility}
+
+Every number in this paper comes from a script in the project directory; the repository is
+\texttt{github.com/peuaza/triangular-window-walk} and the machine-paper scripts are under
+\texttt{bthm0/}, \texttt{probe\_ologn/} and \texttt{probe\_ologn2/}. They run with Python 3 and numpy 2.5.2,
+scipy 1.18.1, scikit-learn 1.9.1 and matplotlib 3.11.2. Tapes are drawn with
+\texttt{numpy.random.default\_rng(2026)} unless a paragraph says otherwise, each column a uniform
+$\lceil n/2\rceil$-subset. The predictor is a gradient booster with 80 iterations, learning rate
+$.05$, depth $3$, leaf floor $20$ and $\ell_2$ penalty $1$, on five folds; every reported $R^2$ is
+out of fold with a shuffled-label control from the identical pipeline, and the fold SE is the
+standard error over those five folds.
+
+Table~\ref{tab:sim} is produced by \texttt{code/bthm0/\_bz\_base.py} and reproduced against the
+published implementation by \texttt{\_bz\_canon2.py}; the four walk rules by
+\texttt{\_arr\_longrun\_fast.py} (costs and agreement) and \texttt{\_phase\_arr2.py} (the budget
+curve and the stored out-of-fold predictions); the other three walk rules by
+\texttt{\_phase\_rule.py}; the bootstrap by \texttt{\_boot\_sel2.py}; the exchange measurements by
+\texttt{\_flip\_canon2.py}; and the figures by \texttt{\_fig\_walk.py}. Everything in
+Section~\ref{sec:lower} is in \texttt{probe\_ologn2/}, with the tables and commands in its
+\texttt{REPORT\_EPOCH\_BOUND.md}, \texttt{REPORT\_LEMMA\_Q.md} and \texttt{REPORT\_MEET.md}; the
+communication and certificate work is in \texttt{probe\_ologn/}.
+
+\bibliographystyle{plainnat}
+\begin{thebibliography}{9}
+\bibitem[Luo(2026a)]{luo-tww} H.~Luo, \emph{A triangular window walk on random binary matrices: a
+conjectured arcsine limit}, manuscript (2026).
+\bibitem[Luo(2026b)]{luo-family} H.~Luo, \emph{Memory and randomness control the shape: a family of
+limit laws from a triangular-window walk}, manuscript (2026).
+\bibitem[Rabin and Scott(1959)]{rabin-scott1959} M.~O.~Rabin, D.~Scott, \emph{Finite automata and their
+decision problems}, IBM Journal of Research and Development 3 (1959) 114--125.
+\bibitem[Rosenberg(1966)]{rosenberg1966} A.~L.~Rosenberg, \emph{On multi-head finite automata}, IBM
+Journal of Research and Development 10 (1966) 388--394.
+\bibitem[Kutrib and Malcher(2009)]{kutrib-malcher2009} M.~Kutrib, A.~Malcher, \emph{On stateless
+multihead automata: hierarchies and the emptiness problem}, Theoretical Computer Science 410 (2009)
+1711--1721.
+\bibitem[Blum and Hewitt(1967)]{blum-hewitt1967} M.~Blum, C.~Hewitt, \emph{Automata on a two-dimensional
+tape}, Proc. IEEE Symposium on Switching and Automata Theory (1967) 155--160.
+\bibitem[Petersen(1995)]{petersen1995} H.~Petersen, \emph{Automata with sensing heads}, Proc. ISTCS
+1995, 150--157.
+\bibitem[Hartmanis and Stearns(1965)]{hartmanis-stearns1965} J.~Hartmanis, R.~E.~Stearns, \emph{On the
+computational complexity of algorithms}, Transactions of the AMS 117 (1965) 285--306.
+\bibitem[Hennie and Stearns(1966)]{hennie-stearns1966} F.~C.~Hennie, R.~E.~Stearns, \emph{Two-tape simulation
+of multitape Turing machines}, Journal of the ACM 13 (1966) 533--546.
+\bibitem[Hennie(1965)]{hennie1965} F.~C.~Hennie, \emph{One-tape, off-line Turing machine computations},
+IEEE Transactions on Electronic Computers 14 (1965) 35--47.
+\bibitem[Kutrib(2010)]{kutrib2010} M.~Kutrib, \emph{Complexity of multi-head finite automata: origins and
+directions}, Theoretical Computer Science 412 (2011) 2--36.
+\end{thebibliography}
+
+\end{document}
