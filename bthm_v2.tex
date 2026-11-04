@@ -418,20 +418,23 @@ Section~\ref{sec:spectrum} at $1.15$ on random tapes and $n^\beta$ on theirs. Th
 rules are of the second kind: on sorted and ramp tapes the reordering degenerates and the
 cost is $0.23$ to $0.30\,n^2$.
 
-The third class is empty among everything we can construct, and that is worth stating as a
-conjecture rather than leaving as a gap in a definition.
+The three classes are exhaustive by definition, and the first two are inhabited by explicit
+constructions: the canonical rule and the monotone family are fully linear, and longest-run,
+pattern and the palindrome rule are semilinear, each with a linear algorithm and a quadratic
+worst case. The third class is not inhabited by anything we can prove.
 
-\begin{conjecture}[Expected linearity]\label{conj:linear}
-Every strategy has expected cost $e_\rho(n)=O(n)$.
+\begin{conjecture}[Trichotomy]\label{conj:trichotomy}
+The superlinear class is non-empty: there is a fixed rule whose expected cost is $\omega(n)$
+with $O(\log n)$ bits.
 \end{conjecture}
 
-The evidence is that a rule drawn at random takes an average of $6.8$ steps per region,
-independently of $n$, so a generic field is linear; the expensive rules of
-Section~\ref{sec:spectrum} are expensive only on the tape their field was built for, which
-has probability about $2^{-n}$. What the conjecture asserts is that no field is expensive on
-a set of tapes of positive measure. It is one-sided: we have an upper bound of $2.5n$ on
-$e_\rho$ for the four rules and no lower bound, so even $e_\rho=\Theta(n)$ is only half
-established.
+The candidates are the run-count rule, whose best in-class algorithm measures exponent
+$1.99$, and the hash rule discussed below, measured at $0.10\,n^2$ with exponent $2.04$.
+Neither is proved, and every earlier candidate collapsed when a better algorithm was found:
+the mean-cut rule has a constant output and costs nothing, the palindrome rule is linear once
+the certificate is chosen correctly, and the cubic constructions need a $\varphi$ that cannot
+be evaluated in $O(\log n)$ bits. What would settle the conjecture is a read lower bound, and
+that is the same ingredient the classification itself lacks.
 
 \subsection{The quantity}
 
@@ -460,24 +463,10 @@ $R^2\to1$; the supremum over $o(n)$ budgets is therefore $1$ for trivial reasons
 no information about the rule. What is well defined is the risk at a fixed fraction of the
 exact cost.
 
-\begin{conjecture}[Ceiling at a fixed fraction]\label{conj:ceiling}
-For every $c\in(0,1)$ and every rule $\rho$ that is linear in expectation,
-\[
-\kappa_\rho(c)\ :=\ \limsup_{n\to\infty}\ R^2\big(\rho;\,n,\,c\,g_\rho(n)\big)\ <\ 1 ,
-\]
-with $\kappa_\rho(c)\to1$ as $c\to1$.
-\end{conjecture}
-
-Two comments. The statement is per rule because the measurements are: at $B=n^{0.75}$ the
-four rules score between $.30$ and $.56$, and a curve that differs by a factor of two across
-rules cannot support a single constant. What is uniform, and what the measurements do
-support, is that no rule's curve reaches one before $c$ does: the four curves are stable in
-$n$ at fixed exponent (at $B=n^{0.75}$, $R^2=.560,.506,.516$ for $n=256,512,1024$, and
-$.560,.560,.568$ across three seeds at $n=256$), so $\kappa_\rho(c)$ is well defined and does
-not drift with $n$. Second, the values are lower bounds: an attained $R^2$ is a lower bound on
-the supremum in the definition, and the conjecture is that the supremum stays below one. The
-measured curve, $R^2=.35$ at $B=n^{0.25}$ and $.52$ at $n^{0.75}$, is the evidence, and it is
-evidence of the kind a lower bound can give.
+The level is stable in $n$ and does not need a parametric law: at $B=n^{0.75}$ the same
+predictor gives $R^2=.560,.506,.516$ for $n=256,512,1024$, and $.560,.560,.568$ across three
+seeds at $n=256$. What the numbers cannot give is the value of a bound, since an attained
+$R^2$ is a lower bound on the supremum over predictors.
 
 \subsection{What a measurement can and cannot establish}
 
