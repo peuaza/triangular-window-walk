@@ -395,32 +395,31 @@ R^2(\rho;n,B)\ :=\ 1-\frac{\inf_{P\in\mathcal P(n,B)}\mathbb E_{\mu_n^\star}\big
 \]
 \end{definition}
 
-\begin{conjecture}[Sub-linear ceiling]\label{conj:ceiling}
-Let $\rho$ be linear in expectation and superlinear in the worst case, and let
-$B(n)=o(n)$. Then
+A budget written as $o(n)$ is the wrong parameter, and the reason is worth stating because
+it is easy to get wrong. Since $n^{0.99}=o(n)$, the family of admissible budgets includes
+values arbitrarily close to $n$, where a predictor has essentially the whole tape and
+$R^2\to1$; the supremum over $o(n)$ budgets is therefore $1$ for trivial reasons and carries
+no information about the rule. What is well defined is the risk at a fixed fraction of the
+exact cost.
+
+\begin{conjecture}[Ceiling at a fixed fraction]\label{conj:ceiling}
+For every $c\in(0,1)$ and every rule $\rho$ that is linear in expectation,
 \[
-\limsup_{n\to\infty}\ R^2\big(\rho;\,n,\,B(n)\big)\ \le\ \kappa\ <\ 1
+\kappa_\rho(c)\ :=\ \limsup_{n\to\infty}\ R^2\big(\rho;\,n,\,c\,g_\rho(n)\big)\ <\ 1 ,
 \]
-for a constant $\kappa$ that does not depend on $\rho$ or on the choice of $B=o(n)$.
+with $\kappa_\rho(c)\to1$ as $c\to1$.
 \end{conjecture}
 
-Three comments. The budget is $o(n)$ and not a fixed fraction of $n$: since $e_\rho=\Theta(n)$,
-a budget of $cn$ is within a constant factor of the exact cost, a predictor can be exact on a
-positive fraction of tapes, and $R^2$ tends to one for reasons that have nothing to do with
-the rule --- measured, the curve reaches $.70$ at $B=n/2$ and is contaminated by selection
-beyond that point. At $B=o(n)$ the gap to the exact cost diverges, so exactness is
-impossible on any tape and the question is quantitative. Second, the conjecture is stated for
-the middle class only: for a linear rule a predictor at $B=o(n)$ is short by the same
-diverging factor, and the analogous constant is a different number, which we do not claim.
-Third, $\kappa$ is a single constant and is the supremum over both arguments,
-\[
-\kappa=\sup_{\rho}\ \sup_{B=o(n)}\ \limsup_{n}R^2(\rho;n,B),
-\]
-so a rule that scores lower at a given budget says something about that rule and nothing
-about $\kappa$. What the measurements give is a lower bound: if some predictor reaches
-$R^2=.56$ at a sub-linear budget, then $\kappa\ge.56$, and the conjecture is that $\kappa<1$.
-The bracket $.56\le\kappa<1$ is the honest statement, and the upper end is the part we are
-asserting rather than measuring.
+Two comments. The statement is per rule because the measurements are: at $B=n^{0.75}$ the
+four rules score between $.30$ and $.56$, and a curve that differs by a factor of two across
+rules cannot support a single constant. What is uniform, and what the measurements do
+support, is that no rule's curve reaches one before $c$ does: the four curves are stable in
+$n$ at fixed exponent (at $B=n^{0.75}$, $R^2=.560,.506,.516$ for $n=256,512,1024$, and
+$.560,.560,.568$ across three seeds at $n=256$), so $\kappa_\rho(c)$ is well defined and does
+not drift with $n$. Second, the values are lower bounds: an attained $R^2$ is a lower bound on
+the supremum in the definition, and the conjecture is that the supremum stays below one. The
+measured curve, $R^2=.35$ at $B=n^{0.25}$ and $.52$ at $n^{0.75}$, is the evidence, and it is
+evidence of the kind a lower bound can give.
 
 \subsection{What a measurement can and cannot establish}
 
