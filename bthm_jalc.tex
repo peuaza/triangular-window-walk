@@ -772,7 +772,8 @@ $i<N$, the absence of a concavity at every scale of the fixed block $[i,i+n-2i-1
 set is an initial segment in $m$; hence $P(\text{meet before }N)\le\sum_{i<N}f(n-2i)$, where $f(M)$ is
 the probability that a \emph{fresh} uniform $M$-window has no concavity at all. On the dyadic chain
 $X_{2^j}>2X_{2^{j-1}}$ the normalised walk is a supermartingale with
-$E[e^{-3u_{j+1}}\mid\text{survival}]\le\frac14e^{-3u_j}$, which gives $f(M)\le2100\,M^{-2}$; summing
+$E[e^{-3u_{j+1}}\mid\text{survival}]\le\frac14e^{-3u_j}$, which gives $f(M)\le2100\,M^{-2}$ for the iid ensemble (for the two-column ensemble of
+Section~\ref{sec:machine} the same argument gives exponent $1.74$, which still exceeds one); summing
 over the $\Theta(n)$ blocks, $P(\text{meet before }(n-1)/4)\le1050/n$.
 
 Summing the epoch bound over the first $N=c_0n/(1+c_0)$ epochs, then,
@@ -846,9 +847,11 @@ whose memory is additive and whose decisions are exact: there the same accountin
 $T\ge\sum_e\max(0,\ell_e-2r)$ over the epoch lengths $\ell_e$, which at $s=O(\log n)$ is again
 $\Omega(n^2)$. Dropping additivity is the branching-program problem, and dropping exactness returns
 the certificate bound $n-1$. A machine that reads in a fixed order in $p$ passes does no better: it
-crosses each cut $2p$ times, so the cut lemma gives $p=\Omega(n/s)$ and $T=\Omega(n^2/s)$, and it
-cannot escape by choosing a cheaper order, because the one-way communication complexity of the output
-is the same for every balanced cut --- about $0.73\,n$ bits, measured exhaustively at $n=6,8,10,12$.
+crosses each cut $2p$ times, so the cut lemma gives $p=\Omega(n/s)$ and $T=\Omega(n^2/s)$ ---
+conditional on a rank conjecture at arbitrary balanced cuts, verified exhaustively at $n=8,10$ --- and
+it cannot escape by choosing a cheaper order, because the one-way communication complexity of the
+output is the same at every balanced cut, $0.68\,n$ to $0.75\,n$ bits, measured exhaustively at
+$n=6,8,10,11,12,13$.
 
 \paragraph{Why no read-counting argument can separate.} The exchange argument is the general form of
 every read-based bound: a simulator that reads a set $S$ of cells behaves identically on all tapes
