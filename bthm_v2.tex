@@ -329,6 +329,27 @@ Theorem~\ref{thm:attain}, and closing it is open. The content channel is not the
 obstruction: a window of length $\ge 2\log_3 n$ determines its own position on a random
 tape, so $\varphi$ can name a cell once $n$ is large.
 
+\subsection{What survives a space bound}
+
+Theorem~\ref{thm:attain} is a statement about strategies with an arbitrary $\varphi$, and the
+$\varphi$ it uses is a lookup table indexed by window words, of size $\Theta(n^2)$ on the tour.
+It cannot be evaluated by a machine with $O(\log n)$ bits, so the construction does not give a
+rule in the class of Section~\ref{sec:classes}: it gives a rule that the class excludes. The
+continuous spectrum of exponents is therefore a statement about the unrestricted model.
+
+Under the space bound the measured picture is narrower and cleaner. For rules whose $\varphi$
+can be evaluated in $O(\log n)$ bits the achievable expected costs that we have measured are
+\[
+\big\{\,n\,(1+o(1))\,\big\}\ \cup\ \big\{\,c\,n^2:\ c\in(0,\tfrac12]\,\big\},
+\]
+a continuum of amplitudes at the quadratic scale rather than a continuum of exponents. The
+intermediate exponents between $n\log n$ and $n^2/\log n$ are attainable, but only by families
+whose $\varphi$ depends on $n$; a fixed $\varphi$ we tested is linear, and the intermediate
+slopes appear at finite $n$ as crossovers between the two scales. The upper end is also
+structural: each epoch tests at most $M$ windows and there are at most $n$ epochs, so
+$e_\rho\le n^2$ for every rule whose epochs are monotone scans, and the largest measured
+amplitude is $0.32\,n^2$.
+
 \subsection{The spectrum is a worst-case object}
 
 The construction's field is keyed to the tape it runs on, and that tape has probability
