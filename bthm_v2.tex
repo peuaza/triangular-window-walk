@@ -113,6 +113,15 @@ law is $P(0)=P(1)=\tfrac14$, $P(\tfrac12)=\tfrac12$, and for odd $n$ it is
 $\big(\frac{n-1}{2n}\big)^2$, $\frac{n^2-1}{2n^2}$ and $\big(\frac{n+1}{2n}\big)^2$. Cells
 are negatively correlated.
 
+\paragraph{Scope of the class.} Because a cell is a sum, the pair $(0,1)$ and the pair
+$(1,0)$ give the same cell and the machine cannot tell which column supplied the one. The
+strategies of this paper are therefore \emph{sum-based}: $\varphi$ is a function of the window
+of sums. This costs nothing for the rules studied here, all of which are defined on the sums
+and would behave identically on the pair-valued tape, but it is a restriction on the class:
+the pair-valued tape carries the column label as well and supports rules that this paper does
+not consider. Every statement below about ``all strategies'' is a statement about sum-based
+strategies, and we say so where the distinction matters.
+
 \paragraph{The walk.} A region $[L,R]$ and a window $[\ell,r]\subseteq[L,R]$. At each step
 the rule evaluates two bits on the window word and chooses one of eight actions: move
 $\ell$ left or right, move $r$ left or right, cut left, cut right, cut both, or halt. A cut
