@@ -340,14 +340,73 @@ is who chooses the tape.
 
 \section{What a sub-linear predictor can recover}\label{sec:ceiling}
 
-\emph{This section is being written, and deliberately carries no numbers.} The earlier
-version reported a ceiling constant of $.56$ from budgets of $18$ to $50$ reads per cell.
-Those budgets exceed the cost of the reordered evaluation, $1.15$ per cell, so a predictor
-that uses the reordering is exact there and the measured fraction describes the scan. The
-protocol this section will follow: budgets from $0.1\,n$ to $1.2\,n$; three sizes; a
-predictor with $O(\log n)$ bits; two-sided intervals over tapes, budget grid and fold
-split; and a stated correction, or a stated refusal to correct, for the search over rules
-and feature sets.
+\subsection{The quantity}
+
+The earlier version of this work reported a ceiling constant of $.56$ from budgets of $18$
+to $50$ reads per cell. Those budgets exceed the cost of the reordered evaluation, $1.15$
+per cell, so a predictor that uses the reordering is exact there; the number described the
+scan and not the function. It also conditioned on the tapes the predictor had finished,
+which selects for the easy ones. Both defects are avoided by defining the quantity as a
+population functional over the whole output set.
+
+\begin{definition}[Population risk at a budget]\label{def:r2}
+Fix a rule $\rho$ and $n$, and let
+$\Omega_n=\{\tau:\delta_\rho(\tau)\neq\bot\}$ with $\mu_n^\star$ the measure $\mu_n$
+conditioned on $\Omega_n$. For $B\le n$ let $\mathcal P(n,B)$ be the class of adaptive
+machines with $O(\log n)$ bits of work tape that read at most $B$ cells of $\tau$ and output
+a value in $\{0,\dots,n-1\}$. Then
+\[
+R^2(\rho;n,B)\ :=\ 1-\frac{\inf_{P\in\mathcal P(n,B)}\mathbb E_{\mu_n^\star}\big[(P(\tau)-\delta_\rho(\tau))^2\big]}
+{\operatorname{Var}_{\mu_n^\star}\big(\delta_\rho(\tau)\big)} .
+\]
+\end{definition}
+
+The expectation runs over \emph{every} tape that produces an output, not over the tapes a
+particular predictor managed to finish; the infimum is over all machines with the stated
+resources, not over one model class; and the budget appears explicitly.
+
+\begin{conjecture}[Sub-linear ceiling]\label{conj:ceiling}
+There is a constant $\kappa<1$ such that for every rule $\rho$ and every $\varepsilon>0$,
+\[
+\limsup_{n\to\infty}\ R^2\big(\rho;\,n,\,(1-\varepsilon)\,g_\rho(n)\big)\ \le\ \kappa ,
+\]
+where $g_\rho(n)$ is the cost of the cheapest exact computation of $\delta_\rho$.
+\end{conjecture}
+
+The budget is placed at a fixed fraction of $g_\rho$ rather than at a fixed power of $n$,
+because the supremum over budgets $o(g_\rho)$ is attained near $g_\rho$ and not near zero:
+what a predictor can do with a small budget is a different question, namely how fast the
+curve rises.
+
+\subsection{What a measurement can and cannot establish}
+
+The infimum in Definition~\ref{def:r2} is over all machines and is not computable. A
+measurement therefore produces one number only: the score of a particular predictor, which
+is a \emph{lower} bound on the supremum. A conjecture that the supremum is at most $\kappa$
+is supported by finding that the best predictors we can build fall short of one, and it is
+refuted by building one that does not. Reported numbers must say which side of the
+inequality they are on; the earlier version reported a lower bound and called it a ceiling.
+
+\subsection{The exact counterpart}
+
+For a per-tape statement the right object is not $R^2$ but the decision-tree depth of the
+output,
+\[
+D(\delta_\rho)\ :=\ \min\{B:\ \text{some adaptive machine with }B\text{ reads determines }
+\delta_\rho\text{ on every }\tau\}.
+\]
+$D$ is a combinatorial quantity and can be bounded from below by exhibiting tapes that are
+pairwise separated by their outputs on few coordinates. Two questions follow from it, and
+they are independent: whether $D(\delta_\rho)=o(n)$, which would give a sub-linear exact
+algorithm, and whether the risk of Conjecture~\ref{conj:ceiling} is bounded away from one.
+
+\subsection{The protocol}
+
+Budgets at $0.1,0.3,0.6,0.9$ of $g_\rho$ and at $(1-\varepsilon)g_\rho$ for $\varepsilon$
+small; at least two sizes with $n\ge 256$; a predictor with $O(\log n)$ bits; intervals
+over tapes and over the budget grid; and an explicit statement, or an explicit refusal to
+state, a correction for the search over rules and feature sets. The numbers this section
+will carry are being measured now and are deliberately absent from this draft.
 
 \section{Reproducibility}\label{sec:repro}
 
