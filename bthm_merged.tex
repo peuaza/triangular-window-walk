@@ -29,7 +29,8 @@ memory recovers.
 
 For the canonical rule we construct an exact simulator costing $5.3$ reads per cell, flat from $n=32$
 to $1024$; the same construction covers all twenty-four move tables and steps of one to three cells
-at $n=256$, and the two rules that first looked expensive are not in that class either. For four further rules no such simulator is known: their trajectories are quadratic (a fitted
+at $n=256$, and the two rules that first looked expensive --- the interior cut and the
+ignore-the-window rule --- turn out to be pointer after all. For four further rules no such simulator is known: their trajectories are quadratic (a fitted
 exponent $2.089\pm.026$ on the median and $1.977\pm.042$ on the mean), and a simulation carrying
 $O(\log n)$ bits costs $0.62\,n^2$ reads, about eleven reads per step. On the first of them, a predictor confined to $o(n^2)$ reads recovers $R^2=.58$ of the output at $n=256$, with two seeds agreeing to $.004$, and so the ceiling constant is at least $.56$ once the selection
 over budgets is accounted for --- at $n=256$; at $n=512$ the same procedure gives $.37$, and we claim
@@ -205,11 +206,12 @@ the steps, and that is why it is the only one stated as a theorem. A rule whose 
 than the tapes we ran would cost more than the table says.
 
 Of the rules below, two are cheap with a ratio that stays flat across the sizes we can run --- the
-canonical rule, and the monotone family of Theorem~\ref{thm:monotone}. Four others have a simulator
-whose ratio grows with $n$: the interior-cut rule, the far-end rule, the median rule and the rule
-that ignores the window. We report their numbers and leave them unclassified, because a ratio that
-grows is not evidence of a linear bound and we cannot tell it from a slow drift on the samples we
-have.
+canonical rule, and the monotone family of Theorem~\ref{thm:monotone}. Four others are harder to place. Two of
+them --- the interior cut and the rule that ignores the window --- have simulators whose read ratio is
+flat, $10.6$ to $17.3\,n$ and $0.7\,n$ respectively, and they are pointer by the definition. The
+far-end and median rules have a ratio that grows with $n$ over the sizes we can afford, and we leave
+those two unclassified, because a ratio that grows is not evidence of a linear bound and we cannot
+tell it from a slow drift on the samples we have.
 
 \paragraph{Monotone rules: $2n$ reads.} If every move of the rule shrinks the window, then each cell
 leaves the window at most once and a rule that updates its feature when a cell leaves is exact in $2n$
@@ -569,8 +571,12 @@ of memory has $R^2\le\kappa$ for a constant $\kappa<1$.
 \paragraph{What the budget excludes.} The simulations of Section~\ref{sec:walk} cost $0.62\,n^2$ reads,
 so a budget that is $o(n^2)$ is eventually below the cost of following a trajectory, while a budget of
 $c\,n^2$ is not: a predictor that spends $c\,n^2$ can follow the run to its end and reach $R^2=1$. That
-is why the conjecture names $o(n^2)$, and every measurement below stays inside it: the budgets used run from
-$19\,n$ to $82\,n$, all of which are $o(n^2)$.
+is why the conjecture names $o(n^2)$, and every measurement below stays inside it: the budgets used run
+from $18\,n$ to $50\,n$, all of which are $o(n^2)$. The reads charged here are the \emph{predictor's}:
+it evaluates $b_1$ over a window of length $m$ at every step and so pays $O(m)$ per step, near $200$ at
+$n=256$. That is not the $5.7$ reads per step of the simulator of Section~\ref{sec:cost}, which
+maintains the same bit incrementally; the two figures measure different machines and are not
+comparable.
 
 \paragraph{The class has four candidates.} Four rules are candidates for the hypothesis of the
 conjecture --- no $O(n)$ simulator is known for any of them --- and they are listed
