@@ -503,66 +503,57 @@ the rules tested, that is, exactness requires reading every cell; and it gives t
 error at every smaller budget, against which any heuristic can be judged. What it does not
 give is the asymptotic law, and in particular whether $D=n$ for all $n$.
 
-\subsection{What the measurements give}
+\subsection{The exact threshold}
 
-Budgets are charged in reads, the score is taken over every output-producing tape with the
-unfinished tapes counted as errors, and only points at which no tape has finished
-($\mathrm{fin}=0$) enter a fit. The quantity is $c=B/g_\rho$, the fraction of the exact cost.
+For $n\le 10$ the optimal error of every adaptive predictor is computable, by dynamic
+programming over the cylinders of the ensemble: with $E(C,0)=1-\max_v P(\delta=v\mid C)$ and
+$E(C,b)=\min_i\mathbb E_v[E(C\wedge\{\tau_i=v\},b-1)]$, the value $E(\top,B)$ is the best any
+$B$-read predictor can do. The computation settles two things without reference to any model.
+First, the smallest budget at which the error reaches zero is $B=n$ for each rule tested: to
+be exact, a predictor must read every cell. Second, the optimal error at half the tape is
+$.30$, $.23$ and $.23$ at $n=9$ for the concavity rule and two of the four, so the risk at a
+fixed budget is bounded away from one by a quantity that owes nothing to a particular
+predictor.
 
-\subsection{What the measurements give}
+\subsection{The measured level}
 
-Budgets are charged in reads, the score is taken over every output-producing tape with the
-unfinished tapes counted as errors, and only points at which no tape has finished enter a
-fit. The quantity is $c=B/g_\rho$, the fraction of the exact cost.
+Beyond $n=10$ the optimum is out of reach and we measure instead: a predictor with $O(\log n)$
+bits is given $B=c\,n$ reads, and $R^2$ is scored over every output-producing tape with the
+unfinished tapes counted as errors. The level at half the tape is
 
-\paragraph{The exact threshold is model-free.} For $n\le 10$ the optimal error of every
-adaptive predictor can be computed by dynamic programming over the cylinders of the ensemble,
-and the answer is unambiguous: the smallest budget at which the error reaches zero is $B=n$
-for each rule, that is, exactness requires reading every cell. The optimal error at half the
-tape is $.30$, $.23$ and $.23$ at $n=9$ for the concavity rule and two of the four, so the
-risk at a fixed budget is bounded away from one by a quantity that owes nothing to a
-particular predictor.
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+& longest-run & pattern & palindrome & run-count \\
+\midrule
+$R^2$ at $B=n/2$, $n=256$ & $.42$ & $.38$ & $.35$ & $.22$ \\
+$R^2$ at $B=n/2$, $n=512$ & $.40$ & $.37$ & $.32$ & $.23$ \\
+\bottomrule
+\end{tabular}
+\end{center}
 
-\paragraph{The shape is an exponential, but its rate belongs to the predictor.} Within one
-predictor family the excess risk is well described by
-\[
-1-R^2(\rho;n,c\,g_\rho)\ \approx\ A_\rho\,e^{-\lambda c},
-\]
-with one $\lambda$ for all rules and sizes and an amplitude $A_\rho$ that is the measured
-one-read value. For a depth-three gradient booster fitted on one identical ten-point window
-at four sizes and three rules this gives $\lambda=1.96\pm.04$ and $A_\rho=.660,.686,.748$,
-four numbers describing $96$ curves to rms $.027$ against a seed noise of $.027$ to $.034$;
-the hypothesis that $\lambda$ varies with $n$ is rejected at $F(9,920)=0.31$.
-
-The rate, however, is not a property of the information. Changing only the predictor moves
-it outside the seed noise: a ridge regression on the same features gives $\lambda=1.96$ to
-$2.23$ (statistically indistinguishable from the booster, $p=.95$), a shallow tree $1.88$ to
-$2.20$, a boosted model with five times the iterations $1.52$ to $1.76$, and a nearest-neighbour
-predictor $1.87$ to $3.03$; the deviations are significant at $p<.001$ in every case but the
-ridge. A stronger learner therefore does not merely score better, it decays more slowly, and
-the constant $1.96$ describes the booster and not the rule. We report the law as an
-empirical form that holds within a family, and we make no claim that $\lambda$ is universal.
-
-\paragraph{What survives as a statement about the rules.} Two things. The risk at a fixed
-fraction of the exact cost is stable in $n$: at $B=n^{0.75}$ the same predictor gives
-$.560,.506,.516$ for $n=256,512,1024$, and $.560,.560,.568$ across three seeds at $n=256$, so
-the level is a property of the rule and the ensemble rather than of the sample. And at
-$B=c\,n$ with $c$ fixed the curves for the four rules differ by a factor of about two and
-keep their order, which is the same order the exact computation puts them in: the rule whose
-certificate is the longest is the hardest to predict. Neither statement depends on the
-exponential fit.
-
-We therefore state the ceiling as an inequality rather than as a law.
+Two features matter and neither depends on a parametric fit. The level is stable in $n$: the
+change between the two sizes is at most $.03$, against a seed spread of the same size. And
+the order of the four rules is the order the exact computation puts them in, the rule with
+the longest certificate being the hardest to predict. What the numbers do not give is the
+value of a bound: any number quoted is the score of one predictor, and a stronger predictor
+lowers it. We checked that directly by refitting with five predictor families and finding
+that not only the score but the shape of the curve changes with the family, which is why the
+conjecture below is stated as an inequality and not as a law.
 
 \begin{conjecture}[Ceiling]\label{conj:ceiling2}
-Let $\rho$ be linear in expectation and superlinear in the worst case. Then for every
-$c\in(0,1)$ the risk $R^2(\rho;n,c\,n)$ is bounded away from one as $n\to\infty$.
+Let $\rho$ be linear in expectation and superlinear in the worst case. Then there is a
+constant $\kappa_\rho<1$ such that for every $c\in(0,1)$,
+\[
+\limsup_{n\to\infty}\ R^2\big(\rho;\,n,\,c\,n\big)\ \le\ \kappa_\rho .
+\]
 \end{conjecture}
 
-The evidence is the exact computation at $n\le10$, which gives $B^\star=n$, and the measured
-levels, which are $.22$ to $.43$ at half the tape and move by at most $.03$ between the two
-largest sizes. What the evidence does not give is a value for the bound: any number we quote
-is the score of one predictor, and a better predictor lowers it.
+The evidence is the exact computation at $n\le10$, which gives $B^\star=n$, together with
+the measured levels above, which sit between $.22$ and $.43$ and move by at most $.03$
+between the two largest sizes. The conjecture is that they do not creep up to one as $n$
+grows; what is missing is a lower bound on the error of an arbitrary predictor, and that is
+the same missing ingredient as in the classification itself.
 
 \section{Reproducibility}\label{sec:repro}
 
