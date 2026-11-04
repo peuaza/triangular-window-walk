@@ -348,9 +348,13 @@ worth naming.
 \begin{definition}[Classes]\label{def:classes}
 Let $g_\rho(n)$ be the least number of cell reads, with $O(\log n)$ bits, that computes
 $\delta_\rho$ on every tape, and let $e_\rho(n)$ be the least number that computes it in
-expectation. A rule is \emph{linear} if $e_\rho=\Theta(n)$ and $g_\rho=O(n)$; it is
-\emph{linear in expectation, superlinear in the worst case} if $e_\rho=\Theta(n)$ and
-$g_\rho=\omega(n)$; and it is \emph{superlinear} if $e_\rho=\omega(n)$.
+expectation. The space bound is part of the definition and not an afterthought: with
+$\Theta(n)$ bits every rule is computable in exactly $n$ reads, by reading the tape once and
+storing it, so the classification is trivial without it. With $O(\log n)$ bits there are
+three regimes, and we name them. A rule is \emph{fully linear} if $e_\rho=O(n)$ and
+$g_\rho=O(n)$; \emph{semilinear} if $e_\rho=O(n)$ and $g_\rho=\omega(n)$; and
+\emph{superlinear} if $e_\rho=\omega(n)$. The names carry: the first is linear in both
+regimes, the second in one, the third in neither.
 \end{definition}
 
 Every rule measured in this paper is linear or linear in expectation: the canonical rule at
