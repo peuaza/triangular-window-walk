@@ -249,15 +249,48 @@ pathwise maximum is $3.1$ per cell, against $242$ for the scan.}
 
 \section{Trajectory and cost}\label{sec:trajectory}
 
-The trajectory of $\rho$ is quadratic, and this is a theorem rather than a measurement.
-The upper bound is $\binom{n+1}{2}$ tests, since the region shrinks and each epoch tests
-at most $M$ windows. The lower bound is $8.1\times10^{-6}n^2$ and holds without hypothesis:
-it combines a limit theorem for the first epoch with the frontier inequality, which lets
-the epochs be compared with unconditioned suffixes.
+\subsection{The trajectory is quadratic}
 
-So $\rho$ has a trajectory of length $\Theta(n^2)$ and a computation of cost
-$\Theta(n)$. The two statements are about different objects and both are true. What the
-earlier version of this work did was to identify them.
+\begin{theorem}[Trajectory of the concavity rule]\label{thm:trajectory}
+Let $T$ be the number of tests performed by $\rho$ on a tape of the ensemble. Then
+$T\le\binom{n+1}{2}$ on every tape, and $E[T]\ge 8.1\times10^{-6}n^2$ for all large $n$.
+\end{theorem}
+
+The upper bound is the region argument: the region shrinks, and an epoch on a region of
+length $M$ tests at most $M$ windows, so $T\le\sum_{M=1}^{n}M$.
+
+The lower bound has three ingredients. First, the first epoch is a statement about the whole
+tape, and there a functional limit theorem gives
+\[
+\liminf_{M\to\infty}P(\mathrm{cost}\ge cM)\ \ge\ p(c),\qquad
+p(c)=P\Big(\sup_{\theta\in[1-c,1]}\mathcal V(\theta)<0\Big),
+\]
+with $\mathcal V(\theta)=B(\theta)-2B(\theta/2)$ for a Brownian bridge $B$; a Gaussian
+concentration bound gives $p(.05)\ge.080$, hence $E[\mathrm{cost}]\ge.004\,M$. Second, the
+frontier inequality lets each epoch be compared with the first epoch of an unconditioned
+suffix, which is what makes the bound survive the conditioning on the history. Third, a meet
+before epoch $N$ forces the absence of a concavity at every scale of a fixed block, whose
+probability is at most $2100\,M^{-2}$, so the early-meet probability is $O(1/n)$ and the sum
+over epochs loses nothing. Combining the three gives the constant above; it is small because
+each step is proved separately, and the measured constant is $.13$, thirty times larger.
+
+\subsection{The cost is linear}
+
+On the same rule the reordered evaluation of Section~\ref{sec:order} costs $1.19$ reads per
+cell, and on the other three rules $1.5$, $1.8$ and $2.5$. So $\rho$ has a trajectory of
+length $\Theta(n^2)$ and a computation of cost $\Theta(n)$: at $n=1024$ the first is
+$56600$ tests and the second is $1218$ reads, a factor of $46$. The two statements are about
+different objects and both are true. What the earlier version of this work did was to
+identify them, and the identification is what made the quadratic look like a lower bound on
+computation.
+
+The measured distribution is worth recording because it is not concentrated. Over $2000$
+tapes at $n=1024$ the mean is $.0540\,n^2$ and the median $.025\,n^2$, the standard deviation
+is of the order of the mean, and $P(T\le n)=.17$: on those tapes almost every epoch is a
+double cut and the whole run costs $0.6\,n$. One statistic carries most of the variation,
+namely the drift $\Delta$ between the sums of the two halves of the tape:
+$E[T/n^2\mid\Delta\ge0]=.090$ to $.104$ against $.013$ to $.016$ for $\Delta<0$, a
+correlation of $+.74$, and $88$ per cent of $E[T]$ comes from the $\Delta\ge0$ half.
 
 \section{The worst-case spectrum}\label{sec:spectrum}
 
