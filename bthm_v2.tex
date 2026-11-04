@@ -436,6 +436,19 @@ the certificate is chosen correctly, and the cubic constructions need a $\varphi
 be evaluated in $O(\log n)$ bits. What would settle the conjecture is a read lower bound, and
 that is the same ingredient the classification itself lacks.
 
+\begin{conjecture}[Quadratic scale]\label{conj:quadratic}
+Every superlinear rule has $e_\rho=\Theta(n^2)$: the class is $(\omega(n),\,O(n^2)]$ and the
+upper end is attained.
+\end{conjecture}
+
+The upper bound is structural for rules whose epochs are monotone scans: an epoch tests at
+most $M$ windows and there are at most $n$ epochs, so $e_\rho\le n^2$. The lower end is what
+superlinearity means. What the conjecture adds is that nothing sits strictly between: the
+intermediate scales $n\log n$, $n^{1.5}$ and $n^2/\log n$ are reachable, but only by families
+whose $\varphi$ depends on $n$, and a fixed $\varphi$ we tested is linear. The two candidates
+of Conjecture~\ref{conj:trichotomy} both sit at the upper end, at $0.10\,n^2$ and at exponent
+$1.99$.
+
 \subsection{The quantity}
 
 The earlier version of this work reported a ceiling constant of $.56$ from budgets of $18$
