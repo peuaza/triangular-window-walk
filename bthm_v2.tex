@@ -340,73 +340,97 @@ is who chooses the tape.
 
 \section{What a sub-linear predictor can recover}\label{sec:ceiling}
 
+\subsection{Three classes}
+
+Sections~\ref{sec:order} and~\ref{sec:spectrum} separate two regimes, and the separation is
+worth naming.
+
+\begin{definition}[Classes]\label{def:classes}
+Let $g_\rho(n)$ be the least number of cell reads, with $O(\log n)$ bits, that computes
+$\delta_\rho$ on every tape, and let $e_\rho(n)$ be the least number that computes it in
+expectation. A rule is \emph{linear} if $e_\rho=\Theta(n)$ and $g_\rho=O(n)$; it is
+\emph{linear in expectation, superlinear in the worst case} if $e_\rho=\Theta(n)$ and
+$g_\rho=\omega(n)$; and it is \emph{superlinear} if $e_\rho=\omega(n)$.
+\end{definition}
+
+Every rule measured in this paper is linear or linear in expectation: the canonical rule at
+$5.15$ reads per cell, the monotone family at $2$, the four rules of
+Section~\ref{sec:machine} at $1.15$, and the constructed rules of
+Section~\ref{sec:spectrum} at $1.15$ on random tapes and $n^\beta$ on theirs. The four
+rules are of the second kind: on sorted and ramp tapes the reordering degenerates and the
+cost is $0.23$ to $0.30\,n^2$.
+
 \subsection{The quantity}
 
 The earlier version of this work reported a ceiling constant of $.56$ from budgets of $18$
-to $50$ reads per cell. Those budgets exceed the cost of the reordered evaluation, $1.15$
-per cell, so a predictor that uses the reordering is exact there; the number described the
-scan and not the function. It also conditioned on the tapes the predictor had finished,
-which selects for the easy ones. Both defects are avoided by defining the quantity as a
-population functional over the whole output set.
+to $50$ reads per cell. Those budgets exceed the exact cost of $1.15$ per cell, so a
+predictor that uses the reordering is exact there, and the number described the scan rather
+than the function; it also conditioned on the tapes the predictor had finished. Both defects
+disappear once the budget is placed strictly below the exact cost and the expectation is
+taken over the whole output set.
 
-\begin{definition}[Population risk at a budget]\label{def:r2}
-Fix a rule $\rho$ and $n$, and let
-$\Omega_n=\{\tau:\delta_\rho(\tau)\neq\bot\}$ with $\mu_n^\star$ the measure $\mu_n$
-conditioned on $\Omega_n$. For $B\le n$ let $\mathcal P(n,B)$ be the class of adaptive
-machines with $O(\log n)$ bits of work tape that read at most $B$ cells of $\tau$ and output
-a value in $\{0,\dots,n-1\}$. Then
+\begin{definition}[Population risk at a sub-linear budget]\label{def:r2}
+Fix a rule $\rho$ and $n$, and let $\Omega_n=\{\tau:\delta_\rho(\tau)\neq\bot\}$ with
+$\mu_n^\star$ the measure $\mu_n$ conditioned on $\Omega_n$. For a budget $B(n)$ let
+$\mathcal P(n,B)$ be the class of adaptive machines with $O(\log n)$ bits of work tape that
+read at most $B(n)$ cells and output a value in $\{0,\dots,n-1\}$. Then
 \[
 R^2(\rho;n,B)\ :=\ 1-\frac{\inf_{P\in\mathcal P(n,B)}\mathbb E_{\mu_n^\star}\big[(P(\tau)-\delta_\rho(\tau))^2\big]}
 {\operatorname{Var}_{\mu_n^\star}\big(\delta_\rho(\tau)\big)} .
 \]
 \end{definition}
 
-The expectation runs over \emph{every} tape that produces an output, not over the tapes a
-particular predictor managed to finish; the infimum is over all machines with the stated
-resources, not over one model class; and the budget appears explicitly.
-
 \begin{conjecture}[Sub-linear ceiling]\label{conj:ceiling}
-There is a constant $\kappa<1$ such that for every rule $\rho$ and every $\varepsilon>0$,
+Let $\rho$ be linear in expectation and superlinear in the worst case, and let
+$B(n)=o(n)$. Then
 \[
-\limsup_{n\to\infty}\ R^2\big(\rho;\,n,\,(1-\varepsilon)\,g_\rho(n)\big)\ \le\ \kappa ,
+\limsup_{n\to\infty}\ R^2\big(\rho;\,n,\,B(n)\big)\ \le\ \kappa\ <\ 1
 \]
-where $g_\rho(n)$ is the cost of the cheapest exact computation of $\delta_\rho$.
+for a constant $\kappa$ that does not depend on $\rho$ or on the choice of $B=o(n)$.
 \end{conjecture}
 
-The budget is placed at a fixed fraction of $g_\rho$ rather than at a fixed power of $n$,
-because the supremum over budgets $o(g_\rho)$ is attained near $g_\rho$ and not near zero:
-what a predictor can do with a small budget is a different question, namely how fast the
-curve rises.
+Three comments. The budget is $o(n)$ and not a fixed fraction of $n$: since $e_\rho=\Theta(n)$,
+a budget of $cn$ is within a constant factor of the exact cost, a predictor can be exact on a
+positive fraction of tapes, and $R^2$ tends to one for reasons that have nothing to do with
+the rule --- measured, the curve reaches $.70$ at $B=n/2$ and is contaminated by selection
+beyond that point. At $B=o(n)$ the gap to the exact cost diverges, so exactness is
+impossible on any tape and the question is quantitative. Second, the conjecture is stated for
+the middle class only: for a linear rule a predictor at $B=o(n)$ is short by the same
+diverging factor, and the analogous constant is a different number, which we do not claim.
+Third, the constant is asserted to be uniform in $\rho$, which is the part we can least
+support and the part most worth testing.
 
 \subsection{What a measurement can and cannot establish}
 
 The infimum in Definition~\ref{def:r2} is over all machines and is not computable. A
-measurement therefore produces one number only: the score of a particular predictor, which
-is a \emph{lower} bound on the supremum. A conjecture that the supremum is at most $\kappa$
-is supported by finding that the best predictors we can build fall short of one, and it is
-refuted by building one that does not. Reported numbers must say which side of the
-inequality they are on; the earlier version reported a lower bound and called it a ceiling.
+measurement produces one number: the score of a particular predictor, which is a
+\emph{lower} bound on the supremum appearing in the conjecture. Evidence for the conjecture
+is that the best predictors we can build fall well short of one; a refutation is a predictor
+that does not. Numbers reported in this section must say which side of the inequality they
+are on. The earlier version reported a lower bound and called it a ceiling.
 
-\subsection{The exact counterpart}
+\subsection{The exact threshold}
 
-For a per-tape statement the right object is not $R^2$ but the decision-tree depth of the
-output,
+For a per-tape statement the natural object is the decision-tree depth,
 \[
 D(\delta_\rho)\ :=\ \min\{B:\ \text{some adaptive machine with }B\text{ reads determines }
 \delta_\rho\text{ on every }\tau\}.
 \]
-$D$ is a combinatorial quantity and can be bounded from below by exhibiting tapes that are
-pairwise separated by their outputs on few coordinates. Two questions follow from it, and
-they are independent: whether $D(\delta_\rho)=o(n)$, which would give a sub-linear exact
-algorithm, and whether the risk of Conjecture~\ref{conj:ceiling} is bounded away from one.
+For $n\le 10$ this is computable exactly, by dynamic programming over the cylinders of the
+ensemble: with $E(C,0)=1-\max_v P(\delta=v\mid C)$ and
+$E(C,b)=\min_i \mathbb E_v\big[E(C\wedge\{\tau_i=v\},b-1)\big]$, the value $E(\top,B)$ is the
+optimal error of an adaptive $B$-read predictor. The computation gives $D(\delta_\rho)=n$ for
+the rules tested, that is, exactness requires reading every cell; and it gives the optimal
+error at every smaller budget, against which any heuristic can be judged. What it does not
+give is the asymptotic law, and in particular whether $D=n$ for all $n$.
 
 \subsection{The protocol}
 
-Budgets at $0.1,0.3,0.6,0.9$ of $g_\rho$ and at $(1-\varepsilon)g_\rho$ for $\varepsilon$
-small; at least two sizes with $n\ge 256$; a predictor with $O(\log n)$ bits; intervals
-over tapes and over the budget grid; and an explicit statement, or an explicit refusal to
-state, a correction for the search over rules and feature sets. The numbers this section
-will carry are being measured now and are deliberately absent from this draft.
+Budgets $B(n)=n/\log_2 n$, $n^{0.9}$, $n^{0.75}$, $n^{0.5}$; two sizes with $n\ge 256$; a
+predictor with $O(\log n)$ bits; the score taken over every output-producing tape with the
+unfinished tapes counted as errors; intervals over tapes and over the budget grid; and an
+explicit statement, or an explicit refusal, of a correction for the search over rules and
+feature sets. The numbers are being measured and are deliberately absent from this draft.
 
 \section{Reproducibility}\label{sec:repro}
 
