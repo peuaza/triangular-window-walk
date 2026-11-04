@@ -1,0 +1,304 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{definition}{Definition}
+\newcommand{\sd}{\mathrm{sd}}
+\title{The trajectory is not the complexity:\\[2pt]
+scan order and the cost of a two-header tape walk}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A two-header machine walks on a tape of $n$ cells, cuts at the boundary when a window
+statistic fails, and outputs the position where the headers meet. For four such rules the
+walk takes $\Theta(n^2)$ steps, and it is natural to read that number as the cost of
+computing the output. It is not. An epoch's transition depends on two bits only --- the
+statistic at the top window, and whether it fails \emph{anywhere} below it --- and the
+second question can be asked from the cheap end, where failures have density one half.
+That replaces a scan of the window by an expected constant number of probes, and the
+output of all four rules becomes computable at $1.15$ reads per cell, against $48.8$ for
+the scan. The quadratic trajectory is real; it is a property of the scan order and not of
+the function.
+
+The worst case is different. We prove that the general bound of $\binom{n+2}{3}$ steps is
+sharp, with constant $1/6$; that every intermediate exponent between $n$ and $n^3$ is
+attained by an explicit rule; and that a random rule is linear. The cost spectrum is
+continuous in the worst case and collapses to linear in expectation. We close by asking
+what a predictor with sub-linear reads can recover, and state the measurement protocol
+that the earlier version of this work lacked.
+\end{abstract}
+
+\section{Introduction}
+
+A memoryless walk on a tape is a cheap object to describe and an expensive one to follow.
+Two headers sit at the ends of a region, the rule inspects the window between them, and
+the action it chooses either moves a header or cuts a cell from an end. The output is the
+place where the headers meet. Rules of this shape arise as ``table strategies'' for a
+family of automata, and the question that organises the subject is how much of the output
+can be had without following the walk.
+
+The answer we were taught to expect is: not much. For four natural rules the walk visits
+$\Theta(n^2)$ windows before it stops, and a simulation that follows it costs
+$\Theta(n^2)$ reads. The inference from the length of a trajectory to the cost of a
+function looks harmless, and it is wrong.
+
+\paragraph{What is actually needed.} Fix the region. If the bit $b_1$ is constant on the
+windows an epoch examines, the epoch is a monotone scan of one coordinate: prefixes when
+$b_1=0$, suffixes when $b_1=1$. In either case the epoch ends at the \emph{first} window
+that fails the second test, and the cut type is determined by three things only: the test
+at the top window, whether any window below it fails, and whether the failure is at the
+top. The \emph{position} of the failing window is never used. The reference simulation
+pays the whole scan to discover that position; a simulator that only asks whether a
+failure exists can ask from the bottom, where failures are dense, and pay a constant.
+
+\paragraph{What that changes.} The four rules become linear. At $n=1024$ the scan costs
+$48.8$ reads per cell and the reordered evaluation costs $1.15$, a factor of $42$; the
+same rule, the same output, the same tapes. The concavity rule whose trajectory we prove
+to be quadratic in expectation --- the one that motivated the quadratic picture in the
+first place --- is also computable at $1.15$ reads per cell. A trajectory of length
+$\Theta(n^2)$ and a computation of cost $\Theta(n)$ coexist, and the gap is entirely in
+the order in which the same questions are asked.
+
+\paragraph{What survives of the quadratic.} Two things, and they are worth separating.
+First, the trajectory length is a genuine invariant of the rule: for the concavity rule we
+prove that the expected number of tests is $\Theta(n^2)$, with an explicit upper bound
+$\binom{n+1}{2}$ and a lower bound of $8.1\times 10^{-6}n^2$ that holds without hypothesis.
+Second, the worst case over tapes is not linear: on sorted and ramp tapes the reordered
+evaluation degenerates to the scan and costs $0.23$ to $0.30\,n^2$. What is false is the
+middle term, the identification of the trajectory with the cost of the function.
+
+\paragraph{The spectrum.} Once the two notions are separated, the natural question is
+which costs are attainable at all. We show that the general bound $\binom{n+2}{3}$ steps
+is sharp --- an explicit rule attains $n^3/6-n^2/2+O(n)$, with a fitted exponent
+$3.0098\pm.0024$ --- and that every intermediate exponent can be attained by capping the
+construction at $n^{(\beta-1)/2}$ columns. A rule drawn at random, by contrast, is linear:
+its field takes an average of $6.8$ steps per region whatever $n$ is. So the worst-case
+spectrum is continuous from $n$ to $n^3$ while the expected spectrum collapses to a single
+point. Every rule we can construct, including the cubic one, is linear in expectation.
+
+\paragraph{What we do not have.} A ceiling for predictors. An earlier version of this work
+reported that a predictor confined to $o(n^2)$ reads recovers a fraction of the output
+variance bounded away from one, and read that as evidence for a limit. The budget in those
+measurements, $18$ to $50$ reads per cell, is \emph{above} the cost of the reordered
+evaluation, which is $1.15$; at those budgets a predictor that uses the reordering is
+exact, so the measured fraction describes the scan and not the function. The question is
+open and Section~\ref{sec:ceiling} states the protocol that would settle it: budgets from
+$0.1\,n$ to $1.2\,n$, several sizes, two-sided intervals, and a correction for the search.
+
+\paragraph{Organisation.} Section~\ref{sec:machine} fixes the machine and the rules.
+Section~\ref{sec:order} proves the scan-order theorem and reports the measurements.
+Section~\ref{sec:trajectory} separates the trajectory from the cost.
+Section~\ref{sec:spectrum} gives the worst-case spectrum.
+Section~\ref{sec:ceiling} states what a sub-linear predictor can be asked.
+Section~\ref{sec:repro} lists the scripts.
+
+\section{The machine and the rules}\label{sec:machine}
+
+\paragraph{Tape and measure.} $\tau\in\{0,\tfrac12,1\}^n$: the $i$-th cell is the average of
+bit $i$ of column one and bit $i$ of column two. Each column is drawn uniformly from the
+$\binom nh$ subsets of size $h=\lceil n/2\rceil$, independently, so for even $n$ the cell
+law is $P(0)=P(1)=\tfrac14$, $P(\tfrac12)=\tfrac12$, and for odd $n$ it is
+$\big(\frac{n-1}{2n}\big)^2$, $\frac{n^2-1}{2n^2}$ and $\big(\frac{n+1}{2n}\big)^2$. Cells
+are negatively correlated.
+
+\paragraph{The walk.} A region $[L,R]$ and a window $[\ell,r]\subseteq[L,R]$. At each step
+the rule evaluates two bits on the window word and chooses one of eight actions: move
+$\ell$ left or right, move $r$ left or right, cut left, cut right, cut both, or halt. A cut
+removes the boundary cell of the region; a move that would take a header outside the
+region is an \emph{exit} and triggers a cut instead. The run ends in one of three ways: the
+headers meet (the output is the meeting position), the region falls below three cells (no
+output), or a configuration repeats (no output).
+
+\paragraph{The cut convention.} If the window is the whole region and a move exits, both
+ends are cut. If the window is strictly inside the region and a header at an end is asked
+to move out, only that end is cut. Ties in the second bit count as false. This convention
+is fixed throughout; Section~\ref{sec:repro} records an implementation that got it wrong
+and the check that now catches it.
+
+\paragraph{The four rules.} The second bit is the sign of the lag-one autocorrelation,
+$\mathrm{corr}(\tau[\ell..r-1],\tau[\ell+1..r])>0$; the first bit is one of: the longest
+run of $1$-cells exceeding $m/4$; the number of maximal runs exceeding $m/2$; the presence
+of a fixed three-cell pattern; or the window being a palindrome. Write $\rho$ for the
+concavity rule, in which the second bit is forced false and the first bit compares the mean
+of the first $\lfloor m/2\rfloor$ cells with the mean of all $m$. $\rho$ is the rule whose
+trajectory is analysed in Section~\ref{sec:trajectory}.
+
+\paragraph{Cost.} A \emph{read} is one access to one cell. The rule itself reads nothing:
+it is a dynamical system driven by the two bits. The machines we cost are the ones that
+compute the output, and every access they make --- including the accesses needed to
+evaluate a bit --- is charged. Complexity is stated in two regimes, and we keep them apart
+throughout: \emph{pathwise}, meaning on every tape of the ensemble, and \emph{in
+expectation}, meaning averaged over it.
+
+\section{The scan-order theorem}\label{sec:order}
+
+\subsection{An epoch needs two bits}
+
+Fix the region $[L,R]$ and let $M=R-L+1$.
+
+\begin{lemma}[The epoch is a monotone scan]\label{lem:monotone}
+Suppose $b_1=c$ on every window the epoch examines. If $c=0$ then $\ell$ stays at $L$ and
+$r$ steps down, so the windows are the prefixes $[L,L+m-1]$ for $m=M,M-1,\dots$. If $c=1$
+then $r$ stays at $R$ and $\ell$ steps up, so the windows are the suffixes $[R-m+1,R]$ for
+$m=M,M-1,\dots$.
+\end{lemma}
+
+\begin{proof}
+For $c=0$: $b_2=1$ moves $r$ down by one, which yields the prefix of length $m-1$, and
+$b_2=0$ moves $\ell$ to $L-1$, an exit. For $c=1$: $b_2=1$ moves $\ell$ up by one, which
+yields the suffix of length $m-1$, and $b_2=0$ moves $r$ to $R+1$, an exit. Induction on
+the step index, using that the region is unchanged during the epoch.
+\end{proof}
+
+\begin{lemma}[The transition function]\label{lem:transition}
+Under the hypothesis of Lemma~\ref{lem:monotone} the cut is a function of
+\[
+T=b_2\text{ at }m=M,\qquad E=\big[\exists\, m\in[2,M-1]\text{ with }b_2=0\big],
+\]
+namely: $T=0$ gives a double cut; $T=1$ and $E=1$ gives a single cut on the side the scan
+walks towards; $T=1$ and $E=0$ gives a meet.
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:monotone} the epoch walks the prefixes (suffixes) one at a time. $T$
+decides whether the first step is already an exit. If it is not, the walk stops at the
+largest $m\le M-1$ with $b_2=0$, and the cut type is the same for every such $m$; if there
+is none, the walk falls off the bottom and the headers meet. The position of the zero is
+never used.
+\end{proof}
+
+The content of Lemma~\ref{lem:transition} is that the reference simulation pays $M-m^*+1$
+tests to find $m^*$ and then discards it. Only the existence of a failure matters.
+
+\subsection{Certifying that $b_1$ is constant}
+
+Lemma~\ref{lem:transition} applies on a stretch where $b_1$ does not change. For each rule
+the lengths at which $b_1$ can deviate are confined to an initial segment $m\le a$, with
+$a$ computable after linear preprocessing.
+
+\begin{lemma}[Per-rule certificate]\label{lem:certificate}
+Let $c$ be the value of $b_1$ at the top window. Then $b_1=c$ for every $m>a$, where $a$
+is: $4\rho$, with $\rho$ the longest run of $1$-cells in the tape, for the longest-run
+rule; the longest palindromic prefix at $L$ (Manacher) for the palindrome rule; the
+distance to the first occurrence of the pattern at or after $L$, plus two, for the pattern
+rule; and the last index at which a $\pm1$ walk $V(j)=2\,\mathrm{ch}(j)-j$ exceeds a
+threshold, for the run-count rule.
+\end{lemma}
+
+\begin{proof}
+Each case is a monotonicity: a long run, a palindrome, an occurrence, or a count that
+cannot fall back once it has crossed. For the longest-run rule, $b_1=1$ forces the longest
+run of $1$-cells to exceed $m/4$, which is impossible once $m>4\rho$. The other three are
+the standard certificates for their statistics.
+\end{proof}
+
+Measured, the uncertified zone is small: at $n=1024$ its mean fraction of $M$ is $.081$
+for the longest-run rule, $.066$ for run-count, $.062$ for pattern and $.016$ for
+palindrome; the epochs that are entirely literal are $1.4$, $0.7$, $1.3$ and $0.1$ per
+cent.
+
+\subsection{The algorithm and its cost}
+
+Evaluate $T$; evaluate $E$ by scanning $m=2,3,\dots$ upward, where failures have density
+about one half; simulate the tail $m\le a$ literally, which is also where the cycle
+detection state lives. Correctness is Lemma~\ref{lem:transition} plus
+Lemma~\ref{lem:certificate}; the cost is one probe for $T$, an expected constant number
+for $E$, and $O(a)$ for the tail.
+
+\begin{theorem}[Scan order]\label{thm:order}
+The output of each of the four rules, and of $\rho$, is computable by an algorithm whose
+expected number of reads is linear in $n$ and whose pathwise number is linear on every
+tape for which the certificates of Lemma~\ref{lem:certificate} hold throughout.
+\end{theorem}
+
+The measurement is in Table~\ref{tab:order}. The reordering is not a heuristic: the
+accelerated walk was compared with the reference on every admissible tape for
+$n=6,\dots,13$, that is $201{,}643$ tapes at $n=13$, and agrees on the output for all four
+rules.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+& \multicolumn{2}{c}{reference scan} & \multicolumn{2}{c}{reordered} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+$n$ & mean reads & per cell & mean reads & per cell \\
+\midrule
+$256$  & $3645.9$  & $14.24$ & $298.9$  & $1.168$ \\
+$1024$ & $50010.9$ & $48.84$ & $1181.9$ & $1.154$ \\
+\bottomrule
+\end{tabular}
+\caption{Reads to compute the output of the concavity rule $\rho$, mean over tapes and
+maximum. At $n=1024$ the reordered evaluation costs a factor $42$ fewer reads; the
+pathwise maximum is $3.1$ per cell, against $242$ for the scan.}
+\label{tab:order}
+\end{center}
+\end{table}
+
+\section{Trajectory and cost}\label{sec:trajectory}
+
+The trajectory of $\rho$ is quadratic, and this is a theorem rather than a measurement.
+The upper bound is $\binom{n+1}{2}$ tests, since the region shrinks and each epoch tests
+at most $M$ windows. The lower bound is $8.1\times10^{-6}n^2$ and holds without hypothesis:
+it combines a limit theorem for the first epoch with the frontier inequality, which lets
+the epochs be compared with unconditioned suffixes.
+
+So $\rho$ has a trajectory of length $\Theta(n^2)$ and a computation of cost
+$\Theta(n)$. The two statements are about different objects and both are true. What the
+earlier version of this work did was to identify them.
+
+\section{The worst-case spectrum}\label{sec:spectrum}
+
+\emph{This section is being written.} The results it will report: the bound
+$\binom{n+2}{3}$ is sharp; an explicit rule attains
+$\binom{n+2}{3}-n^2+\lfloor n/2\rfloor$ steps with fitted exponent $3.0098\pm.0024$; every
+exponent between $2$ and $3$ is attained by capping the construction at
+$n^{(\beta-1)/2}$ columns; and a random rule takes $6.8$ steps per region on average,
+independently of $n$.
+
+\section{What a sub-linear predictor can recover}\label{sec:ceiling}
+
+\emph{This section is being written, and deliberately carries no numbers.} The earlier
+version reported a ceiling constant of $.56$ from budgets of $18$ to $50$ reads per cell.
+Those budgets exceed the cost of the reordered evaluation, $1.15$ per cell, so a predictor
+that uses the reordering is exact there and the measured fraction describes the scan. The
+protocol this section will follow: budgets from $0.1\,n$ to $1.2\,n$; three sizes; a
+predictor with $O(\log n)$ bits; two-sided intervals over tapes, budget grid and fold
+split; and a stated correction, or a stated refusal to correct, for the search over rules
+and feature sets.
+
+\section{Reproducibility}\label{sec:repro}
+
+Every number comes from a script in the project directory. The scan-order measurements are
+in \texttt{probe\_ologn2/} (\texttt{rs\_*.py}, with \texttt{REPORT\_SHORTCUT.md} and its
+logs); the trajectory bounds in \texttt{probe\_ologn2/REPORT\_EPOCH\_BOUND.md},
+\texttt{REPORT\_UNBALANCED.md} and \texttt{REPORT\_MEET\_BOUND.md}; the spectrum in
+\texttt{REPORT\_SUPERQUADRATIC.md}. Tapes are drawn with
+\texttt{numpy.random.default\_rng(2026)} unless a paragraph says otherwise.
+
+Two implementation notes. The cut convention of Section~\ref{sec:machine} is the one the
+measurements use; an oracle in \texttt{code/bthm0/\_bz\_canon2.py} implemented the single
+cut where the double cut is specified, and it has been corrected. The four rules' bits are
+evaluated exactly, in integer arithmetic, in every verification reported here.
+
+\bibliographystyle{plainnat}
+\begin{thebibliography}{9}
+\bibitem[Luo(2026a)]{luo-tww} H.~Luo, \emph{A triangular window walk on random binary
+matrices: a conjectured arcsine limit}, manuscript (2026).
+\bibitem[Luo(2026b)]{luo-family} H.~Luo, \emph{Memory and randomness control the shape: a
+family of tape walks}, manuscript (2026).
+\end{thebibliography}
+
+\end{document}

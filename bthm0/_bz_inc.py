@@ -112,7 +112,10 @@ def walk_exact_bf(c, n):
         dy, dx = {"A": (-1, 0), "B": (1, 0), "C": (0, 1), "D": (0, -1)}[o]
         ny, nx = y + dy, x + dx
         if ny < L or nx > R:
-            if ny < L:
+            if (y, x) == (L, R):
+                # 起点即出界 => 双切（与论文与 walk_inc 一致）
+                L, R = L + 1, R - 1
+            elif ny < L:
                 R = x - 1
             else:
                 L = y + 1
