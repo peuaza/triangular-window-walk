@@ -582,8 +582,9 @@ formulations agree, and every measurement below uses $o(n^2)$.
 \paragraph{What the budget excludes.} The simulations of Section~\ref{sec:walk} cost $0.62\,n^2$ reads,
 so a budget that is $o(n^2)$ is eventually below the cost of following a trajectory, while a budget of
 $c\,n^2$ is not: a predictor that spends $c\,n^2$ can follow the run to its end and reach $R^2=1$. That
-is why the conjecture names $o(n^2)$, and every measurement below stays inside it: the budgets used run
-from $18\,n$ to $50\,n$, all of which are $o(n^2)$. The reads charged here are the \emph{predictor's}:
+is why the conjecture is stated against $g_ho$: with $g_ho=\Theta(n^2)$ for the four candidates
+this is $o(n^2)$, and every measurement below stays inside it, the budgets running from $18\,n$ to
+$50\,n$. The reads charged here are the \emph{predictor's}:
 it evaluates $b_1$ over a window of length $m$ at every step and so pays $O(m)$ per step, near $200$ at
 $n=256$. That is not the $5.7$ reads per step of the simulator of Section~\ref{sec:cost}, which
 maintains the same bit incrementally; the two figures measure different machines and are not
@@ -640,22 +641,23 @@ difference intervals $[+.088,+.171]$ and $[+.050,+.141]$ that exclude zero. On t
 ceiling constant does not rise with $n$; it falls.
 
 \paragraph{Two curves, and two different claims.} The cost of exactness and the ceiling are separate
-statements and the same figure separates them. Give a predictor the first $s$ steps of a trajectory and
-ask for $R^2$ as a function of the reads it spends, at $n=256$ over $2000$ tapes. For the canonical rule
-the curve reaches $R^2=.95$ at $4.8$ reads per cell and $.99$ at $5.1$, against an exact cost of $5.3$;
-for the longest-run rule it reaches $.95$ at $220$ reads per cell and $.99$ at $229$, against a mean
-cost of $189$ per cell and a maximum of $577$. Both saturate at their own exact cost, as they must,
-and the contrast is where they saturate: $5$ against $220$ reads per cell, a factor of about $n$.
+statements and the same figure separates them. Give a predictor $B$ cell reads and let it follow the
+exact simulator: if the tape's run costs at most $B$ the output is determined, and otherwise it stops at
+the last step it can afford and predicts from the state there. At $n=256$ over $2000$ tapes the
+canonical curve reaches $R^2=.95$ at $4.8\,n$, which is $0.93$ of its mean cost (the costs run from
+$4.99\,n$ to $6.10\,n$), and reaches $1.000$ at $6.3\,n$. The longest-run curve reaches $.95$ at
+$500\,n$ and $1.000$ at $640\,n=2.5\,n^2$; at the median cost of that rule, $0.62\,n^2$, it is only at
+$.751$, because half its tapes have not finished by then. The two meet $1.000$ at budgets a factor
+$102$ apart, that is $0.40\,n$: the ratio grows linearly in $n$ with a constant near $0.4$, not $1$.
 That is the cost of exactness, and it is the empirical content of the classification.
 
 The ceiling is a different statement and lives at the other end of the same curves. At budgets of
-$18\,n$ to $50\,n$ reads, which is $3$ to $8$ per cent of the exact cost of the longest-run rule, $R^2$
-sits at $.42$ to $.58$ and does not rise steeply with the budget. The high-$R^2$ end of that curve is
-not evidence against a ceiling, and must not be read as such: at $n=256$ a budget of $229\,n$ exceeds
-the mean cost of the rule, so the predictor is following trajectories to their end, whereas at
-$n=1024$ the same $229\,n$ is only $36$ per cent of the cost. A budget written as a fixed multiple of
-$n$ is therefore not a fixed fraction of $g_\rho$, which is why the conjecture above is stated against
-$g_\rho$ and not against a power of $n$.
+$18\,n$ to $50\,n$ reads, which is $3$ to $8$ per cent of the median cost of the longest-run rule,
+$R^2$ sits at $.42$ to $.58$ and does not rise steeply with the budget. The high-$R^2$ end of that
+curve is not evidence against a ceiling, and must not be read as such: reaching $1.000$ requires the
+largest cost in the sample, $2.35\,n^2$, and a budget written as a fixed multiple of $n$ is not a fixed
+fraction of $g_\rho$ --- at $n=1024$ the same $229\,n$ is about a third of the median cost. That is why
+the conjecture above is stated against $g_\rho$ and not against a power of $n$.
 
 The selection over the budget grid is accounted for by maximising inside each resample, and the grid
 costs $.003$ to $.007$ because its fourteen budgets carry only about two independent estimates. The
