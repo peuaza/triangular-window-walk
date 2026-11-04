@@ -360,6 +360,21 @@ Section~\ref{sec:spectrum} at $1.15$ on random tapes and $n^\beta$ on theirs. Th
 rules are of the second kind: on sorted and ramp tapes the reordering degenerates and the
 cost is $0.23$ to $0.30\,n^2$.
 
+The third class is empty among everything we can construct, and that is worth stating as a
+conjecture rather than leaving as a gap in a definition.
+
+\begin{conjecture}[Expected linearity]\label{conj:linear}
+Every strategy has expected cost $e_\rho(n)=O(n)$.
+\end{conjecture}
+
+The evidence is that a rule drawn at random takes an average of $6.8$ steps per region,
+independently of $n$, so a generic field is linear; the expensive rules of
+Section~\ref{sec:spectrum} are expensive only on the tape their field was built for, which
+has probability about $2^{-n}$. What the conjecture asserts is that no field is expensive on
+a set of tapes of positive measure. It is one-sided: we have an upper bound $1.15n$ on
+$e_\rho$ for the four rules and no lower bound, so even $e_\rho=\Theta(n)$ is only half
+established.
+
 \subsection{The quantity}
 
 The earlier version of this work reported a ceiling constant of $.56$ from budgets of $18$
