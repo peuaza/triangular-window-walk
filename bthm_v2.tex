@@ -449,13 +449,50 @@ the rules tested, that is, exactness requires reading every cell; and it gives t
 error at every smaller budget, against which any heuristic can be judged. What it does not
 give is the asymptotic law, and in particular whether $D=n$ for all $n$.
 
-\subsection{The protocol}
+\subsection{What the measurements give}
 
-Budgets $B(n)=n/\log_2 n$, $n^{0.9}$, $n^{0.75}$, $n^{0.5}$; two sizes with $n\ge 256$; a
-predictor with $O(\log n)$ bits; the score taken over every output-producing tape with the
-unfinished tapes counted as errors; intervals over tapes and over the budget grid; and an
-explicit statement, or an explicit refusal, of a correction for the search over rules and
-feature sets. The numbers are being measured and are deliberately absent from this draft.
+Budgets are charged in reads, the score is taken over every output-producing tape with the
+unfinished tapes counted as errors, and only points at which no tape has finished
+($\mathrm{fin}=0$) enter a fit. The quantity is $c=B/g_\rho$, the fraction of the exact cost.
+
+\begin{conjecture}[Exponential risk]\label{conj:exp}
+For every rule $\rho$ that is not fully linear there are constants $A_\rho\in(0,1)$ and
+$\lambda>0$, with $\lambda$ independent of $\rho$, such that
+\[
+1-R^2\big(\rho;\,n,\,c\,g_\rho(n)\big)\ =\ A_\rho\,e^{-\lambda c}+o(1)
+\]
+uniformly for $c$ in a fixed compact subinterval of $(0,1)$.
+\end{conjecture}
+
+The measurements support it with a specific pair of numbers. Fitting on one identical
+ten-point window $c\in[.02,.20]$ at every size, for the rules longest-run, pattern and
+palindrome, gives
+\[
+\lambda=1.96\pm.04,\qquad A_\rho=.660,\ .686,\ .748 ,
+\]
+where the amplitudes are not fitted but are the measured values of $1-R^2$ at $B=1$. Four
+numbers then describe $96$ curves, that is $960$ cells, to rms $.027$ and maximum $.077$
+$\kappa$-units, against a seed-to-seed noise of $.027$ to $.034$. The hypothesis that the
+rate varies with $n$ is rejected: one $\lambda$ with a level per (rule,$n$) against a
+$\lambda$ per $n$ gives $F(9,920)=0.31$, $p=.97$, and by rule only the run-count rule moves.
+
+Three qualifications. The rate does not need rescaling by $n$: replacing $c$ by
+$\lambda(n)c$ changes the residual from $.0412$ to $.0397$, which is a $3.6$ per cent
+difference at a noise level of $.027$ to $.034$, so the invariant is the function
+$e^{-1.96c}$ itself and not a rescaled variable. The run-count rule is the exception: its
+rate rises from $.81$ to $1.84$ with $n$ and its level drifts by $-0.063$ per $e$-fold,
+closing to the common rate only at $n=1024$; it is also the rule with the largest per-epoch
+query cost, $4.2$ reads against $1.9$ to $2.9$. And the fit window stops at $c=.20$ because
+beyond it tapes begin to finish and $R^2$ changes quantity; the half-life $\ln 2/\lambda=.35$
+is therefore an extrapolation, and we report the measured three-quarter point instead,
+$c_{.75}=.137$ to $.168$.
+
+What the law says in words is that the unexplained variance of the output decays
+exponentially in the fraction of the exact cost a predictor is allowed to spend, at a rate
+that is the same for rules of very different internal structure. The half-life is a little
+over a third of the cost. Since $A_\rho>0$, the risk is strictly below one at every $c<1$
+and tends to one only as the whole cost is spent, which is the quantitative form of the
+statement that a small predictor is neither helpless nor omniscient.
 
 \section{Reproducibility}\label{sec:repro}
 
