@@ -566,10 +566,19 @@ mode of convergence: every number here is an out-of-fold estimate at a stated $n
 budget, and the conjecture is about the limit that those estimates would approach if the pattern held.
 
 \begin{conjecture}[Ceiling]
-Let a rule of this class have an output that cannot be computed in $O(n)$ cell reads with $O(\log n)$
-bits of state. Then every predictor that reads the tape in $o(n^2)$ reads with $O(\log n)$ bits
-of memory has $R^2\le\kappa$ for a constant $\kappa<1$.
+For a rule $\rho$ let $g_\rho(n)$ be the least number of cell reads, with $O(\log n)$ bits of state,
+that suffices to compute its output on every tape of the ensemble. If $g_\rho(n)=\omega(n)$, then every
+predictor that reads the tape in $o(g_\rho(n))$ reads with $O(\log n)$ bits of memory has
+$R^2\le\kappa$ for a constant $\kappa<1$ that does not depend on $\rho$.
 \end{conjecture}
+
+The budget is written against the rule's own complexity and not against a fixed power of $n$, because
+the two sides of the classification are separated by more than one scale: every rule measured so far
+sits at $O(n)$, and the four candidates at $\Theta(n^2)$, while the general upper bound of
+Theorem~\ref{thm:upper} is $O(n^3)$ evaluations. Writing $o(n^2)$ would presuppose that no rule lives
+between the two, which is exactly what the measurements of Section~\ref{sec:walk} test and what
+Section~\ref{sec:lower} does not settle. With $g_\rho=\Theta(n^2)$ for the four candidates the two
+formulations agree, and every measurement below uses $o(n^2)$.
 \paragraph{What the budget excludes.} The simulations of Section~\ref{sec:walk} cost $0.62\,n^2$ reads,
 so a budget that is $o(n^2)$ is eventually below the cost of following a trajectory, while a budget of
 $c\,n^2$ is not: a predictor that spends $c\,n^2$ can follow the run to its end and reach $R^2=1$. That
@@ -629,6 +638,24 @@ family grows with $n$, so the row maxima are not comparable across rows. Compare
 fixed budget family $\{1,\dots,48\}$ at every $n$, the estimate falls: $.614$, $.488$, $.391$, with
 difference intervals $[+.088,+.171]$ and $[+.050,+.141]$ that exclude zero. On the budget family the
 ceiling constant does not rise with $n$; it falls.
+
+\paragraph{Two curves, and two different claims.} The cost of exactness and the ceiling are separate
+statements and the same figure separates them. Give a predictor the first $s$ steps of a trajectory and
+ask for $R^2$ as a function of the reads it spends, at $n=256$ over $2000$ tapes. For the canonical rule
+the curve reaches $R^2=.95$ at $4.8$ reads per cell and $.99$ at $5.1$, against an exact cost of $5.3$;
+for the longest-run rule it reaches $.95$ at $220$ reads per cell and $.99$ at $229$, against a mean
+cost of $189$ per cell and a maximum of $577$. Both saturate at their own exact cost, as they must,
+and the contrast is where they saturate: $5$ against $220$ reads per cell, a factor of about $n$.
+That is the cost of exactness, and it is the empirical content of the classification.
+
+The ceiling is a different statement and lives at the other end of the same curves. At budgets of
+$18\,n$ to $50\,n$ reads, which is $3$ to $8$ per cent of the exact cost of the longest-run rule, $R^2$
+sits at $.42$ to $.58$ and does not rise steeply with the budget. The high-$R^2$ end of that curve is
+not evidence against a ceiling, and must not be read as such: at $n=256$ a budget of $229\,n$ exceeds
+the mean cost of the rule, so the predictor is following trajectories to their end, whereas at
+$n=1024$ the same $229\,n$ is only $36$ per cent of the cost. A budget written as a fixed multiple of
+$n$ is therefore not a fixed fraction of $g_\rho$, which is why the conjecture above is stated against
+$g_\rho$ and not against a power of $n$.
 
 The selection over the budget grid is accounted for by maximising inside each resample, and the grid
 costs $.003$ to $.007$ because its fourteen budgets carry only about two independent estimates. The
