@@ -604,17 +604,38 @@ All rows come from $8000$ tapes at $n=256$, of which $1919$ produce an output. A
 $8000$ tapes, with $1939$ meetings, gives $.583$ at the same budget, and the two agree to $.004$.
 The bootstrap resamples the output-producing tapes with replacement, four thousand times; in each
 resample it recomputes the out-of-fold $R^2$ at every budget of the grid from the stored predictions,
-takes the maximum over the grid, and reports the fifth percentile of that maximum. Taking the maximum over the budget grid inside each bootstrap resample --- the selection the
-curve actually performs --- the one-sided $95$ per cent bound is $.563$ for the first seed and
-$.561$ for the second, so we record
-\[
-\kappa\ \ge\ .56\quad(\text{one-sided }95\%,\ \text{selection-adjusted}).
-\]
-The same selection-adjusted procedure at $n=512$, on $900$ tapes of which $198$ produce an output,
-peaks at $.48$ with a bound of $.39$. The drop from $.56$ is about three standard errors of that
-sample, so it is not a null result; but with $198$ meetings the interval is wide and a power
-statement would need several thousand tapes. We read it as a check rather than as an estimate: the
-value does not rise with $n$, whereas a ceiling of one would rise.
+takes the maximum over the grid, and reports the percentile of that maximum. Two-sided $95$ per cent
+intervals over tapes, budget grid and fold split, at $8000$ tapes per row and two seeds:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+$n$ & meetings & best budget & $\hat\kappa_n$ \quad 95\% \\
+\midrule
+$128$ & $2068$ / $1976$ & $28.6\,n$ / $25.0\,n$ & $.619$ \ [$.594,.645$] \ \ $.617$ \ [$.592,.643$] \\
+$256$ & $1919$ / $1939$ & $45.4\,n$            & $.582$ \ [$.559,.611$] \ \ $.584$ \ [$.550,.607$] \\
+$512$ & $1867$ / $1884$ & $83.4\,n$            & $.550$ \ [$.523,.579$] \ \ $.550$ \ [$.522,.582$] \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Two corrections matter. The earlier $n=512$ value of $.481$ was measured on $900$ tapes with $198$
+meetings, and it is a training-size artefact rather than an effect of $n$: at the same $n$, $198$
+meetings give $.481$, $936$ give $.513$ and $1867$ give $.550$. The apparent drop from $.56$ to $.48$,
+worth $.07$, is therefore larger than the whole effect attributable to $n$, $.03$. Second, the budget
+family grows with $n$, so the row maxima are not comparable across rows. Compared like for like, on the
+fixed budget family $\{1,\dots,48\}$ at every $n$, the estimate falls: $.614$, $.488$, $.391$, with
+difference intervals $[+.088,+.171]$ and $[+.050,+.141]$ that exclude zero. On the budget family the
+ceiling constant does not rise with $n$; it falls.
+
+The selection over the budget grid is accounted for by maximising inside each resample, and the grid
+costs $.003$ to $.007$ because its fourteen budgets carry only about two independent estimates. The
+fold split costs $.002$ to $.004$, added in quadrature. Nothing accounts for a search over rules or
+over feature sets --- one of each was measured --- so these are conditional numbers, and a wider
+search would lower them: a Bonferroni-style sensitivity at $n=256$ gives $.537$, $.530$ and $.525$ for
+$K=4,10,25$ competitors, which we record as not applied. Nor do the numbers locate a limit: a cheaper way
+to predict the same trajectories would lower them again, and we make no claim about a mode of
+convergence.
 The selection over the budget grid is accounted for by maximising inside each resample, but nothing
 in the construction accounts for a search over rules, over feature sets, or over the number of
 trajectory prefixes, and a wider search would lower the bound again. Nor does it locate $\kappa$: a cheaper way
