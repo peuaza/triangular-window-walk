@@ -1,0 +1,69 @@
+== V1  Haar / half-difference normal form ==
+   200000 random windows: block-mean form mismatches 0 (even Haar 0, odd form 0)
+== V2  shift invariance: bit_b2(a) == bit_b2(a+c) ==
+   15231 windows, mismatches 0
+== V3/V4  epoch decomposition vs walk_b0, one-pass epoch solver ==
+   n=6   tapes=141     delta agreement 141/141  anchors strictly increasing True  one-pass epoch mismatches 0  halt cond True
+   n=7   tapes=357     delta agreement 357/357  anchors strictly increasing True  one-pass epoch mismatches 0  halt cond True
+   n=8   tapes=1107    delta agreement 1107/1107  anchors strictly increasing True  one-pass epoch mismatches 0  halt cond True
+   n=9   tapes=2907    delta agreement 2907/2907  anchors strictly increasing True  one-pass epoch mismatches 0  halt cond True
+   n=10  tapes=8953    delta agreement 8953/8953  anchors strictly increasing True  one-pass epoch mismatches 0  halt cond True
+   n=11  tapes=24068   delta agreement 24068/24068  anchors strictly increasing True  one-pass epoch mismatches 0  halt cond True
+   n=12  tapes=73789   delta agreement 73789/73789  anchors strictly increasing True  one-pass epoch mismatches 0  halt cond True
+
+== V5  epoch accounting and the model-R quantity ==
+   n     tapes  E/n    sum l / n^2  mean l/ n  max l/ n   r=0      r=1      r=2      r=4     (sum_e max(0,l_e-2r)/n^2)
+   6     141    0.374  0.1168       0.313      0.833      0.11682  0.02876  0.00315  0.00000 
+   8     1107   0.414  0.1121       0.271      0.875      0.11206  0.03873  0.01111  0.00000 
+   10    8953   0.447  0.1077       0.241      0.900      0.10767  0.04428  0.01820  0.00046 
+   12    73789  0.471  0.1035       0.220      0.917      0.10351  0.04788  0.02363  0.00232 
+   14    200    0.457  0.0946       0.207      0.929      0.09464  0.04913  0.02832  0.00520 
+   16    200    0.500  0.0911       0.182      0.938      0.09107  0.04719  0.02785  0.00695 
+   24    200    0.545  0.0912       0.167      0.958      0.09118  0.05805  0.04076  0.01688 
+   32    200    0.556  0.0797       0.143      0.969      0.07968  0.05534  0.04320  0.02434 
+   64    200    0.603  0.0756       0.125      0.969      0.07560  0.06221  0.05499  0.04248 
+   128   60     0.604  0.0565       0.093      0.875      0.05646  0.04991  0.04647  0.04038 
+   256   60     0.647  0.0696       0.108      0.816      0.06957  0.06584  0.06353  0.05915 
+
+== V9  first-epoch answer distribution (why H(A_e) is small) ==
+   n    tapes   H(m*/M, 20 bins)   mean m*/M   frac m*=M   frac m*<=M/4   E/n
+   8    1107    1.838               0.850       0.663       0.074           0.414
+   10   8953    2.021               0.852       0.645       0.046           0.447
+   12   73789   2.160               0.852       0.635       0.054           0.471
+   32   300     2.892               0.847       0.580       0.043           0.558
+   128  300     3.053               0.865       0.627       0.027           0.609
+
+== V8  contrast gap distribution (can partial reads decide?) ==
+   n    queries   frac m>=M/2   frac |gap|<=sqrt(k)   mean |gap|/k   frac |gap|=0
+   8    6647      0.935         0.596                 0.656          0.2514
+   10   84516     0.916         0.593                 0.615          0.2210
+   12   992410    0.903         0.587                 0.581          0.1989
+   32   8216      0.878         0.589                 0.352          0.1087
+   128  95519     0.872         0.564                 0.184          0.0391
+
+== V6  lossiness: delta vs the first-anchor contrast sign vector ==
+   n   tapes   #delta   #signatures   mean #signatures per delta   H(delta)  H(sig)
+   6    141     5        20            7.6                          1.56      4.32     
+   8    1107    7        68            21.4                         1.93      6.09     
+   10   8953    9        213           67.1                         2.05      7.73     
+   12   73789   11       707           204.5                        2.17      9.47     
+
+== V7  the round-additivity gap (epoch answers A_e = m*_e) ==
+   n   tapes   k   #tapes>=k   sum_e H(A_e)   H(A_1..A_k)   ratio   naive reads / log2(3)   true reads <= H(z)/log2(3)
+   8   1107    1   1107        1.838          1.838         1.000   1.16                    8.00
+   8   1107    2   1076        3.552          2.959         0.833   2.24                    8.00
+   8   1107    3   1007        5.125          3.684         0.719   3.23                    8.00
+   8   1107    4   368         8.867          6.262         0.706   5.59                    8.00
+   8   1107    ALL 6           8.231          (joint n/a)   -       5.19                    8.00
+   10  8953    1   8953        2.021          2.021         1.000   1.27                    10.00
+   10  8953    2   8841        4.016          3.338         0.831   2.53                    10.00
+   10  8953    3   8567        6.071          4.441         0.731   3.83                    10.00
+   10  8953    4   8163        7.912          5.123         0.647   4.99                    10.00
+   10  8953    6   1498        14.974         8.623         0.576   9.45                    10.00
+   10  8953    ALL 8           12.248         (joint n/a)   -       7.73                    10.00
+   12  73789   1   73789       2.160          2.160         1.000   1.36                    12.00
+   12  73789   2   73243       4.352          3.604         0.828   2.75                    12.00
+   12  73789   3   72082       6.671          4.887         0.733   4.21                    12.00
+   12  73789   4   70473       8.926          5.899         0.661   5.63                    12.00
+   12  73789   6   33670       16.984         10.452        0.615   10.72                   12.00
+   12  73789   ALL 10          16.599         (joint n/a)   -       10.47                   12.00

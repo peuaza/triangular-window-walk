@@ -1,0 +1,5 @@
+n=  256 N= 400  E[T]/n^2 = 0.0556 +- 0.0031   med 0.0261   P(T>=.1n^2)=0.247  P(T<=n)=0.263  epochs/n=0.623  dc/ep=0.64  L*/n=0.61  cost1frac short/long 0.97/0.52
+n=  512 N= 400  E[T]/n^2 = 0.0556 +- 0.0030   med 0.0294   P(T>=.1n^2)=0.255  P(T<=n)=0.180  epochs/n=0.634  dc/ep=0.62  L*/n=0.62  cost1frac short/long 0.97/0.54
+n= 1024 N= 400  E[T]/n^2 = 0.0477 +- 0.0028   med 0.0188   P(T>=.1n^2)=0.185  P(T<=n)=0.210  epochs/n=0.624  dc/ep=0.65  L*/n=0.63  cost1frac short/long 0.99/0.56
+n= 2048 N= 400  E[T]/n^2 = 0.0527 +- 0.0031   med 0.0220   P(T>=.1n^2)=0.230  P(T<=n)=0.158  epochs/n=0.634  dc/ep=0.63  L*/n=0.63  cost1frac short/long 0.99/0.56
+n= 4096 N= 400  E[T]/n^2 = 0.0591 +- 0.0032   med 0.0325   P(T>=.1n^2)=0.263  P(T<=n)=0.130  epochs/n=0.642  dc/ep=0.61  L*/n=0.63  cost1frac short/long 0.99/0.56

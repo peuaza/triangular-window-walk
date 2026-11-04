@@ -1,0 +1,74 @@
+n=512 nt=400 epochs=129769  E[cost/M]=0.1492  P(cost=1)=0.5693  E[#ep]/n=0.634
+
+(A) run-length table (all M)
+       run    epochs mean cost/M P(cost>=.05M)  P(cost>=2)
+   0-1         56237      0.3200      0.8393      0.9593
+   1-2          2286      0.0590      0.1540      0.1938
+   2-3          1839      0.0385      0.1109      0.1169
+   3-4          1611      0.0376      0.1055      0.0993
+   4-6          2768      0.0296      0.0860      0.0733
+   6-8          2380      0.0241      0.0693      0.0496
+   8-12         4135      0.0197      0.0636      0.0368
+  12-16         3588      0.0177      0.0616      0.0237
+  16-24         6147      0.0157      0.0483      0.0182
+  24-32         5204      0.0145      0.0515      0.0146
+  32-48         8563      0.0137      0.0468      0.0107
+  48-64         6896      0.0128      0.0470      0.0074
+  64-96        10386      0.0144      0.0469      0.0084
+  96-128        6709      0.0160      0.0662      0.0085
+ 128-999       11020      0.0171      0.0592      0.0085
+
+(B) run-length table within M/n bands (joint control)
+  M/n in [0.5,0.6)  epochs 13847
+      run   0-1     n=  6892  mean cost/M 0.3353  P(cost>=2) 0.970
+      run   1-2     n=   206  mean cost/M 0.0595  P(cost>=2) 0.218
+      run   2-4     n=   288  mean cost/M 0.0370  P(cost>=2) 0.170
+      run   4-8     n=   369  mean cost/M 0.0225  P(cost>=2) 0.089
+      run   8-16    n=   514  mean cost/M 0.0141  P(cost>=2) 0.045
+      run  16-32    n=   746  mean cost/M 0.0101  P(cost>=2) 0.025
+      run  32-64    n=  1123  mean cost/M 0.0063  P(cost>=2) 0.009
+      run  64-999   n=  3709  mean cost/M 0.0043  P(cost>=2) 0.007
+  M/n in [0.6,0.7)  epochs 13823
+      run   0-1     n=  7037  mean cost/M 0.3376  P(cost>=2) 0.973
+      run   1-2     n=   190  mean cost/M 0.0623  P(cost>=2) 0.253
+      run   2-4     n=   267  mean cost/M 0.0386  P(cost>=2) 0.127
+      run   4-8     n=   380  mean cost/M 0.0206  P(cost>=2) 0.076
+      run   8-16    n=   534  mean cost/M 0.0114  P(cost>=2) 0.041
+      run  16-32    n=   780  mean cost/M 0.0089  P(cost>=2) 0.018
+      run  32-64    n=   954  mean cost/M 0.0064  P(cost>=2) 0.013
+      run  64-999   n=  3681  mean cost/M 0.0036  P(cost>=2) 0.006
+  M/n in [0.7,0.8)  epochs 13803
+      run   0-1     n=  7425  mean cost/M 0.3204  P(cost>=2) 0.974
+      run   1-2     n=   191  mean cost/M 0.0533  P(cost>=2) 0.246
+      run   2-4     n=   267  mean cost/M 0.0287  P(cost>=2) 0.146
+      run   4-8     n=   366  mean cost/M 0.0161  P(cost>=2) 0.077
+      run   8-16    n=   493  mean cost/M 0.0129  P(cost>=2) 0.032
+      run  16-32    n=   714  mean cost/M 0.0100  P(cost>=2) 0.034
+      run  32-64    n=  2565  mean cost/M 0.0035  P(cost>=2) 0.008
+      run  64-999   n=  1782  mean cost/M 0.0032  P(cost>=2) 0.004
+  M/n in [0.8,0.9)  epochs 14348
+      run   0-1     n=  8095  mean cost/M 0.3144  P(cost>=2) 0.980
+      run   1-2     n=   163  mean cost/M 0.0140  P(cost>=2) 0.172
+      run   2-4     n=   249  mean cost/M 0.0189  P(cost>=2) 0.120
+      run   4-8     n=   387  mean cost/M 0.0067  P(cost>=2) 0.062
+      run   8-16    n=   542  mean cost/M 0.0101  P(cost>=2) 0.050
+      run  16-32    n=  1680  mean cost/M 0.0036  P(cost>=2) 0.011
+      run  32-64    n=  3232  mean cost/M 0.0028  P(cost>=2) 0.006
+  M/n in [0.9,1.0)  epochs 14984
+      run   0-1     n=  9387  mean cost/M 0.2841  P(cost>=2) 0.957
+      run   1-2     n=   392  mean cost/M 0.0141  P(cost>=2) 0.117
+      run   2-4     n=   642  mean cost/M 0.0073  P(cost>=2) 0.073
+      run   4-8     n=  1053  mean cost/M 0.0060  P(cost>=2) 0.033
+      run   8-16    n=  1729  mean cost/M 0.0029  P(cost>=2) 0.013
+      run  16-32    n=  1781  mean cost/M 0.0031  P(cost>=2) 0.010
+
+(C) run-length distribution: fraction of epochs with run >= k
+    k=   1  P(run>=k)=0.5666   E[cost/M | run>=k]=0.0187
+    k=   2  P(run>=k)=0.5490   E[cost/M | run>=k]=0.0174
+    k=   4  P(run>=k)=0.5224   E[cost/M | run>=k]=0.0163
+    k=   8  P(run>=k)=0.4828   E[cost/M | run>=k]=0.0154
+    k=  16  P(run>=k)=0.4233   E[cost/M | run>=k]=0.0150
+    k=  32  P(run>=k)=0.3358   E[cost/M | run>=k]=0.0149
+    k=  64  P(run>=k)=0.2167   E[cost/M | run>=k]=0.0158
+    k= 128  P(run>=k)=0.0849   E[cost/M | run>=k]=0.0171
+    k= 256  P(run>=k)=0.0000   E[cost/M | run>=k]=nan

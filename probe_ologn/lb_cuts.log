@@ -1,0 +1,96 @@
+n= 6 tapes=   141  distinct deltas=6
+   k   #lh  #rows  cc1(L->R)   #rh  #cols  cc1(R->L)   min*log2(3)
+   1     3      3      1.58     141     16      4.00        1.58
+   2     9      9      3.17      71     19      4.25        3.17
+   3    27     17      4.09      27     17      4.09        4.75
+   4    71     26      4.70       9      9      3.17        3.17
+   5   141     18      4.17       3      3      1.58        1.58
+   sum_k max(dir) = 21.21  |  sum_k min(dir) = 13.60 (= cc2 upper bd)
+   ceiling 0.25*n^2*log2(3) = 14.26   ratio(min) = 0.953  ratio(max) = 1.487
+   sum_k min(k,n-k)*log2(3) = 14.26
+   cc2 LB rank : block ((2, 0, 1), (0, 2, 1)) shape (3, 3) -> rank 3 -> 1.58 bits
+   cc2 LB fool : value -1, d-class 0, size 2 / 94 pairs -> 1.00 bits
+n= 8 tapes=  1107  distinct deltas=8
+   k   #lh  #rows  cc1(L->R)   #rh  #cols  cc1(R->L)   min*log2(3)
+   1     3      3      1.58    1107     21      4.39        1.58
+   2     9      9      3.17     573     57      5.83        3.17
+   3    27     26      4.70     231     65      6.02        4.75
+   4    81     50      5.64      81     49      5.61        6.34
+   5   231     80      6.32      27     26      4.70        4.75
+   6   573     57      5.83       9      9      3.17        3.17
+   7  1107     24      4.58       3      3      1.58        1.58
+   sum_k max(dir) = 38.63  |  sum_k min(dir) = 24.53 (= cc2 upper bd)
+   ceiling 0.25*n^2*log2(3) = 25.36   ratio(min) = 0.967  ratio(max) = 1.523
+   sum_k min(k,n-k)*log2(3) = 25.36
+   cc2 LB rank : block ((1, 2, 1), (1, 2, 1)) shape (12, 12) -> rank 10 -> 3.32 bits
+   cc2 LB fool : value -1, d-class 0, size 3 / 690 pairs -> 1.58 bits
+n=10 tapes=  8953  distinct deltas=10
+   k   #lh  #rows  cc1(L->R)   #rh  #cols  cc1(R->L)   min*log2(3)
+   1     3      3      1.58    8953     28      4.81        1.58
+   2     9      9      3.17    4707    111      6.79        3.17
+   3    27     27      4.75    1961    233      7.86        4.75
+   4    81     73      6.19     715    240      7.91        6.34
+   5   243    149      7.22     243    144      7.17        7.92
+   6   715    257      8.01      81     75      6.23        6.34
+   7  1961    231      7.85      27     27      4.75        4.75
+   8  4707    105      6.71       9      9      3.17        3.17
+   9  8953     30      4.91       3      3      1.58        1.58
+   sum_k max(dir) = 62.07  |  sum_k min(dir) = 38.61 (= cc2 upper bd)
+   ceiling 0.25*n^2*log2(3) = 39.62   ratio(min) = 0.974  ratio(max) = 1.566
+   sum_k min(k,n-k)*log2(3) = 39.62
+   cc2 LB rank : block ((2, 1, 2), (2, 1, 2)) shape (30, 30) -> rank 25 -> 4.64 bits
+   cc2 LB fool : value -1, d-class 2, size 5 / 5540 pairs -> 2.32 bits
+n=11 tapes= 24068  distinct deltas=11
+   k   #lh  #rows  cc1(L->R)   #rh  #cols  cc1(R->L)   min*log2(3)
+   1     3      3      1.58    24068     31      4.95        1.58
+   2     9      9      3.17    12811    145      7.18        3.17
+   3    27     27      4.75    5477    372      8.54        4.75
+   4    81     69      6.11    2066    509      8.99        6.34
+   5   243    138      7.11     722    397      8.63        7.92
+   6   722    320      8.32     243    198      7.63        7.92
+   7  2066    469      8.87      81     80      6.32        6.34
+   8  5477    348      8.44      27     27      4.75        4.75
+   9  12811    144      7.17       9      9      3.17        3.17
+  10  24068     32      5.00       3      3      1.58        1.58
+   sum_k max(dir) = 76.11  |  sum_k min(dir) = 46.19 (= cc2 upper bd)
+   ceiling 0.25*n^2*log2(3) = 47.95   ratio(min) = 0.963  ratio(max) = 1.587
+   sum_k min(k,n-k)*log2(3) = 47.55
+   cc2 LB rank : block ((2, 2, 1), (2, 2, 2)) shape (30, 90) -> rank 28 -> 4.81 bits
+   cc2 LB fool : value 5, d-class 0, size 7 / 8720 pairs -> 2.81 bits
+n=12 tapes= 73789  distinct deltas=12
+   k   #lh  #rows  cc1(L->R)   #rh  #cols  cc1(R->L)   min*log2(3)
+   1     3      3      1.58    73789     34      5.09        1.58
+   2     9      9      3.17    39183    188      7.55        3.17
+   3    27     27      4.75    16669    630      9.30        4.75
+   4    81     79      6.30    6247   1009      9.98        6.34
+   5   243    207      7.69    2171    840      9.71        7.92
+   6   729    423      8.72     729    432      8.75        9.51
+   7  2171    846      9.72     243    211      7.72        7.92
+   8  6247   1020      9.99      81     80      6.32        6.34
+   9  16669    645      9.33      27     27      4.75        4.75
+  10  39183    209      7.71       9      9      3.17        3.17
+  11  73789     36      5.17       3      3      1.58        1.58
+   sum_k max(dir) = 92.32  |  sum_k min(dir) = 55.78 (= cc2 upper bd)
+   ceiling 0.25*n^2*log2(3) = 57.06   ratio(min) = 0.978  ratio(max) = 1.618
+   sum_k min(k,n-k)*log2(3) = 57.06
+   cc2 LB rank : block ((2, 2, 2), (2, 2, 2)) shape (90, 90) -> rank 87 -> 6.44 bits
+   cc2 LB fool : value -1, d-class 0, size 7 / 45110 pairs -> 2.81 bits
+n=13 tapes=201643  distinct deltas=13
+   k   #lh  #rows  cc1(L->R)   #rh  #cols  cc1(R->L)   min*log2(3)
+   1     3      3      1.58    201643     37      5.21        1.58
+   2     9      9      3.17    107999    232      7.86        3.17
+   3    27     27      4.75    46773    921      9.85        4.75
+   4    81     79      6.30    17965   1781     10.80        6.34
+   5   243    198      7.63    6395   1913     10.90        7.92
+   6   729    392      8.61    2179   1224     10.26        9.51
+   7  2179    916      9.84     729    574      9.16        9.51
+   8  6395   1664     10.70     243    230      7.85        7.92
+   9  17965   1669     10.70      81     81      6.34        6.34
+  10  46773    923      9.85      27     27      4.75        4.75
+  11  107999    256      8.00       9      9      3.17        3.17
+  12  201643     38      5.25       3      3      1.58        1.58
+   sum_k max(dir) = 109.21  |  sum_k min(dir) = 64.92 (= cc2 upper bd)
+   ceiling 0.25*n^2*log2(3) = 66.96   ratio(min) = 0.969  ratio(max) = 1.631
+   sum_k min(k,n-k)*log2(3) = 66.57
+   cc2 LB rank : block ((2, 2, 2), (3, 2, 2)) shape (90, 210) -> rank 75 -> 6.23 bits
+   cc2 LB fool : value 6, d-class 1, size 12 / 68176 pairs -> 3.58 bits

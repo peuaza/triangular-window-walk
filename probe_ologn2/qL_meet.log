@@ -1,0 +1,24 @@
+(a) fresh-window meet probability vs M   (n_ref=65536, same tape, %s draws)
+    M=   8  P(meet)=0.033930 +- 0.000286   (1/M=0.12500)
+    M=  12  P(meet)=0.013182 +- 0.000180   (1/M=0.08333)
+    M=  16  P(meet)=0.005562 +- 0.000118   (1/M=0.06250)
+    M=  24  P(meet)=0.001308 +- 0.000057   (1/M=0.04167)
+    M=  32  P(meet)=0.000515 +- 0.000036   (1/M=0.03125)
+    M=  48  P(meet)=0.000097 +- 0.000016   (1/M=0.02083)
+    M=  64  P(meet)=0.000025 +- 0.000008   (1/M=0.01562)
+    M=  96  P(meet)=0.000000 +- 0.000000   (1/M=0.01042)
+    M= 128  P(meet)=0.000000 +- 0.000000   (1/M=0.00781)
+    M= 192  P(meet)=0.000000 +- 0.000000   (1/M=0.00521)
+    M= 256  P(meet)=0.000000 +- 0.000000   (1/M=0.00391)
+    M= 384  P(meet)=0.000000 +- 0.000000   (1/M=0.00260)
+    M= 512  P(meet)=0.000000 +- 0.000000   (1/M=0.00195)
+
+(b) trajectory meet hazard by window length band
+    M in [   3,    8)  epochs    1234  meets    40  hazard 0.032415
+    M in [   8,   16)  epochs    2460  meets    23  hazard 0.009350
+    M in [  16,   32)  epochs    5077  meets    10  hazard 0.001970
+    M in [  32,   64)  epochs   10371  meets     5  hazard 0.000482
+    M in [  64,  128)  epochs   22097  meets     0  hazard 0.000000
+    M in [ 128,  256)  epochs   47068  meets     0  hazard 0.000000
+    M in [ 256,  512)  epochs  105136  meets     0  hazard 0.000000
+    M in [ 512,1000000000)  epochs     600  meets     0  hazard 0.000000
