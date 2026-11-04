@@ -28,8 +28,8 @@ computing the output. It is not. An epoch's transition depends on two bits only 
 statistic at the top window, and whether it fails \emph{anywhere} below it --- and the
 second question can be asked from the cheap end, where failures have density one half.
 That replaces a scan of the window by an expected constant number of probes, and the
-output of all four rules becomes computable at $1.15$ reads per cell, against $48.8$ for
-the scan. The quadratic trajectory is real; it is a property of the scan order and not of
+output of the four rules becomes computable at $1.2$ to $2.5$ reads per cell, against $48.8$
+for the scan. The quadratic trajectory is real; it is a property of the scan order and not of
 the function.
 
 The worst case is different. We prove that the general bound of $\binom{n+2}{3}$ steps is
@@ -64,10 +64,10 @@ pays the whole scan to discover that position; a simulator that only asks whethe
 failure exists can ask from the bottom, where failures are dense, and pay a constant.
 
 \paragraph{What that changes.} The four rules become linear. At $n=1024$ the scan costs
-$48.8$ reads per cell and the reordered evaluation costs $1.15$, a factor of $42$; the
-same rule, the same output, the same tapes. The concavity rule whose trajectory we prove
+$48.8$ reads per cell and the reordered evaluation costs between $1.2$ and $2.5$ depending on
+the rule, a factor of $20$ to $42$; the same rule, the same output, the same tapes. The concavity rule whose trajectory we prove
 to be quadratic in expectation --- the one that motivated the quadratic picture in the
-first place --- is also computable at $1.15$ reads per cell. A trajectory of length
+first place --- is also computable at $1.19$ reads per cell. A trajectory of length
 $\Theta(n^2)$ and a computation of cost $\Theta(n)$ coexist, and the gap is entirely in
 the order in which the same questions are asked.
 
@@ -380,7 +380,7 @@ regimes, the second in one, the third in neither.
 
 Every rule measured in this paper is linear or linear in expectation: the canonical rule at
 $5.15$ reads per cell, the monotone family at $2$, the four rules of
-Section~\ref{sec:machine} at $1.15$, and the constructed rules of
+Section~\ref{sec:machine} at $1.2$ to $2.5$, and the constructed rules of
 Section~\ref{sec:spectrum} at $1.15$ on random tapes and $n^\beta$ on theirs. The four
 rules are of the second kind: on sorted and ramp tapes the reordering degenerates and the
 cost is $0.23$ to $0.30\,n^2$.
@@ -396,14 +396,14 @@ The evidence is that a rule drawn at random takes an average of $6.8$ steps per 
 independently of $n$, so a generic field is linear; the expensive rules of
 Section~\ref{sec:spectrum} are expensive only on the tape their field was built for, which
 has probability about $2^{-n}$. What the conjecture asserts is that no field is expensive on
-a set of tapes of positive measure. It is one-sided: we have an upper bound $1.15n$ on
+a set of tapes of positive measure. It is one-sided: we have an upper bound of $2.5n$ on
 $e_\rho$ for the four rules and no lower bound, so even $e_\rho=\Theta(n)$ is only half
 established.
 
 \subsection{The quantity}
 
 The earlier version of this work reported a ceiling constant of $.56$ from budgets of $18$
-to $50$ reads per cell. Those budgets exceed the exact cost of $1.15$ per cell, so a
+to $50$ reads per cell. Those budgets exceed the exact cost of the rule, $1.2$ per cell, so a
 predictor that uses the reordering is exact there, and the number described the scan rather
 than the function; it also conditioned on the tapes the predictor had finished. Both defects
 disappear once the budget is placed strictly below the exact cost and the expectation is
