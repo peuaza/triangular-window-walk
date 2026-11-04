@@ -33,8 +33,10 @@ at $n=256$, and the two rules that first looked expensive --- the interior cut a
 ignore-the-window rule --- turn out to be pointer after all. For four further rules no such simulator is known: their
 trajectories are quadratic (a fitted exponent $2.089\pm.026$ on the median and $1.977\pm.042$ on the
 mean), and a simulation carrying $O(\log n)$ bits costs $0.62\,n^2$ reads, about eleven reads per step. On the first of them, a predictor confined to $o(n^2)$ reads recovers $R^2=.58$ of the output at $n=256$, with two seeds agreeing to $.004$, and so any ceiling constant for these rules is at least $.56$ once the selection
-over budgets is accounted for --- at $n=256$; at $n=512$ the same procedure gives $.37$, and we
-claim no mode of convergence, so this is a finite-$n$ lower bound and not an asymptotic one.
+over budgets is accounted for --- $.582$ with interval $[.559,.611]$ at $n=256$, $.550$ with
+$[.523,.579]$ at $n=512$, on $8000$ tapes per row; on a budget family held fixed across sizes the
+estimate falls with $n$ ($.614,.488,.391$), and we claim no mode of convergence, so these are
+finite-$n$ numbers and not an asymptotic ceiling.
 
 For the expensive side we prove a chain of structural facts, each verified by exhaustive computation: the second bit is a
 prefix-average comparison; with the other bit forced false the rule is exactly a largest-concavity
