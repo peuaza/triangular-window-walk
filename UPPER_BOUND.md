@@ -113,3 +113,29 @@ Three times tonight and before, a **structural** fact was mistaken for a **cost*
 The rule that would have caught all three: **a structural statement becomes a cost
 statement only after you exhibit the machine and count its cell reads.** Every table in
 this note follows that rule.
+
+---
+
+## 7. Correction (02:00): g is a min over machines, so a family bounds g above, not below
+
+$$g_\rho(n)=\min_{\text{machines }M}\ \max_{\text{tapes }\tau}\ \mathrm{reads}(M,\tau).$$
+
+So **any** machine's cost is an **upper** bound on $g$; a hard tape family shows that the
+machines we have pay a lot, not that every machine must. The `tri16` family's
+$g/n^2=0.943,1.633,3.019,5.580$ ($n=512..4096$, $B=16$, exponent $2.86$; $2.976$ at $B=32$,
+exactly halved, consistent with $n^3/B$) is therefore a statement about the frontier machine,
+namely $g\le5.58\,n^2$ at $n=4096$ — **not** $g=\omega(n^2)$.
+
+To refute Conjecture 2 one must show that **every** class machine pays $\omega(n^2)$ on some
+family. That is the zero-answer lemma, and it is the only route. Until it is settled the
+honest position is:
+
+| proposition | status |
+|---|---|
+| some class machine attains $O(n^2)$ on `NBLK` | **unknown** |
+| best known class machine | $5.58\,n^2$ at $n=4096$ ($B=16$), growing like $n^{2.86}$ |
+| out-of-class machine ($\Theta(\sqrt n)$ words) | $0.28\,n^2$ (steps $0.063n^2$ x 4.5 reads/test) |
+
+**This correction matters because the same error — reading a machine's cost as a lower bound —
+is the one that produced `runs`' "walk length is $e$" and `pal`'s "$n^{2.73}$". It is now the
+fourth occurrence.**
