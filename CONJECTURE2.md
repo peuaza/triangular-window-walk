@@ -359,3 +359,44 @@ an epoch carry a single run length, so a counter to $k+1$ does the work; $W=1$ s
 **Rule-`A`/`D` aside, one honest residual:** `C`'s lower bound is only $\Omega(\sqrt n)$, so `C`
 itself might be cheaper than linear — but the family maximum is pinned by `D` at $n-2$, so that
 cannot rescue the $1+\alpha$ ladder.
+
+---
+
+## 12. The audit of §3-§4: what is theorem, what is gap (2026-11-06 14:45)
+
+`N25_AUDIT.md`, 458 lines, probes in `probe_n25_audit/`.
+
+| # | step | status |
+|---|---|---|
+| 1 | trace = certificate | **THEOREM**, independent of state size; $w$ never enters |
+| 2 | 0-answer certificate $\ge m/(2R+1)-O(\mathrm{sat})$ | **THEOREM** (0-answers only); the printed gap condition is loose, not wrong (exact: $L\le\max(d_p,1)+\max(d_q,1)-1$); 27 990-case brute force, no counterexample |
+| 3 | hence reads at that query $\ge(r+1-x)/(2R+1)-w$ | **GAP, false as printed**: 1-answers have 3-position certificates, and Lemma 1 bounds the *cumulative distinct* read set ($\le n$), not the reads at that query; needs an unproved state/re-read lemma (the project's own `FORMAL_MODEL` Remark 2.4 warns of this) |
+| 4 | $R/\sqrt m=1.024$ | **MEASURED**, but it is a property of 0-answer windows (0.48–0.62 over all tests) |
+| 5 | band exit rate $\Theta(1/B^2)$ | **FALSE as used**: that is the *band-exit* rate, not the *0-answer* rate |
+| 6 | $\Theta(n^2)$ steps | **MEASURED, wrong direction**: mean$/n^2$ flat but median$/n^2$ falls 26× (median tape $\approx n^{1.05}$); no lower bound on steps |
+
+### 12.1 The real failure: two anti-correlated marginals
+
+It is **not** a mean-versus-max error — $g\ge$ mean makes averaging sound. It is that the two
+rates that were multiplied are anti-correlated:
+
+$$P(\text{0-answer}\mid\text{band exit})=1.1\times10^{-3}\ \longrightarrow\ 1.1\times10^{-4},
+\qquad 0\ \text{at}\ B\ge16\ \text{in}\ 2.8\text{M tests}.$$
+
+Replaying the project's own 121 `za_cert3` windows: 3/121 at $B=8$ and **0/121 at $B\ge16$** sit
+at uncounted levels. NBLK's 0-answers occur at levels where the anchor **lingers**, which is
+exactly what the band covers.
+
+Honest per-test bound: $2.9\times10^{-4}$, $1.1\times10^{-4}$, $5.8\times10^{-5}$ at
+$n=2048,4096,8192$; totals 29 / 73 / 125 reads, log-log slope **1.05**; the maximum over 18
+tapes is 51.6 reads against $n^{2.5}=6.1\times10^{9}$.
+
+### 12.2 What would repair it
+
+$P(\text{0-answer}\mid\text{fresh level})=\Omega(1)$ — a property of the **rule**, and NBLK does
+not have it. Plus the re-read lemma for step 3.
+
+### 12.3 Consequence for the table
+
+**No rule is now known to have a proved super-quadratic worst case.** NBLK keeps only its
+measured trend (reads/test $5.08\to6.21\to10.40$ over $n=8192,16384,32768$, about $2\sigma$).
