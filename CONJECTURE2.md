@@ -201,3 +201,35 @@ count is $\Theta(n^2)$, and its certificate argument is about reads per query, n
 It does change how the ladder should be read: the exponents are $\text{(step exponent)} +
 \text{(certificate exponent)}$, both rule-controlled, and the three rungs we see are the
 diagonal of a table, not the whole table.
+
+---
+
+## 10. The top rung is filled: the perfect-square rule gives g = Theta(n^3)
+
+*Measured 2026-11-06, `probe_square/`, seed 20261106, 100 tapes per cell (89 at n=4096).*
+
+**The rule.** Binary model; read the window as an $m$-bit integer $N$; $b_1=[N\text{ is a
+perfect square}]$; $b_2$ from `KCHG`.
+
+**Why it forces reads.** Certifying that $N$ is **not** a square requires determining $N$: any
+unread bit can be flipped and can turn $N$ into a square. The negative answer is the common one,
+and $N$ is $m$ bits, so no $O(\log n)$-bit machine can carry it between queries.
+
+| $n$ | steps/$n^2$ | **reads/$n^2$** | $\sum m/n^2$ | cuts | tapes with a yes |
+|---|---|---|---|---|---|
+| 256 | 0.0465 | 2.329 | 6.77 | 146 | 0.36 |
+| 512 | 0.0487 | 4.143 | 14.00 | 303 | 0.47 |
+| 1024 | 0.0500 | 7.547 | 28.00 | 635 | 0.31 |
+| 2048 | 0.0537 | 15.638 | 60.43 | 1266 | 0.40 |
+| 4096 | 0.0571 | **32.464** | 127.25 | 2604 | 0.36 |
+
+* reads/$n^2$ doubles with $n$: log-log slope $\approx0.95$, i.e. $g=\Theta(n^{2.95})$ —
+  **$\Theta(n^3)$**.
+* steps/$n^2$ is flat at $0.05$: the walk is $\Theta(n^2)$ and the growth is entirely in
+  reads per step.
+* $\sum m/n^2$ has exponent $1.057$, and reads $\approx\sum m/4$: the machine reads about a
+  quarter of each window, which is what "determine $N$" costs.
+
+**So the ladder now has a rule at every rung it claims**: $n^2$ (13 rules), $n^{2.5}$
+(`NBLK>2/>3`, proved), $n^3$ (this rule). The $n^3$ rung was previously attained only by
+machines that chose to recount; now a *rule* forces it.
