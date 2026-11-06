@@ -1,51 +1,66 @@
-# ALLDISTINCT: a rule that forces n^3
+# Filling the top rung: can a window function force n^3?
 
-*2026-11-06. The construction proposed to fill the k=6 rung of the ladder. The certificate
-argument is below; the measurement is delegated.*
+*2026-11-06. The construction proposed for the k=6 rung, the correction that killed its first
+form, and what a valid construction has to satisfy.*
 
 ---
 
-## 1. The rule
+## 0. Correction before anything else
 
-$$b_1(\ell,m)=\big[\text{the }m\text{ values in the window are pairwise distinct}\big],
-\qquad b_2=\text{as in \texttt{KCHG}}.$$
+The rule "$b_1=1$ iff the window's $m$ values are pairwise distinct" is **empty in the
+four-valued model**: there the cell values are $\sigma_i\in\{0,1,2\}$ — three values — so the
+answer is 0 for every $m\ge4$, and the yes-answer never occurs on an interesting window.
 
-Everything else as in the four-valued model: the walk, the cuts, the termination.
+The construction has to be in the **binary** model, and even there it needs a property that a
+counter cannot maintain. What survives is the certificate argument, which is correct as far as
+it goes and is the template for the replacement.
 
-## 2. Certificate lower bound
+## 1. The certificate template (correct)
 
-> **Lemma.** A certificate of the answer $b_1=1$ has $\lvert S\rvert\ge m$.
+> **Lemma.** If every unread cell of a window can be changed so as to flip the answer without
+> touching any read position, then every certificate of that answer reads all $m$ cells.
 
-*Proof.* Suppose some cell $i$ in the window is not read. Let the tape's values elsewhere be
-as in the certified tape. Change cell $i$ to any value already present in the window at a read
-position. The answer becomes 0, and every read position is unchanged — so the two tapes are
-consistent with the read set but receive different answers. Hence the read set does not
-certify the answer, contradiction. ∎
+*Proof.* Let $i$ be unread and change it. Every read position keeps its value, so by the trace
+lemma — two tapes agreeing on the read set produce the same transcript — the machine gives the
+same answer on both tapes, yet the answers differ. So the read set does not certify. ∎
 
-Note what makes this work and why it fails for most statistics: the negative answer has a
-constant-size certificate (two equal cells), so the lemma is expensive only on the *yes*
-answer — and $g$ is a maximum over tapes, so a tape that makes the walk ask yes-questions
-often is enough.
+## 2. Why that is not enough on its own
 
-## 3. Why the state cannot rescue it
+"The window has at most $m/2$ ones" satisfies the template: an unread cell can be set to 1, and
+its certificate is $\Theta(m)$. Yet a machine keeps a counter and pays $O(1)$ per step. The
+certificate bound is about **state**, not about the query — in the residual form
+$\text{reads}\ge(r+1-x)/(2R+1)-w$ the maintained count gives $x=r+1$ and the bound is vacuous.
 
-A machine in class holds $O(\log n)$ bits plus $w=O(1)$ registers. To answer "are these $m$
-values distinct" without rereading, the state must in effect hold the set of values present —
-$\Theta(m\log n)$ bits for $m=\Theta(n)$, and $\Theta(m)$ bits even for $m=\sqrt n$ with a
-range of $n$. That is out of class.
+**So a valid construction needs a property whose statistic does not fit in $O(\log n)$ bits.**
+That requirement is much stronger than "the certificate is large", and it is the one the first
+version of this note missed.
 
-The residual form of the trace lemma then applies with $x=\ell$ (no maintained aggregate covers
-the region) and gives reads $\ge\lvert S\rvert-w-O(1)=\Omega(m)$ per yes-query.
+## 3. The candidate
 
-## 4. Consequence
+In the binary model, read the window as an $m$-bit integer and take
 
-$\Theta(n^2)$ steps, a positive fraction of which are yes-queries (a random window of length
-$m$ is all-distinct with probability $\approx e^{-m^2/2n}$, which is $\Theta(1)$ for
-$m=O(\sqrt n)$), and $\Omega(m)$ reads each:
+$$b_1(\ell,m)=\big[\text{that integer is prime}\big].$$
 
-$$g_{\text{ALLDISTINCT}}=\Theta(n^2\cdot n)=\Theta(n^3).$$
+* The integer is $m$ bits. No $O(\log n)$-bit machine can carry it forward: each step replaces
+  one bit at one end, and the resulting number is not recoverable from any $O(1)$-word summary
+  the machine could keep.
+* The answer depends on every bit, so §1 applies.
+* No counter-style shortcut exists for primality, unlike for a sum or a count.
 
-This is the first rule — as opposed to machine — that attains the general upper bound.
+**This is the candidate to test**, not the distinctness rule.
+
+## 4. What a measurement must show
+
+1. The rule is well defined and the walk terminates — verified against brute force on the whole
+   cube $n=3\ldots10$.
+2. `steps/n^2` is $\Theta(n^2)$: the census gives $0.004$–$0.06$ for seven rules, so a wildly
+   larger value is itself a finding.
+3. `reads/n^2` grows with exponent $\approx3$.
+4. The yes-rate and its trend.
+
+If instead some $O(1)$-word machine answers the query in $o(m)$ reads on the tapes where a scan
+pays $m$, the construction fails — and that outcome should be reported plainly, because it
+would say the top rung is not reachable by a window function at all.
 
 ## 5. The ladder, with the gap named
 
@@ -53,21 +68,8 @@ This is the first rule — as opposed to machine — that attains the general up
 |---|---|---|
 | $O(1)$ | $\Theta(n^2)$ | 13 rules |
 | $\Theta(\sqrt n)$ | $\Theta(n^{2.5})$ | `NBLK>2/>3` |
-| $\Theta(n)$ | $\Theta(n^3)$ | `ALLDISTINCT` (this note) |
+| $\Theta(n)$ | $\Theta(n^3)$ | **not yet constructed as a rule**; machines attain it ($0.0119n^3$) |
 | $o(1)$ | — | impossible: a certificate has at least one cell |
 
-So the half-integer ladder $n^2,n^{2.5},n^3$ is not an accident of sampling: it is the three
-values the certificate can take, and $n^{1.5}$ is excluded by $c\ge1$ unless a rule has
-$o(n^2)$ steps, which the census has not found.
-
-## 6. What must be measured
-
-1. That the walk is well defined and terminates on the cube for $n\le10$ (verify against a
-   brute-force reference, as with every other rule here).
-2. `steps/n^2` for `ALLDISTINCT` — it should be $\Theta(n^2)$ like the others, not larger.
-3. `reads/n^2` with the best machine available — the prediction is $\Theta(n)$, i.e. a
-   log-log exponent of 3.
-4. The yes-rate: the fraction of queries whose answer is 1, and its trend in $n$.
-
-If (3) comes out at 3 and (2) is flat, the ladder is filled and Conjecture 2's replacement
-$g=\Theta(n^2c_\rho)$ has an instance at every rung.
+So $n^{1.5}$ is excluded by $c\ge1$ unless a rule has $o(n^2)$ steps, which the census has not
+found; and the top rung is the one still to be earned.
