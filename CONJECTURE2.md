@@ -204,39 +204,59 @@ diagonal of a table, not the whole table.
 
 ---
 
-## 10. The top rung is filled: the perfect-square rule gives g = Theta(n^3)
+## 10. The top rung is NOT filled: the perfect-square rule fails, and why
 
-*Measured 2026-11-06, `probe_square/`, two seeds (20261106 and 999331), 200 tapes per cell.*
+*Corrected 2026-11-06 from a subagent report that checked my numbers. The first version of this
+section claimed $g\propto n^{2.93}$ for this rule. Both the exponent and the certificate
+argument behind it were wrong.*
 
-**The rule.** Binary model; read the window as an $m$-bit integer $N$; $b_1=[N\text{ is a
+**The rule.** Binary model; read the window as an $m$-bit integer $N$; $b_1=[N	ext{ is a
 perfect square}]$; $b_2$ from `KCHG`.
 
-**Why it forces reads.** Certifying that $N$ is **not** a square requires determining $N$: any
-unread bit can be flipped and can turn $N$ into a square. The negative answer is the common one,
-and $N$ is $m$ bits, so no $O(\log n)$-bit machine can carry it between queries.
+**The argument I made.** Certifying that $N$ is *not* a square requires determining $N$, since
+any unread bit can be flipped and can turn $N$ into a square. Hence a certificate is all $m$
+bits.
 
-| $n$ | steps/$n^2$ | **reads/$n^2$** | 95 % CI |
+**Why it is false.** To certify that $N$ is not a square it suffices to exhibit a modulus $q$
+with $N mod q$ a quadratic non-residue modulo some prime — an $O(1)$-**bit** witness. The
+unread-bit argument only shows that the certificate must *determine the answer*, not that it must
+determine $N$.
+
+**The machine that exploits it.** Carry $N mod Q$, $Q$ the primorial of the first $k$ primes,
+in $O(1)$ words. Then each query costs 1 read per step plus 2 per cut, and a full scan only when
+the residue is a quadratic residue. Using $8\log_2 n$ bits — the only budget legal at every $n$:
+
+| $c$ | bits at $n=4096$ | reads/$n^2$ at 256…4096 | exponent |
 |---|---|---|---|
-| 256 | 0.0471 | 2.342 | [1.98, 2.73] |
-| 512 | 0.0484 | 4.076 | [3.41, 4.74] |
-| 1024 | 0.0448 | 6.660 | [5.52, 7.86] |
-| 2048 | 0.0523 | 15.074 | [12.7, 17.5] |
-| 4096 | 0.0527 | **30.087** | [25.2, 34.9] |
+| 4 | 47 | 0.102 0.135 0.116 0.146 0.138 | 2.10 ± 0.06 |
+| **8** | **94** | **0.061 0.057 0.049 0.059 0.055** | **1.97 ± 0.05 (flat)** |
 
-Two seeds, 200 tapes per cell (`probe_square/sq_*_{A,B}.jsonl`). Bootstrap CIs over tapes.
+**So $g=\Theta(n^2)$: the square rule is a natural rule at $n^2$, not at $n^3$.** The
+$O(\log n)$-bit budget caps $Q$ at $\mathrm{poly}(n)$, so the false-positive rate is a
+*constant*; getting it below $1/n$ would need $\log n\cdot\log\log n$ bits, still out of class,
+whence only $g\le n^{3-o(1)}$.
 
-* reads/$n^2$ doubles with $n$: log-log slope **0.925**, i.e. $g=\Theta(n^{2.93})$ —
-  **$\Theta(n^3)$** with a sub-cubic correction.
-* steps/$n^2$ is flat at $0.05$: the walk is $\Theta(n^2)$ and the growth is entirely in
-  reads per step.
-* In the single-seed run, $\sum m/n^2$ had exponent $1.057$ and reads $\approx\sum m/4$: the
-  machine reads about a quarter of each window, which is what "determine $N$" costs.
+**And a measurement error of mine, corrected.** The first version reported
+reads/$n^2=2.34,4.08,6.66,15.07,30.09$ (slope $0.925$). Those are **not** the machine's reads:
+they sit within 1–2 % of $1.5	imes r_{	ext{low}}$, the 16-bit residue prefilter, and the scan
+column is $\sum m/n^2=6.81,13.85,24.63,58.37,118.41$ (slope $1.032$). Summing the prefilter
+counters $r_{	ext{low}}+r_{	ext{mod}}+r_{	ext{mod2}}+r_{	ext{mod3}}$ is not a read count.
+Correct numbers: `SQUARE_RULE.md` §3.1.
 
-**So the ladder now has a rule at every rung it claims**: $n^2$ (13 rules), $n^{2.5}$
-(`NBLK>2/>3`, proved), $n^3$ (this rule). The $n^3$ rung was previously attained only by
-machines that chose to recount; now a *rule* forces it.
+**What this changes.** The ladder's top rung has **no rule instance**. $n^2$: many (this rule
+included); $n^{2.5}$: `NBLK>2/>3`, proved; $n^3$: none known.
 
----
+**The pattern, now five times over.** A statistic that looks like it needs $\Theta(m)$ reads
+yields to a *sketch* — a modular residue here, a prefix count there, a level band in `NBLK`.
+Each time the sketch costs $O(1)$ or $\Theta(\sqrt n)$ words and collapses the read count. The
+top rung may be empty: we know of no rule that forces $\Theta(m)$ reads per query.
+
+### 10.1 The walk verification is valid
+
+`probe_square/sqverify.py 10`, exit 0: the walk on the whole cube $n=3\ldots10$ (2 040 tapes)
+against three independent engines, 0 mismatches; 94 192 rule evaluations, 0; 1 908 support
+tapes, 0; 4 000 residue-table values and 4 000 gate-soundness values, 0. So the *walk* was
+verified; what was wrong was the cost column I read out of it.
 
 ## 11. The (n, n^2) interval is not empty: phase rules with Theta(n^1.5) steps
 
