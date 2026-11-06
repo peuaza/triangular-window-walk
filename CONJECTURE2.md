@@ -169,3 +169,35 @@ the class boundary is the certificate, and the certificate can be as large as $\
   `probe_walk_len` were still running when this was written.
 * No lower bound is known for any rule **below** $n^2$: the $(n,n^2)$ interval has no member
   among 16 measured rules, and no proof that it must be empty.
+
+---
+
+## 9. Correction (2026-11-06, 09:40): the ladder is not forced
+
+Section 7 presents the ladder $n^2,n^{2.5},n^3$ as if the three rungs were the three values
+$c_\rho$ can take. That is true only **within the family of rules whose walk takes
+$\Theta(n^2)$ steps**, and every rule censused so far happens to be in that family
+(`WALK_LENGTH.md`: steps$/n^2$ between $0.0044$ and $0.063$).
+
+The step count is not fixed, though. An epoch ends at a cut, and at an epoch's start the window
+equals the region, so **any outward step cuts immediately**; the epoch length is therefore the
+number of inward steps the rule chooses before pushing outward, plus one. A rule that takes
+$k$ inward steps then one outward step has epochs of length $k+1$, and since the region shrinks
+by one per cut,
+
+$$\text{steps}=\sum_{m\le n}(k(m)+1).$$
+
+* $k=0$ (push outward at once): steps $=\Theta(n)$ — the fully linear regime.
+* $k=\Theta(\sqrt m)$: steps $=\Theta(n^{1.5})$ — **the $(n,n^2)$ interval**.
+* $k=\Theta(m)$ (walk inwards to the meet): steps $=\Theta(n^2)$ — every rule measured so far.
+
+With an $O(1)$-certificate query, $g$ follows the step count, so $g=\Theta(n^{1.5})$ is
+reachable by an **engineered** rule. That refutes the lower half of Conjecture 2 as a statement
+about the model — though not as a statement about natural statistics, since no natural rule with
+$k=\Theta(\sqrt m)$ has been found.
+
+**What this does and does not change.** It does not touch the $n^{2.5}$ result: `NBLK`'s step
+count is $\Theta(n^2)$, and its certificate argument is about reads per query, not about steps.
+It does change how the ladder should be read: the exponents are $\text{(step exponent)} +
+\text{(certificate exponent)}$, both rule-controlled, and the three rungs we see are the
+diagonal of a table, not the whole table.
