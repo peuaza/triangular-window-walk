@@ -303,3 +303,15 @@ evidence for the argument, not against it; an exponent of $1$ would have been th
 | **grand total** | | **0** |
 
 So the $g\propto n^{2.93}$ measurement rests on a verified walk, not on a plausible one.
+
+### 11.1 Verification of the phase rules
+
+`probe_n15/n15_verify.py`, log `n15_verify.log`:
+
+| gate | checks | mismatches |
+|---|---|---|
+| engine (walk vs reference) | 4080 | 0 |
+| semantics (b1/b2 vs literal) | 40800 | 0 |
+| reads accounting | 8160 | 0 |
+
+So the $\Theta(n^{1.5})$ step counts rest on a verified engine as well.
