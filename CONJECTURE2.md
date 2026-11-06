@@ -218,11 +218,11 @@ any unread bit can be flipped and can turn $N$ into a square. Hence a certificat
 bits.
 
 **Why it is false.** To certify that $N$ is not a square it suffices to exhibit a modulus $q$
-with $N mod q$ a quadratic non-residue modulo some prime — an $O(1)$-**bit** witness. The
+with $N \bmod q$ a quadratic non-residue modulo some prime — an $O(1)$-**bit** witness. The
 unread-bit argument only shows that the certificate must *determine the answer*, not that it must
 determine $N$.
 
-**The machine that exploits it.** Carry $N mod Q$, $Q$ the primorial of the first $k$ primes,
+**The machine that exploits it.** Carry $N \bmod Q$, $Q$ the primorial of the first $k$ primes,
 in $O(1)$ words. Then each query costs 1 read per step plus 2 per cut, and a full scan only when
 the residue is a quadratic residue. Using $8\log_2 n$ bits — the only budget legal at every $n$:
 
@@ -261,22 +261,22 @@ verified; what was wrong was the cost column I read out of it.
 ## 11. RETRACTED: the phase family does not fill (n, n^2)
 
 *Retracted 2026-11-06 13:00, after a dedicated check (`N15_RIGOR.md`). This section claimed a
-continuously tunable worst-case exponent $1+lpha$. **That claim is false: the worst-case cost
-is $\Theta(n)$ for every $lpha$.***
+continuously tunable worst-case exponent $1+\alpha$. **That claim is false: the worst-case cost
+is $\Theta(n)$ for every $\alpha$.***
 
-**What is true.** The *step* count is $\Theta(n^{1+lpha})$, and that continuum survives even
+**What is true.** The *step* count is $\Theta(n^{1+\alpha})$, and that continuum survives even
 when the rule is restricted to the window and its length (steps 1.22 / 1.49 / 1.69 at
-$lpha=.25/.5/.75$). So the step-count remark of §9 stands.
+$\alpha=.25/.5/.75$). So the step-count remark of §9 stands.
 
 **What is false.** The cost does not follow the step count. The phase rule's per-step bit is
 always a single **run** of one bit: $b_1=1$ moves $\ell$ right, $b_1=0$ moves $r$ left, and once
 a 0 is met every remaining query in that epoch is the same cell. A machine holding three
 integers $(L,R,	ext{run length})$ scans each cell once and reproduces the output exactly:
 
-* verified against the engine on 81 840 walks ($n\le12$, rules A/C, five $lpha$) and
+* verified against the engine on 81 840 walks ($n\le12$, rules A/C, five $\alpha$) and
   2 760 large-$n$ walks, **0 mismatches**;
-* cost $\le1.75\,n$ on every tape $n\le14$, $1.00\,n$ at $n=65\,536$, **independent of $lpha$**;
-* at $n=1024,lpha=.5$: **1 027 reads against the claimed 11 245**; at $n=65\,536,lpha=1$:
+* cost $\le1.75\,n$ on every tape $n\le14$, $1.00\,n$ at $n=65\,536$, **independent of $\alpha$**;
+* at $n=1024,\alpha=.5$: **1 027 reads against the claimed 11 245**; at $n=65\,536,\alpha=1$:
   65 539 against $1.07	imes10^9$ — a factor 16 384.
 
 **So the phase family is fully linear, and $(n,n^2)$ stays empty.**
@@ -291,8 +291,8 @@ integers $(L,R,	ext{run length})$ scans each cell once and reproduces the output
 3. Rule A **never meets** on any tape (0 outputs in 24 528 walks), so its $g$ was vacuous by the
    project's own test.
 
-And the $lpha$-ladder had its own defect: $k(M)\equiv1$ for $M<2^{1/lpha}$, so $lpha=0.1$
-and $lpha=0$ are the same rule up to $n=10^6$. Part of the "nine-point continuum" was one rule
+And the $\alpha$-ladder had its own defect: $k(M)\equiv1$ for $M<2^{1/\alpha}$, so $\alpha=0.1$
+and $\alpha=0$ are the same rule up to $n=10^6$. Part of the "nine-point continuum" was one rule
 measured nine times.
 
 ### 11.2 The pattern, now six times over
