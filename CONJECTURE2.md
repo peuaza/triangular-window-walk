@@ -509,3 +509,59 @@ irreducible. **The semi-linear row stays empty** — the $2\Lambda_2>m$ family a
 | **$\Theta(n^{2.5})$** | **`PC`** | flat cost/$n^{2.5}$, verified machine, certificate census | Lemma S + H1 |
 | $\Theta(n^3)$ | `CX` | slope 2.932, no summary (rank $m$) | **none** |
 | | NBLK | exponent 2.0 | — |
+
+---
+
+## 15. The rank: proved for CX, but it is a threshold, not a rate (2026-11-06 16:30)
+
+### 15.1 The right definition
+
+Rank = the **Hankel rank of the kernel**: $H_m[d,k]=h(k+d)$ over $\mathbb F_q$; by Kronecker this
+is the minimal recurrence order. The rejected candidate — linear complexity of the window or of
+the answer sequence — gives $L/\mathrm{len}=0.500$ for **both** CX and its one-read $3^k$ twin,
+so it cannot separate them.
+
+**CX's rank $=m$ is now proved**, not measured: $H_m=3\,\mathrm{diag}(3^{d^2})\,[9^{dk}]\,
+\mathrm{diag}(3^{k^2})$, a Vandermonde matrix with distinct nodes since
+$\mathrm{ord}_q(9)=357\,913\,941>m$. The earlier "recurrence crossover at $A=m/2$" is a
+dimension artefact ($A>m/2$ leaves the windowed system underdetermined) and is withdrawn.
+
+### 15.2 The implication is FALSE
+
+"rank $\Omega(m)$ $\Rightarrow$ $\Omega(m)$ reads per query" fails:
+
+| counterexample | rank | reads/query |
+|---|---|---|
+| constant comparison | $m$ | **0** |
+| right-only move mix | $m$ | **1.00** (840 moves, 0 wrong) |
+
+And the counting proof cannot work: the answer is **one bit**, so the only valid information
+bound is $0.63$ reads/query — which is tight for the twin ($0.5078$ against $0.3204\,n^2$).
+
+### 15.3 What is true: a threshold
+
+$$\text{reads/query}=\begin{cases}1,&\mathrm{rank}\le s\ m/s,&\mathrm{rank}>s\end{cases}$$
+
+proved and machine-verified at every step. Rank 3 and rank $m$ cost **identically** at $s=2$
+(71.667 for both). **Corollary: kernel-correlation rules are $n^2$ or $n^3$ and never between.**
+`PC`, the one intermediate rule, is not a kernel correlation — its exponent comes from the rho
+length of a functional graph.
+
+| type | exponent | instances |
+|---|---|---|
+| kernel correlation, rank $\le s$ | $n^2$ | NBLK, square rule, phase family |
+| kernel correlation, rank $>s$ | $n^3$ | **CX** |
+| not a kernel correlation | set by a random-structure diameter | **PC** ($n^{2.5}$) |
+
+### 15.4 Two corrections carried forward
+
+`CX_ATTACK.md` §4's "rank $r\Rightarrow m/r$ reads" is inverted (at $r=m$ it would predict 1);
+the correct form is the piecewise rule above. And §5's "5.3×" improvement needs $A$ words
+$=31A$ bits, which exceeds the $O(\log n)$ budget for $A\ge2$.
+
+### 15.5 Open
+
+An unconditional $\Omega(n^3)$ for all $O(\log n)$-bit machines is still open; it is carried as
+hypothesis H (no $b$-bit nonlinear sketch advances $A_0$). The escape is nonlinear — a constant
+tape costs one read total — which is exactly why the rank is blind to it. The $H1$ line for
+`PC` was interrupted and must be redone.
