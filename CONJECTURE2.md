@@ -447,3 +447,65 @@ the kappa run is **superseded**: $e=\Theta(n)$ stands, the machine was wrong.
 
 Both mechanisms are the same in kind: one passing integer statistic $A$, with $b_1\equiv0$ for
 $m\ge cA$. The two escapes tried (local rules, count-type certificates) fail measurably.
+
+---
+
+## 14. The final table after the second round of attacks (2026-11-06 15:40)
+
+### 14.1 NBLK is dead: exponent 2.0, not 2.5
+
+The audit's certificate bound was turned into a *machine*: band + frontier with `zac.cert_scan` on
+the residual scans (725 710 scan events verified). On matched tapes at $n=16384$:
+
+| | band | hybrid |
+|---|---|---|
+| $B=64$ | 4.840 | **4.547** (floor 4.492; excess cut 6.4×) |
+| $B=32$ | 9.277 | **5.569** (cut 4.4×) |
+
+Law: $e\approx a n^2+c\,n^{2.5}/B^2$ with $a=0.021$, $c\approx10^{-6}$–$10^{-5}$; measured
+exponent **2.0** over $n=1024\ldots16384$; the $n^{2.5}$ term would only take over at
+$n\approx10^5$–$10^7$. The certificate total is **0 events in 25 292 tests** at $B=64$. So
+$g=\Omega(n^{2.5})$ is false for NBLK.
+
+### 14.2 PC is the one member at n^2.5, and the best-supported result of the night
+
+Endpoint-only Brent: $2.5$–$2.8\sqrt m$ (was 5.0), 0 mismatches on 195 168 windows; cost
+$\mathbf{0.0176\,n^{2.5}}$, exponent $2.474\pm0.003$, tape spread 2 %. Certificate census
+$1.0$–$1.1\sqrt m$ (71 % of the orbit), so the machine is within $2.6\times$ of the floor.
+**Lemma S proved** (a $b$-bit state fixes at most $0.63(b+1)$ cells on half the tapes); the
+$\Omega(\sqrt m)$ per-query bound then needs one hypothesis (H1, random-functional-graph
+certificate size).
+
+### 14.3 CX: n^3 measured, but the certificate argument is FALSE
+
+The decisive control: the same action map, tape and comparison with kernel $h(k)=3^k$ (which has
+a verified one-read rolling update):
+
+| kernel | certificate | reads/query | slope |
+|---|---|---|---|
+| $3^{k^2+1}$ (CX) | 0.710 | $m$ | **2.932** |
+| $3^k$ | **0.835** (larger) | **1** | **1.999** |
+
+A larger certificate costing $1/m$ as much per query. **The certificate census measures chaos,
+not cost** — the same error as §10, reused in §13.1. What holds CX up is **shift-rank**:
+$\mathrm{ord}_q(3)=715827882$, no period $\le4096$, BM linear complexity $L/M=1.000$, Hankel
+rank $=m$, no recurrence of order $A\le16$. No small summary exists (previous collapses had rank
+1, 1, $\le2$; CX has $m$), but there is no lower bound either.
+
+### 14.4 longrun stays weakly super-linear
+
+Corrected $e/n$: 8.54, 8.53, 8.48, 8.66, 8.90, 9.33 over $n=512\ldots16384$. Constant fit
+residual sd 0.298; **log fit $7.021+0.1494\log_2 n$**, $b$ at $3.3\sigma$, $F(1,4)=10.9$, AIC
+−18.4 vs −12.5. Mechanism: `scanlen` $=0.405\cdot4\rho$ ($r=0.9989$), per-epoch $3+2.45\rho$,
+irreducible. **The semi-linear row stays empty** — the $2\Lambda_2>m$ family also drifts
+(5.55→6.85).
+
+### 14.5 The table
+
+| rung | rule | evidence | proof |
+|---|---|---|---|
+| $\Theta(n)$ | fully linear family | measured | — |
+| $\Theta(n^2)$ | 14 natural rules | measured | — |
+| **$\Theta(n^{2.5})$** | **`PC`** | flat cost/$n^{2.5}$, verified machine, certificate census | Lemma S + H1 |
+| $\Theta(n^3)$ | `CX` | slope 2.932, no summary (rank $m$) | **none** |
+| | NBLK | exponent 2.0 | — |
