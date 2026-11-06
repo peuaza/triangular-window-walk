@@ -289,3 +289,17 @@ The machine is a constant factor $2.5\times$ cheaper and its exponent is $0.943$
 $\approx n^{2.94}$. It works in multiple passes over the window, i.e. it still has to determine
 $N$, which is exactly what the certificate argument predicts. **A constant-factor gain is
 evidence for the argument, not against it; an exponent of $1$ would have been the counterexample.**
+
+### 10.2 Verification of the square rule
+
+`probe_square/sqverify.py 10`, log `verify10.log`:
+
+| check | scale | mismatches |
+|---|---|---|
+| rule evaluations vs literal implementation | every window, n <= 12 | 0 |
+| **walk vs reference** | **n = 3..10, 2040 walks** | **0** |
+| support tapes | n = 5..12, 924 tapes | 0 |
+| table checks / gate soundness | 4000 values each | 0 |
+| **grand total** | | **0** |
+
+So the $g\propto n^{2.93}$ measurement rests on a verified walk, not on a plausible one.
