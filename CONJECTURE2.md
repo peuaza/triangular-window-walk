@@ -258,152 +258,58 @@ against three independent engines, 0 mismatches; 94 192 rule evaluations, 0; 1 9
 tapes, 0; 4 000 residue-table values and 4 000 gate-soundness values, 0. So the *walk* was
 verified; what was wrong was the cost column I read out of it.
 
-## 11. The (n, n^2) interval: phase rules, and why the claim is UNDER REVIEW
+## 11. RETRACTED: the phase family does not fill (n, n^2)
 
-> **Status (2026-11-06): under review.** The claim below is that a phase family gives a
-> *continuously tunable* worst-case exponent $1+lpha$. That is implausible on its face - a
-> worst case is normally pinned by an extremal structure and lands on discrete exponents or on
-> log corrections, not on a continuum - and the $lpha$-family may be an artefact of a rule
-> that behaves like a *clock* rather than like a window statistic. A dedicated check is running:
-> read accounting, attainment of the maximum, nine $lpha$ points, a cheaper machine, and what
-> the rule is allowed to see. **Do not cite this section until that verdict lands.**
+*Retracted 2026-11-06 13:00, after a dedicated check (`N15_RIGOR.md`). This section claimed a
+continuously tunable worst-case exponent $1+lpha$. **That claim is false: the worst-case cost
+is $\Theta(n)$ for every $lpha$.***
 
-*Measured 2026-11-06, `probe_n15/`, 24 tapes per cell, n = 256..8192, alpha = 0.5.*
+**What is true.** The *step* count is $\Theta(n^{1+lpha})$, and that continuum survives even
+when the rule is restricted to the window and its length (steps 1.22 / 1.49 / 1.69 at
+$lpha=.25/.5/.75$). So the step-count remark of §9 stands.
 
-A **phase rule** controls the epoch length directly:
+**What is false.** The cost does not follow the step count. The phase rule's per-step bit is
+always a single **run** of one bit: $b_1=1$ moves $\ell$ right, $b_1=0$ moves $r$ left, and once
+a 0 is met every remaining query in that epoch is the same cell. A machine holding three
+integers $(L,R,	ext{run length})$ scans each cell once and reproduces the output exactly:
 
-$$\text{shrink}=(\ell-L)+(R-r),\qquad b_2=[\text{shrink}<\lfloor\sqrt M/2\rfloor],\qquad
-b_1=\text{one cell's bit},$$
+* verified against the engine on 81 840 walks ($n\le12$, rules A/C, five $lpha$) and
+  2 760 large-$n$ walks, **0 mismatches**;
+* cost $\le1.75\,n$ on every tape $n\le14$, $1.00\,n$ at $n=65\,536$, **independent of $lpha$**;
+* at $n=1024,lpha=.5$: **1 027 reads against the claimed 11 245**; at $n=65\,536,lpha=1$:
+  65 539 against $1.07	imes10^9$ — a factor 16 384.
 
-so the window moves inward for $\lfloor\sqrt M/2\rfloor$ steps and then outward, which cuts at
-once. Epoch length $\approx\sqrt M$, hence $\text{steps}\approx\sum_{M\le n}\sqrt M=\Theta(n^{1.5})$.
+**So the phase family is fully linear, and $(n,n^2)$ stays empty.**
 
-| rule | what differs | steps/$n^{1.5}$ | reads/$n^{1.5}$ | implied $g$ |
-|---|---|---|---|---|
-| `A` | side $a[\ell]$, canonical outward move | 0.0438 → 0.0365 | 0.0258 → 0.0246 | $\Theta(n^{1.5})$ |
-| `C` | side $a[\ell]$, explicit boundary cut | 0.3650 → 0.3389 | 0.1422 → 0.0365 | $\approx n^{1.11}$ |
-| `D` | side $a[L]$, outward move | 0.3650 → 0.3389 | 0.0027 → 0.0004 | $\approx n^{1.06}$ |
+### 11.1 Three defects in the original measurement
 
-**steps/$n^{1.5}$ is flat over a factor 32 in $n$, so the step count really is $\Theta(n^{1.5})$**,
-not an artefact of a short range. All three rules are non-fully-linear ($g=\omega(n)$) and all
-three are below $n^2$.
+1. The "reads" column was a **4-word FIFO cache cost** — 26 % above Belady's optimum, 11× above
+   the 3-word machine — on a walk that touches only **17 distinct cells** at $n=1024$. It
+   measured a machine, not $g$.
+2. The "pure phase $\Rightarrow$ cut" law is **false**: 10 170 of 122 686 pure phases do not
+   cut. The correct condition is `run1 >= k+1`.
+3. Rule A **never meets** on any tape (0 outputs in 24 528 walks), so its $g$ was vacuous by the
+   project's own test.
 
-**So Conjecture 2 fails at both ends.** `NBLK>2/>3` exceeds $n^2$; these rules fall below it.
-What survives is the decomposition
+And the $lpha$-ladder had its own defect: $k(M)\equiv1$ for $M<2^{1/lpha}$, so $lpha=0.1$
+and $lpha=0$ are the same rule up to $n=10^6$. Part of the "nine-point continuum" was one rule
+measured nine times.
 
-$$g_\rho=n^{\alpha}\cdot c_\rho,\qquad \alpha\in[1,2]\ \text{(rule-controlled)},\quad
-c_\rho\in[1,n]\ \text{(certificate-controlled)},$$
+### 11.2 The pattern, now six times over
 
-and the observation that every **natural** statistic we have sits at $\alpha=2$.
+A statistic that looks like it needs $\Theta(m)$ reads yields to a **small sufficient summary**:
+a level band (`NBLK`), a modular residue (square rule), a run length (here). Every collapse was
+found by asking *what the machine actually has to remember*, not by fitting a curve.
 
-**Caveat, stated plainly.** These rules are engineered, not natural: the phase is set by the
-rule's own state $(L,R,\ell,r)$ and the query is a single cell. They prove the interval is
-non-empty *as a matter of the model*. They do not show that any natural statistic lives there,
-and no natural rule with $\alpha<2$ has been found among 16 measured rules.
+### 11.3 What stands after the retraction
 
-### 10.1 A cheaper machine exists, and it does not change the exponent
-
-*`probe_square/sqbeat.py`, 40 tapes per cell, seed A.*
-
-| $n$ | multi-pass machine, reads/$n^2$ | scan, reads/$n^2$ | ratio |
-|---|---|---|---|
-| 256 | 0.919 | 2.329 | 0.395 |
-| 512 | 1.653 | 4.143 | 0.399 |
-| 1024 | 2.686 | 7.547 | 0.356 |
-| 2048 | 7.568 | 15.638 | 0.484 |
-| 4096 | 12.571 | 32.597 | 0.386 |
-
-The machine is a constant factor $2.5\times$ cheaper and its exponent is $0.943$ — the same
-$\approx n^{2.94}$. It works in multiple passes over the window, i.e. it still has to determine
-$N$, which is exactly what the certificate argument predicts. **A constant-factor gain is
-evidence for the argument, not against it; an exponent of $1$ would have been the counterexample.**
-
-### 10.2 Verification of the square rule
-
-`probe_square/sqverify.py 10`, log `verify10.log`:
-
-| check | scale | mismatches |
+| rung | instance | status |
 |---|---|---|
-| rule evaluations vs literal implementation | every window, n <= 12 | 0 |
-| **walk vs reference** | **n = 3..10, 2040 walks** | **0** |
-| support tapes | n = 5..12, 924 tapes | 0 |
-| table checks / gate soundness | 4000 values each | 0 |
-| **grand total** | | **0** |
+| $\Theta(n)$ | canonical, monotone family, `pattern`, `pal`, **and now the phase family** | measured |
+| $\Theta(n^2)$ | 14 natural rules | measured |
+| $\Theta(n^{2.5})$ | `NBLK>2/>3` | proved |
+| $\Theta(n^3)$ | none | no rule known |
 
-So the $g\propto n^{2.93}$ measurement rests on a verified walk, not on a plausible one.
-
-### 11.1 Verification of the phase rules
-
-`probe_n15/n15_verify.py`, log `n15_verify.log`:
-
-| gate | checks | mismatches |
-|---|---|---|
-| engine (walk vs reference) | 4080 | 0 |
-| semantics (b1/b2 vs literal) | 40800 | 0 |
-| reads accounting | 8160 | 0 |
-
-So the $\Theta(n^{1.5})$ step counts rest on a verified engine as well.
-
-### 11.2 The register file has to grow: W = Theta(sqrt n)
-
-`probe_n15/n15_aux.py`, the `wladder` block, worst tape at n = 4096 ($\mathrm{kmax}=32$):
-
-| $W$ (register cells) | reads for the whole walk | reads/step |
-|---|---|---|
-| 8 | 87 961 | 0.983 |
-| 16 | 78 033 | 0.872 |
-| **32** | **65** | **0.001** |
-| 64 | 33 | 0.000 |
-
-The collapse happens exactly at $W=\mathrm{kmax}=\lfloor\sqrt M/2\rfloor$: a register file that
-covers one epoch makes every query free after the first pass. **So $W$ must grow like
-$\sqrt n$, and that machine is out of class** — which is the point. In class ($W=O(1)$, the
-main run used $W=4$) the reads stay $\Theta(n^{1.5})$ and the rules really do sit in
-$(n,n^2)$.
-
-This is the same pattern as `NBLK`'s `Bmap`: the cheap machine exists and needs
-$\Theta(\sqrt n)$ words. A knob that has to grow is a class question, and both of these answer it
-the same way.
-
-### 11.3 The step count has a closed form, and the worst tape attains it exactly
-
-\`\`\`
-steps_max(n) = sum_{M=4..n} (isqrt(M)//2 + 1) + 2
-n = 4096:  89 439   (= the closed form, ratio 1.000)
-\`\`\`
-
-A search over 1 500 random tapes, block tapes with periods $1..600$, tapes with a forced
-$1$-prefix of length up to 128, and phase-shifted block tapes found the maximum at the block
-tape with period 36, with 89 439 steps — **exactly the closed form**. So $\Theta(n^{1.5})$ here
-is an identity, not a fitted exponent: each epoch of region width $M$ contributes exactly
-$\lfloor\sqrt M/2\rfloor+1$ steps, and the sum is $\Theta(n^{1.5})$.
-
-The one thing still conditional is the *read* side: §11.2 shows that a register file of
-$W\ge\lfloor\sqrt M/2\rfloor$ collapses the reads to $O(1)$ per tape, so $W$ must grow like
-$\sqrt n$ and that machine is out of class. In class ($W=O(1)$) the readings of §11 hold.
-
-### 11.4 The lever moves the step count, not the cost — unless the query looks at a fresh cell
-
-Two controls from `N15_RULE.md`:
-
-* The closed form is exact: $\text{steps}=\sum_{M=4}^{n}(\lfloor\sqrt M/2\rfloor+1)+2
-  =n^{1.5}/3+n/2$, matched digit for digit at $n=256\ldots8192$, and no tape among 1 500 random,
-  the block family and 1-prefixed tapes at $n=4096$ exceeded it.
-* The alpha ladder ($k\propto M^{\alpha}$) gives step exponent $1+\alpha$ exactly
-  (1.002 / 1.189 / 1.476 / 1.742 / 1.996), **but rule `D`'s cost exponent stays 1.002 at every
-  $\alpha$.** `D` reads $a[L]$, a cell that almost never changes, so the walk is long and the
-  costs are not. Rule `A` reads $a[\ell]$, a fresh cell every step, and its maximum reads scale
-  as $0.34\,n^{1.513}$.
-
-**So "epoch length" is only half the lever; the other half is whether the per-step query is
-charged.** A long walk with a constant query costs nothing, which is why `D` is fully linear
-despite $\Theta(n^{1.5})$ steps.
-
-**The worst tape is a constant-run tape** (all ones, half ones, blocks with period $\ge\sqrt
-n/2$). On 600 random tapes rule `A` costs 4 reads and the walk dies in 19–35 steps. That is
-legitimate — $g$ is a maximum over tapes — but it must be stated: the typical behaviour is
-trivial and the worst case is carried by a very special family.
-
-**And the escape still costs $\Theta(\sqrt n)$ words** ($W\approx\lfloor\sqrt M/2\rfloor+1$:
-$W=4$ gives 89 245 reads at $n=4096$, $W=32$ gives 65), so the rung is in class only at $W=O(1)$
-— the same shape as `NBLK`'s `Bmap`.
+**$(n,n^2)$ is empty across every rule we have. Conjecture 2's lower half
+(non-fully-linear $\Rightarrow$ $g=\Omega(n^2)$) is therefore *not* refuted — it has no
+counterexample, and its only would-be counterexample collapsed to linear.**
