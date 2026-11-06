@@ -272,3 +272,20 @@ and the observation that every **natural** statistic we have sits at $\alpha=2$.
 rule's own state $(L,R,\ell,r)$ and the query is a single cell. They prove the interval is
 non-empty *as a matter of the model*. They do not show that any natural statistic lives there,
 and no natural rule with $\alpha<2$ has been found among 16 measured rules.
+
+### 10.1 A cheaper machine exists, and it does not change the exponent
+
+*`probe_square/sqbeat.py`, 40 tapes per cell, seed A.*
+
+| $n$ | multi-pass machine, reads/$n^2$ | scan, reads/$n^2$ | ratio |
+|---|---|---|---|
+| 256 | 0.919 | 2.329 | 0.395 |
+| 512 | 1.653 | 4.143 | 0.399 |
+| 1024 | 2.686 | 7.547 | 0.356 |
+| 2048 | 7.568 | 15.638 | 0.484 |
+| 4096 | 12.571 | 32.597 | 0.386 |
+
+The machine is a constant factor $2.5\times$ cheaper and its exponent is $0.943$ — the same
+$\approx n^{2.94}$. It works in multiple passes over the window, i.e. it still has to determine
+$N$, which is exactly what the certificate argument predicts. **A constant-factor gain is
+evidence for the argument, not against it; an exponent of $1$ would have been the counterexample.**
