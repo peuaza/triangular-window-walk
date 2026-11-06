@@ -565,3 +565,33 @@ An unconditional $\Omega(n^3)$ for all $O(\log n)$-bit machines is still open; i
 hypothesis H (no $b$-bit nonlinear sketch advances $A_0$). The escape is nonlinear — a constant
 tape costs one read total — which is exactly why the rank is blind to it. The $H1$ line for
 `PC` was interrupted and must be redone.
+
+---
+
+## 16. Semi-linear has a non-degenerate member (2026-11-06 16:55)
+
+`probe_semilin_nat/`, rule `sn_core`:
+
+$$T(w)=[\text{no cell of }w\text{ equals }1],\qquad
+E(w)=[\textstyle\sum_k \mathrm{sg}[\ell+k]\,h(k)\bmod q<q/2],\qquad b_1=T\wedge E,$$
+
+with $h(k)=3^{k^2+1}$ (the rank-$m$ kernel of §15) and $b_2$ unchanged.
+
+* $T$ is incremented by one cell per move, so the machine certifies $b_1=0$ with **one** read;
+  $T$ fails with probability $2^{-m}$ on a random window, so the expensive branch is rare.
+* **$e/n=5.31,5.63,5.36,5.44,5.53,5.36$ over $n=256\ldots8192$ — flat at $5.4$.**
+* **$g=0.500\,n^2$ on the worst family** (`0/2` block tapes), log-log slope $1.995$; model
+  residuals $n^2: 0.008$, $n^{2.5}: 0.668$, $n^3: 1.179$.
+* Without the certificate the same rule costs $e/n=25.7\to53.4$ — rising, so the certificate is
+  what makes it semi-linear.
+* Verification: 86 050 walks, three machines compared pairwise, **0 mismatches**.
+
+**Why this is not $S_n$ in disguise.** $S_n$ is "`b0` plus a rare expensive branch" and agrees
+with `b0` almost everywhere. Here $b_1=T\wedge E=0$ whenever $T$ fails, whereas `b0`'s $b_1$ is
+the leading bit — so the rule differs from `b0` *everywhere*, the trigger is **content-driven**
+(is there a 1 in the window) rather than a geometric clock, and the expensive branch is the
+rank-$m$ checksum rather than a plain scan. It is the first non-degenerate member of the row.
+
+**So the semi-linear row is not empty, and the five-class scheme keeps its second row.** The
+price is that the rule is a conjunction — natural in its parts, contrived in its shape — and
+that is the honest description.
