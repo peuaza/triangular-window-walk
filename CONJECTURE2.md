@@ -356,3 +356,20 @@ $(n,n^2)$.
 This is the same pattern as `NBLK`'s `Bmap`: the cheap machine exists and needs
 $\Theta(\sqrt n)$ words. A knob that has to grow is a class question, and both of these answer it
 the same way.
+
+### 11.3 The step count has a closed form, and the worst tape attains it exactly
+
+\`\`\`
+steps_max(n) = sum_{M=4..n} (isqrt(M)//2 + 1) + 2
+n = 4096:  89 439   (= the closed form, ratio 1.000)
+\`\`\`
+
+A search over 1 500 random tapes, block tapes with periods $1..600$, tapes with a forced
+$1$-prefix of length up to 128, and phase-shifted block tapes found the maximum at the block
+tape with period 36, with 89 439 steps — **exactly the closed form**. So $\Theta(n^{1.5})$ here
+is an identity, not a fitted exponent: each epoch of region width $M$ contributes exactly
+$\lfloor\sqrt M/2\rfloor+1$ steps, and the sum is $\Theta(n^{1.5})$.
+
+The one thing still conditional is the *read* side: §11.2 shows that a register file of
+$W\ge\lfloor\sqrt M/2\rfloor$ collapses the reads to $O(1)$ per tape, so $W$ must grow like
+$\sqrt n$ and that machine is out of class. In class ($W=O(1)$) the readings of §11 hold.
