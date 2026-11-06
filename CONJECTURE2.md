@@ -595,3 +595,52 @@ rank-$m$ checksum rather than a plain scan. It is the first non-degenerate membe
 **So the semi-linear row is not empty, and the five-class scheme keeps its second row.** The
 price is that the rule is a conjunction — natural in its parts, contrived in its shape — and
 that is the honest description.
+
+---
+
+## 17. The continuum: four retractions, and what actually stands (2026-11-06 22:20)
+
+### 17.1 What stands
+
+$$\text{steps}(n)=\sum_{W}\left(\frac{W}{64}+1\right)=\frac{n^2}{128}\bigl(1+o(1)\bigr),\qquad
+g_\rho=\text{steps}\times c_\rho .$$
+
+* **The step count is a clock and is rule-independent.** Measured identical across five different
+  statistics, **including a constant bit**, to residual 0.0000. No rule in the project changes it.
+* **The price tracks the certificate**, not the window and not the support: a prefix-sum rule on
+  the same window has support $m$ and price 1.
+* **Natural certificates take three values** — $1$, $\Theta(\sqrt m)$, $\Theta(m)$ — hence the
+  natural exponents are $\{2,\ 2.5,\ 3\}$.
+* Two-sided bracket for any chase-like rule: $0.47\,\sigma\le$ reads/query $\le2.8\,\sigma$.
+
+### 17.2 The four retracted versions
+
+| version | killed by |
+|---|---|
+| 「a continuous spectrum」 | the chase reads only a prefix $[\ell,\ell+L)$; $p\ge L$ never occurs in 16 907 424 queries; a plain scan of $m^\sigma$ cells reproduces the exponent to 0.003 |
+| 「two universality-class lines」 | $m^{2/3}$ exists twice (drift $\theta=2/3$, leaky $\alpha=1/3$) |
+| 「$m^{2/3}$ gives a third class」 | $L$ takes **one value across 200 tapes** at every $m$: $\theta$ is a literal, not a computed quantity |
+| 「a parameterisation: the exponent moves smoothly in $\theta$」 | at fixed $n$, sweeping $\theta$ from .20 to 1.00 in steps of .05 gives a **non-monotone** local exponent with dips of 0.15–0.20, i.e. half the whole predictive span |
+
+**The convergence check did pass** (local exponents reach $2.497$ and $2.991$ against predictions
+$2.500$ and $3.000$ at $n=16384$), but it only shows the exponent converges to *a constant that
+was written into the rule*.
+
+### 17.3 The defect this exposes
+
+Every read index in the project is $\ell+p$ ($p<m$) or $O(1)$ boundary cells. The only
+sub-window producer is the `domain(m,theta)` of the continuum rules. Measured support slopes:
+drift $1.000$; $a=2/3/5$ give $0.503/0.485/0.507$; leaky $0.58$–$0.74$; folded $0.36/0.26$.
+
+**So: no natural rule has a domain strictly between $O(1)$ and $\Theta(m)$.** The intermediate
+exponents exist only in rules that declare their own domain — which is a free constant, not a
+window statistic. **This is a defect of the model's permissiveness, and the paper should say so
+rather than present a spectrum.**
+
+### 17.4 Methodological record
+
+Five wrong calls in one evening, all of the same shape — a machine's cost read as the rule's cost:
+the phase family ($n^{1.5}\to n$), the square rule ($n^3\to n^2$), the memoised chase
+($2.5\to1.7$ with $\Theta(n)$ state), the two-line model (killed by $m^{2/3}$), and the
+parameterisation (killed by non-monotonicity). **The recurring question that catches all five:
+what does the machine have to *remember*, and is that within $O(\log n)$ bits?**
