@@ -258,7 +258,15 @@ against three independent engines, 0 mismatches; 94 192 rule evaluations, 0; 1 9
 tapes, 0; 4 000 residue-table values and 4 000 gate-soundness values, 0. So the *walk* was
 verified; what was wrong was the cost column I read out of it.
 
-## 11. The (n, n^2) interval is not empty: phase rules with Theta(n^1.5) steps
+## 11. The (n, n^2) interval: phase rules, and why the claim is UNDER REVIEW
+
+> **Status (2026-11-06): under review.** The claim below is that a phase family gives a
+> *continuously tunable* worst-case exponent $1+lpha$. That is implausible on its face - a
+> worst case is normally pinned by an extremal structure and lands on discrete exponents or on
+> log corrections, not on a continuum - and the $lpha$-family may be an artefact of a rule
+> that behaves like a *clock* rather than like a window statistic. A dedicated check is running:
+> read accounting, attainment of the maximum, nine $lpha$ points, a cheaper machine, and what
+> the rule is allowed to see. **Do not cite this section until that verdict lands.**
 
 *Measured 2026-11-06, `probe_n15/`, 24 tapes per cell, n = 256..8192, alpha = 0.5.*
 
