@@ -313,3 +313,35 @@ found by asking *what the machine actually has to remember*, not by fitting a cu
 **$(n,n^2)$ is empty across every rule we have. Conjecture 2's lower half
 (non-fully-linear $\Rightarrow$ $g=\Omega(n^2)$) is therefore *not* refuted — it has no
 counterexample, and its only would-be counterexample collapsed to linear.**
+
+### 11.4 Two independent lines agree, and A is vacuous
+
+The verification line (`N15_RIGOR.md`) and the pushdown line (`N15_PUSHDOWN.md`) were run
+separately and agree on every number.
+
+| | verification | pushdown |
+|---|---|---|
+| in-class worst case | $\Theta(n)$, independent of $\alpha$ | $\Theta(n)$, independent of $\alpha$ |
+| $\alpha$-ladder cost exponent | 1.001 at all nine points | 1.001, 1.001, 1.001, 1.001, 1.001 |
+| machine | three integers $(L,R,\text{run length})$ | one pass, two counters, $O(\log n)$ bits |
+
+**Rule `A` is vacuous.** It never terminates by *meet*: the gap $r-\ell$ falls only to
+$M-1-k(M)\ge1$ and the outward move raises it again, so the meet check can never fire — on any
+tape, for any $\alpha$. Its output is the constant $\bot$. The reported $0.34\,n^{1.5}$ was the
+read pattern of a computation no output depends on, which is the same defect `N15_RULE.md` §7d
+flags for `D0`.
+
+**Rule `C` is a first-long-run scan**: $\min\{L:\text{run}(L)\ge k(n-L)+1\}+2$, one pass, two
+counters, $O(\log n)$ bits; worst case $n-1$ on the alternating tape, 33 reads on the all-ones
+tape at $n=4096$ against the claimed 89 245.
+
+**Rule `D` is "find the first 1"** and its certificate number is exactly $n-2$ (exhaustive,
+$n\le14$) — so no device can beat $n-2$, and the family maximum is pinned there for every
+$\alpha$.
+
+**And the $\Theta(\sqrt n)$ register file was an artefact of caching cells**: the $k+1$ reads of
+an epoch carry a single run length, so a counter to $k+1$ does the work; $W=1$ suffices.
+
+**Rule-`A`/`D` aside, one honest residual:** `C`'s lower bound is only $\Omega(\sqrt n)$, so `C`
+itself might be cheaper than linear — but the family maximum is pinned by `D` at $n-2$, so that
+cannot rescue the $1+\alpha$ ladder.
