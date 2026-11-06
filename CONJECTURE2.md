@@ -400,3 +400,50 @@ not have it. Plus the re-read lemma for step 3.
 
 **No rule is now known to have a proved super-quadratic worst case.** NBLK keeps only its
 measured trend (reads/test $5.08\to6.21\to10.40$ over $n=8192,16384,32768$, about $2\sigma$).
+
+---
+
+## 13. Three results, and one correction between them (2026-11-06 15:00)
+
+### 13.1 The top rung is filled: `CX` reaches n^3 (`ABOVE_N25.md`)
+
+Rule `CX`: $b_1=[\sum_i \mathrm{sg}[i]\,h(i-\ell)\bmod q<q/2]$ with kernel $h(k)=3^{k^2+1}$.
+Because $h(k+1)/h(k)=3^{2k+1}$ is **not constant**, no rolling-hash update exists — which is
+exactly the escape the square rule lacked.
+
+* certificate: **0.727 / 0.757 / 0.735** of the window is single-flip sensitive at
+  $n=256/512/1024$ — exponent 1, not 1/2;
+* cost: $0.00226$–$0.00360\,n^3$; **slope $2.932\pm0.010$** over $n=1024\ldots8192$; two-term fit
+  $0.00219\,n^3+0.519\,n^2$ (cubic 97 % at $n=8192$);
+* gap stated: no lower bound against *all* $O(\log n)$-bit machines; the certificate plus a
+  no-recurrence argument is the evidence.
+
+Rule `PC` is the cautionary twin: naive machine $n^{2.991}$, but the pointer chain is a
+functional graph with rho length $1.5\sqrt m$, so Brent detection answers the same queries in
+$5.0\sqrt m$ reads — slope **2.493**, i.e. $n^{2.5}$, verified on 174 168 windows.
+
+**So $n^{2.5}$ is not a ceiling.** It is the diameter exponent of the two random structures the
+model can express (the range of a $\pm1$ walk, the rho length of a functional graph); `CX`
+needs neither.
+
+### 13.2 Semi-linear is not empty, and `longrun` is rescued (`SEMILIN_2.md`)
+
+Second member: $b_1=[2\Lambda_2>m]$ ("one run covers more than half the window"): $e/n=5.55\to
+6.85$ over $n=128\ldots8192$ (exponent 1.048), $g=0.299\,n^2$ steps, worst family
+$0^{3n/8}2^{3n/8}1^{n/4}$. The whole $c$-family qualifies ($e/n=5.6/6.7/7.7/10.3$,
+$g=0.30$–$0.41\,n^2$), and $c\to1^+$ degenerates continuously to `b0`.
+
+**Correction to `LONGRUN_FAST.md`:** the per-epoch $4\rho$ prefix sum is a fixed-length window
+sum and *is* incrementally maintainable ($\le3$ reads/epoch). Doing so drops `longrun` from
+$12n$ to **$8n$** and removes the log factor. So the "longrun leaves semi-linear" conclusion of
+the kappa run is **superseded**: $e=\Theta(n)$ stands, the machine was wrong.
+
+### 13.3 What the semi-linear row now is
+
+| member | $e$ | $g$ | status |
+|---|---|---|---|
+| `longrun` | $8n$ (corrected machine) | $\approx25n^2$ | semi-linear |
+| $b_1=[2\Lambda_2>m]$ and its $c$-family | $5.6$–$10.3\,n$ | $0.30$–$0.41\,n^2$ | semi-linear |
+
+Both mechanisms are the same in kind: one passing integer statistic $A$, with $b_1\equiv0$ for
+$m\ge cA$. The two escapes tried (local rules, count-type certificates) fail measurably.
