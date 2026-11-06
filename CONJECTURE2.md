@@ -373,3 +373,29 @@ $\lfloor\sqrt M/2\rfloor+1$ steps, and the sum is $\Theta(n^{1.5})$.
 The one thing still conditional is the *read* side: §11.2 shows that a register file of
 $W\ge\lfloor\sqrt M/2\rfloor$ collapses the reads to $O(1)$ per tape, so $W$ must grow like
 $\sqrt n$ and that machine is out of class. In class ($W=O(1)$) the readings of §11 hold.
+
+### 11.4 The lever moves the step count, not the cost — unless the query looks at a fresh cell
+
+Two controls from `N15_RULE.md`:
+
+* The closed form is exact: $\text{steps}=\sum_{M=4}^{n}(\lfloor\sqrt M/2\rfloor+1)+2
+  =n^{1.5}/3+n/2$, matched digit for digit at $n=256\ldots8192$, and no tape among 1 500 random,
+  the block family and 1-prefixed tapes at $n=4096$ exceeded it.
+* The alpha ladder ($k\propto M^{\alpha}$) gives step exponent $1+\alpha$ exactly
+  (1.002 / 1.189 / 1.476 / 1.742 / 1.996), **but rule `D`'s cost exponent stays 1.002 at every
+  $\alpha$.** `D` reads $a[L]$, a cell that almost never changes, so the walk is long and the
+  costs are not. Rule `A` reads $a[\ell]$, a fresh cell every step, and its maximum reads scale
+  as $0.34\,n^{1.513}$.
+
+**So "epoch length" is only half the lever; the other half is whether the per-step query is
+charged.** A long walk with a constant query costs nothing, which is why `D` is fully linear
+despite $\Theta(n^{1.5})$ steps.
+
+**The worst tape is a constant-run tape** (all ones, half ones, blocks with period $\ge\sqrt
+n/2$). On 600 random tapes rule `A` costs 4 reads and the walk dies in 19–35 steps. That is
+legitimate — $g$ is a maximum over tapes — but it must be stated: the typical behaviour is
+trivial and the worst case is carried by a very special family.
+
+**And the escape still costs $\Theta(\sqrt n)$ words** ($W\approx\lfloor\sqrt M/2\rfloor+1$:
+$W=4$ gives 89 245 reads at $n=4096$, $W=32$ gives 65), so the rung is in class only at $W=O(1)$
+— the same shape as `NBLK`'s `Bmap`.
