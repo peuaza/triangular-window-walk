@@ -92,6 +92,20 @@ $m=1000$–$15000$ (`ZERO_ANSWER.md` §5–§6).
 
 ---
 
+## 4. Consequence — **DOWNGRADED 2026-11-06 14:20: the total does not follow**
+
+> **Audit result.** The per-query bound of §3 is a theorem, but it applies only to queries the
+> machine has **not** already certified. On the real walk the band certifies almost all of them:
+> 3, 3 and 6 uncertified zero-answers per tape at $n=2048,4096,8192$. Summing the honest
+> per-query bounds gives a total whose log-log slope against $n$ is **1.051**, where the claim
+> needs 2.5 (`probe_n25_audit/n25_scale.py`).
+>
+> **So $g=\Omega(n^{2.5})$ is NOT established.** What stands is the measurement of §5 - reads
+> per test rising $5.08\to6.21\to10.40$ over $n=8192,16384,32768$ - which is a $2\sigma$ trend
+> with no lower bound behind it.
+>
+> The derivation below is kept only to record what was attempted; do not cite it as a proof.
+
 ## 4. Consequence
 
 Each fresh-level 0-query costs $\Omega(\sqrt m)$; a band of $B$ counters is fresh at rate
