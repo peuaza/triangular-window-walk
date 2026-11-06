@@ -215,13 +215,15 @@ perfect square}]$; $b_2$ from `KCHG`.
 unread bit can be flipped and can turn $N$ into a square. The negative answer is the common one,
 and $N$ is $m$ bits, so no $O(\log n)$-bit machine can carry it between queries.
 
-| $n$ | steps/$n^2$ | **reads/$n^2$** | $\sum m/n^2$ | cuts | tapes with a yes |
-|---|---|---|---|---|---|
-| 256 | 0.0465 | 2.329 | 6.77 | 146 | 0.36 |
-| 512 | 0.0487 | 4.143 | 14.00 | 303 | 0.47 |
-| 1024 | 0.0500 | 7.547 | 28.00 | 635 | 0.31 |
-| 2048 | 0.0537 | 15.638 | 60.43 | 1266 | 0.40 |
-| 4096 | 0.0571 | **32.464** | 127.25 | 2604 | 0.36 |
+| $n$ | steps/$n^2$ | **reads/$n^2$** | 95 % CI |
+|---|---|---|---|
+| 256 | 0.0471 | 2.342 | [1.98, 2.73] |
+| 512 | 0.0484 | 4.076 | [3.41, 4.74] |
+| 1024 | 0.0448 | 6.660 | [5.52, 7.86] |
+| 2048 | 0.0523 | 15.074 | [12.7, 17.5] |
+| 4096 | 0.0527 | **30.087** | [25.2, 34.9] |
+
+Two seeds, 200 tapes per cell (`probe_square/sq_*_{A,B}.jsonl`). Bootstrap CIs over tapes.
 
 * reads/$n^2$ doubles with $n$: log-log slope $\approx0.95$, i.e. $g=\Theta(n^{2.95})$ —
   **$\Theta(n^3)$**.
