@@ -315,3 +315,24 @@ So the $g\propto n^{2.93}$ measurement rests on a verified walk, not on a plausi
 | reads accounting | 8160 | 0 |
 
 So the $\Theta(n^{1.5})$ step counts rest on a verified engine as well.
+
+### 11.2 The register file has to grow: W = Theta(sqrt n)
+
+`probe_n15/n15_aux.py`, the `wladder` block, worst tape at n = 4096 ($\mathrm{kmax}=32$):
+
+| $W$ (register cells) | reads for the whole walk | reads/step |
+|---|---|---|
+| 8 | 87 961 | 0.983 |
+| 16 | 78 033 | 0.872 |
+| **32** | **65** | **0.001** |
+| 64 | 33 | 0.000 |
+
+The collapse happens exactly at $W=\mathrm{kmax}=\lfloor\sqrt M/2\rfloor$: a register file that
+covers one epoch makes every query free after the first pass. **So $W$ must grow like
+$\sqrt n$, and that machine is out of class** — which is the point. In class ($W=O(1)$, the
+main run used $W=4$) the reads stay $\Theta(n^{1.5})$ and the rules really do sit in
+$(n,n^2)$.
+
+This is the same pattern as `NBLK`'s `Bmap`: the cheap machine exists and needs
+$\Theta(\sqrt n)$ words. A knob that has to grow is a class question, and both of these answer it
+the same way.
