@@ -235,3 +235,40 @@ Two seeds, 200 tapes per cell (`probe_square/sq_*_{A,B}.jsonl`). Bootstrap CIs o
 **So the ladder now has a rule at every rung it claims**: $n^2$ (13 rules), $n^{2.5}$
 (`NBLK>2/>3`, proved), $n^3$ (this rule). The $n^3$ rung was previously attained only by
 machines that chose to recount; now a *rule* forces it.
+
+---
+
+## 11. The (n, n^2) interval is not empty: phase rules with Theta(n^1.5) steps
+
+*Measured 2026-11-06, `probe_n15/`, 24 tapes per cell, n = 256..8192, alpha = 0.5.*
+
+A **phase rule** controls the epoch length directly:
+
+$$\text{shrink}=(\ell-L)+(R-r),\qquad b_2=[\text{shrink}<\lfloor\sqrt M/2\rfloor],\qquad
+b_1=\text{one cell's bit},$$
+
+so the window moves inward for $\lfloor\sqrt M/2\rfloor$ steps and then outward, which cuts at
+once. Epoch length $\approx\sqrt M$, hence $\text{steps}\approx\sum_{M\le n}\sqrt M=\Theta(n^{1.5})$.
+
+| rule | what differs | steps/$n^{1.5}$ | reads/$n^{1.5}$ | implied $g$ |
+|---|---|---|---|---|
+| `A` | side $a[\ell]$, canonical outward move | 0.0438 → 0.0365 | 0.0258 → 0.0246 | $\Theta(n^{1.5})$ |
+| `C` | side $a[\ell]$, explicit boundary cut | 0.3650 → 0.3389 | 0.1422 → 0.0365 | $\approx n^{1.11}$ |
+| `D` | side $a[L]$, outward move | 0.3650 → 0.3389 | 0.0027 → 0.0004 | $\approx n^{1.06}$ |
+
+**steps/$n^{1.5}$ is flat over a factor 32 in $n$, so the step count really is $\Theta(n^{1.5})$**,
+not an artefact of a short range. All three rules are non-fully-linear ($g=\omega(n)$) and all
+three are below $n^2$.
+
+**So Conjecture 2 fails at both ends.** `NBLK>2/>3` exceeds $n^2$; these rules fall below it.
+What survives is the decomposition
+
+$$g_\rho=n^{\alpha}\cdot c_\rho,\qquad \alpha\in[1,2]\ \text{(rule-controlled)},\quad
+c_\rho\in[1,n]\ \text{(certificate-controlled)},$$
+
+and the observation that every **natural** statistic we have sits at $\alpha=2$.
+
+**Caveat, stated plainly.** These rules are engineered, not natural: the phase is set by the
+rule's own state $(L,R,\ell,r)$ and the query is a single cell. They prove the interval is
+non-empty *as a matter of the model*. They do not show that any natural statistic lives there,
+and no natural rule with $\alpha<2$ has been found among 16 measured rules.
