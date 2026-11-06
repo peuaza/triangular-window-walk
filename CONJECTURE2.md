@@ -206,7 +206,7 @@ diagonal of a table, not the whole table.
 
 ## 10. The top rung is filled: the perfect-square rule gives g = Theta(n^3)
 
-*Measured 2026-11-06, `probe_square/`, seed 20261106, 100 tapes per cell (89 at n=4096).*
+*Measured 2026-11-06, `probe_square/`, two seeds (20261106 and 999331), 200 tapes per cell.*
 
 **The rule.** Binary model; read the window as an $m$-bit integer $N$; $b_1=[N\text{ is a
 perfect square}]$; $b_2$ from `KCHG`.
@@ -225,12 +225,12 @@ and $N$ is $m$ bits, so no $O(\log n)$-bit machine can carry it between queries.
 
 Two seeds, 200 tapes per cell (`probe_square/sq_*_{A,B}.jsonl`). Bootstrap CIs over tapes.
 
-* reads/$n^2$ doubles with $n$: log-log slope $\approx0.95$, i.e. $g=\Theta(n^{2.95})$ —
-  **$\Theta(n^3)$**.
+* reads/$n^2$ doubles with $n$: log-log slope **0.925**, i.e. $g=\Theta(n^{2.93})$ —
+  **$\Theta(n^3)$** with a sub-cubic correction.
 * steps/$n^2$ is flat at $0.05$: the walk is $\Theta(n^2)$ and the growth is entirely in
   reads per step.
-* $\sum m/n^2$ has exponent $1.057$, and reads $\approx\sum m/4$: the machine reads about a
-  quarter of each window, which is what "determine $N$" costs.
+* In the single-seed run, $\sum m/n^2$ had exponent $1.057$ and reads $\approx\sum m/4$: the
+  machine reads about a quarter of each window, which is what "determine $N$" costs.
 
 **So the ladder now has a rule at every rung it claims**: $n^2$ (13 rules), $n^{2.5}$
 (`NBLK>2/>3`, proved), $n^3$ (this rule). The $n^3$ rung was previously attained only by
