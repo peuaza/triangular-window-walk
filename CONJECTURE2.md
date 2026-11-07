@@ -644,3 +644,68 @@ the phase family ($n^{1.5}\to n$), the square rule ($n^3\to n^2$), the memoised 
 ($2.5\to1.7$ with $\Theta(n)$ state), the two-line model (killed by $m^{2/3}$), and the
 parameterisation (killed by non-monotonicity). **The recurring question that catches all five:
 what does the machine have to *remember*, and is that within $O(\log n)$ bits?**
+
+---
+
+## 18. The final state after the lower-bound hunt (2026-11-07, 03:00)
+
+### 18.1 What is now a theorem
+
+| class | result | proof |
+|---|---|---|
+| single-cell sums | $g=\Theta(n)$, exactly $n+S-1$ | collapse theorem, 320 880 queries, 0 errors |
+| kernel correlations, Hankel rank $\le s$ | $g=\Theta(n^2)$ | rank threshold (step function, not a rate) |
+| kernel correlations, rank $>s$ | $g=\Theta(n^3)$ | same |
+| constant answers | $g=\Theta(1)$ | 2 reads per whole walk |
+
+The rank threshold is `reads/query = 1 if rank <= s, m/s if rank > s` — **a step function**, which is
+why kernel rules land on $n^2$ or $n^3$ and never between. The collapse theorem is one statement
+behind all six retracted constructions of this project.
+
+### 18.2 What is determined only inside a named class
+
+* $C(s)$ — linear registers, **arbitrary nonlinear readout**, arbitrary adaptivity, free
+  computation: `reads >= L_t - 2s` per left move (root count). At $s=1$ the naive machine is
+  optimal in class.
+* ResPointer ($\gamma$-spread): $E[\text{reads}] \ge (\gamma S - s)/(\gamma + \log_2 3)$; with
+  $\gamma=1$, $\Omega(n^2)$.
+* **`DC` in the accumulator class $A(2)$**: $1.4292\times10^9 \le \text{reads}\le1.4376\times10^9$
+  at $n=8192$, i.e. $g = n^3/384$ within **0.6 %**. `DC` anchors the kernel at both ends
+  ($B=\sum \mathrm{sg}_i h_2(i-\ell)h_2(r-i)$), so both shrinks move the evaluation point and
+  neither the free right-shrink identity nor the left-shift accumulator exists.
+
+### 18.3 What remains only an upper bound
+
+`PC`, `CX`, the remaining chases, `hashmod`: best known machines at $n^{2.9}$, $n^{2.93}$,
+$n^{2.5}$; lower bound $\Omega(n)$ only.
+
+### 18.4 Why an unconditional lower bound is out of reach
+
+The device's answer is one of **8 actions**, so per-query information is at most $\log_2 8=3$ bits
+while one read gives $\log_2 3=1.585$ bits. **No information argument can force more than 1.893
+reads per query, whatever $\varphi$ is.** The global transcript argument gives $0.63\log_2 n$ reads.
+So $g=\Omega(n^3)$ is a *computational* lower bound against log-space random-access machines — open
+for every explicit function.
+
+Three supporting negatives: the tape ceiling (any tape-counting caps at $n$ reads); the redundancy
+ceiling ($S$ answers from $1.585n$ tape bits); and **the clock is not a lower bound** — the phase
+family has $S=n^2/4+n-3$ and $g\le1.75n$.
+
+### 18.5 The validity prior
+
+The machine is told the tape produces a $\delta$. That is worth $p(n)=n^{-a}$ with
+$a\in[0,1.13]$ — i.e. $0$ to $1.13\log_2 n$ bits, inside the $O(\log n)$ budget. Measured effect on
+$\kappa$: `LAS` $R^2$ $0.053\to0.103$ at $18n$ ($+.050$), `hashmod` $0$ (its $P(V)=1$, so the prior
+carries no information). It does not change any exponent.
+
+### 18.6 The conjecture, final form
+
+$$g_\rho\in\{\Theta(1),\ \Theta(n),\ \Theta(n^2),\ \Theta(n^3)\}\quad\text{for every rule.}$$
+
+* **Theorem** for the single-cell-sum and kernel-correlation classes (14 of the 16 measured rules).
+* **Conjecture** for the class-external chases, where the best known machine already sits at
+  $n^{2.5}$–$n^{2.9}$ and the only lower bound is $\Omega(n)$.
+* The isolated $2.5$ of the earlier draft is **not a rung**: it is the cost of a *recomputing*
+  machine. The same rule has an incremental machine at $n^2$ (`NBLK`, hybrid band+frontier) and a
+  structured-tape machine at $n^{2.9}$ (`PC`). A rung must be a value of $g$, and $g$ is a minimum
+  over machines.
