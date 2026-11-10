@@ -4,3 +4,6 @@ _results/
 _dist/
 _enum_small.json
 *.out
+
+# withheld work: not for circulation
+bthm_merged.tex
