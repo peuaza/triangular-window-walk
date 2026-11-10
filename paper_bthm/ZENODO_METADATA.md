@@ -1,5 +1,7 @@
 # Zenodo metadata — BTHM, v1
 
+**DOI: `10.5281/zenodo.24115991`** (published)
+
 Fill these into the Zenodo form. Everything here is copied from the paper itself, not invented.
 
 ## Title
@@ -53,11 +55,11 @@ classification; kernel rank
 
 ## Related identifiers
 
-| relation | identifier | what |
-|---|---|---|
-| is related to | `10.5281/zenodo.23804106` | the first paper of the programme |
-| is related to | `10.5281/zenodo.23912075` | the second paper of the programme |
-| is supplemented by | the code deposit on GitHub | `paper_bthm/` in the triangular-window-walk repository (link after the push) |
+| relation           | identifier                  | what                                                                         |
+| ------------------ | --------------------------- | ---------------------------------------------------------------------------- |
+| is related to      | `10.5281/zenodo.$23804106$` | the first paper of the programme                                             |
+| is related to      | `10.5281/zenodo.23912075`   | the second paper of the programme                                            |
+| is supplemented by | the code deposit on GitHub  | `paper_bthm/` in the triangular-window-walk repository (link after the push) |
 
 ## Notes
 
