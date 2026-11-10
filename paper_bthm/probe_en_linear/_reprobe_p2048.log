@@ -1,0 +1,5 @@
+peak n=2048 offset=700000 meetings=200 draws=3893 secs=343
+   W2= 32  exact 199/200   e/n 2.00
+   W2= 64  exact 199/200   e/n 2.00
+   W2=128  exact 199/200   e/n 1.99
+   W2=256  exact 199/200   e/n 2.07

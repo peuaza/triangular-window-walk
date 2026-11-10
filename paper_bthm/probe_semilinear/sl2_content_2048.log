@@ -1,0 +1,9 @@
+n=2048  tapes=30  meeting=30
+A SPREAD   delta sd  736.2 cells   q25 0.065  med 0.317  q75 0.794  [0.3,0.7] 0.23
+B PAIRFLIP 120 probes  zero 92.5%  med 0  med(nz) 661  p90(nz) 1612  max 1770
+C DEFECTFLIP base delta 0.174 (end 0, 0.751 n^2 reads);  520 2-cells probed: delta moved by med 1417 cells, p10 1417, max 1508; 520/520 moved > n/4
+D ERASE f=0.001 (2 cells)  delta reproduced 28/30  med move 0 cells
+D ERASE f=0.010 (20 cells)  delta reproduced 24/30  med move 0 cells
+D ERASE f=0.050 (102 cells)  delta reproduced 15/30  med move 0 cells
+D ERASE f=0.250 (512 cells)  delta reproduced 3/30  med move 56 cells
+D ERASE f=0.500 (1024 cells)  delta reproduced 0/30  med move 236 cells

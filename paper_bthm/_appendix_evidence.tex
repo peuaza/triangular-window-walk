@@ -1,0 +1,474 @@
+% ======================================================================
+%  Appendix A: the model, the predictor, and the proofs
+%  Sections A1-A3 are new; A4-A7 carry the protocols, gates, lemmas and
+%  the status table that were already in this appendix.
+% ======================================================================
+\section{The model, the predictor, and the proofs}\label{app:evidence}
+
+This appendix does three things the main text does not have room for. It fixes the model
+formally (A1), including which of the two readings of $\varphi$ is in force at each point --- a
+distinction the text uses throughout without naming. It defines the predictor and the quantity
+$\kappa$ that the classification is stated in (A2). It then proves, or cites the verification of,
+the structural facts the paper relies on (A4), and records the protocols (A5), the gates (A6) and
+the status of each claim (A7).
+
+\subsection{The model}\label{app:model}
+
+\begin{definition}[Rule]\label{def:rule}
+A \emph{rule} is a pair $\rho=(\varphi,f)$ with
+\[
+\varphi:W\to A,\qquad W=\bigcup_{m\ge1}\Gamma^{m},\qquad A\ \text{finite},
+\]
+\[
+f:A\times\mathbb N\times\mathbb N^{4}\longrightarrow
+\{\ell{+}1,\ \ell{-}1,\ r{+}1,\ r{-}1,\ \text{left trim},\ \text{right trim},\ \text{double trim},\ \text{halt}\},
+\]
+evaluated at $\bigl(\varphi(\tau[\ell..r]),\,n,\,\ell,\,r,\,L,\,R\bigr)$. Two conditions hold by
+definition and are used silently below: $\varphi$ depends on the current window only, never on the
+history, so $(\varphi,f)$ makes the state $(L,R,\ell,r)$ Markov; and every convention by which a
+rule resolves an inadmissible move, a trim or a halt is part of $f$. No computability, complexity or
+measurability condition is placed on $\varphi$: it is the \emph{specification} of the rule, not an
+object the rule computes.
+\end{definition}
+
+\begin{definition}[Run]\label{def:run}
+Fix $n$ and $\tau\in\Gamma^{n}$. The state is $(L,R,\ell,r)$ with $0\le L\le\ell\le r\le R\le n-1$,
+initially $(0,n-1,0,n-1)$. Given a state, let $a=f(\varphi(\tau[\ell..r]),n,\ell,r,L,R)$.
+\begin{enumerate}
+\item If $\ell=r$, the run halts and outputs $\delta=\ell/(n-1)$.
+\item If $a$ is a move taking a header to $p$, it is admissible iff $L\le p\le R$. If admissible and
+$p$ meets or passes the other header, the run halts and outputs $\delta=p/(n-1)$; if inadmissible the
+run aborts with no output.
+\item If $a$ is a trim, it is admissible iff the new region is non-empty; then $(L,R)\leftarrow(L',R')$
+and $(\ell,r)\leftarrow(L',R')$.
+\item If $a$ is \emph{halt}, the run halts with no output.
+\item If the new state has occurred earlier in the run, the run halts with no output.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Output function]\label{def:output}
+$\delta_{\rho,n}:\Gamma^{n}\to D_{n}\cup\{\bot\}$, where $D_{n}=\{i/(n-1):0\le i\le n-1\}$ and
+$\bot$ denotes ``no output'', is the map defined by Definition~\ref{def:run}. It is total: the state
+space is finite, so every run halts by clause 5.
+\end{definition}
+
+\begin{remark}[The repeat test costs no space]\label{rem:repeat}
+Clause 5 is a property of the orbit, not a resource of the device: $f$ and the geometry determine the
+next state, so a device can implement the test by Brent's algorithm in $O(1)$ extra work bits. It
+costs reads and steps, never space. The clause therefore does not smuggle an $\Omega(n^{2})$-bit
+table into the model --- but a device that merely simulates must pay for cycle detection, and the
+read counts of this paper include that payment.
+\end{remark}
+
+\subsubsection{Two readings of $\varphi$, and which is in force where}
+
+\begin{definition}[Oracle semantics, (O)]\label{def:oracle}
+$\varphi$ is an oracle: evaluating $\varphi(w)$ costs $0$ reads and $0$ steps, for every window $w$.
+\end{definition}
+
+\begin{proposition}[The oracle reading is vacuous]\label{prop:oracle}
+Under (O), every rule $\rho$ costs zero reads, so every rule is trivially fully linear and none is
+superlinear.
+\end{proposition}
+
+\begin{proof}
+The device stores $(L,R,\ell,r)$ --- four integers below $n$, so $4\lceil\log_{2}n\rceil$ bits ---
+queries the oracle for $\varphi(\tau[\ell..r])$, looks $f$ up in its finite control, and updates. It
+never senses a cell, so reads $=0$. Clauses 1--5 of Definition~\ref{def:run} are decided from the
+stored state and the oracle's answer.
+\end{proof}
+
+\begin{definition}[Computed semantics, (C)]\label{def:computed}
+The device has no oracle. On input $\tau$ it must write $\delta_{\rho,n}(\tau)$ on its output tape,
+sensing only cells of $\tau$. $\varphi$ enters only through $\delta_{\rho,n}$; the device may compute
+$\varphi$ however it likes, precompute it, cache it, or bypass it entirely.
+\end{definition}
+
+\begin{definition}[$\varphi$-state; incremental computability]\label{def:phistate}
+A \emph{$\varphi$-state} for $\rho$ on a window $w$ is a value $\sigma\in\Sigma$ together with an
+evaluation map $\mathrm{ev}:\Sigma\times\mathbb N\to A$ such that $\mathrm{ev}(\sigma,|w|)=\varphi(w)$.
+A device \emph{carries} $\varphi$ if its work tape holds a $\varphi$-state and $\mathrm{ev}$ costs
+$O(1)$ steps and $0$ reads. $\varphi$ is \emph{incrementally computable} if there is
+$\mathrm{upd}:\Sigma\times\Gamma\to\Sigma$, costing $O(1)$ steps and $0$ reads, with
+$\mathrm{upd}(\sigma_{w},c)=\sigma_{w\setminus c}$ for every window $w$ and every cell $c$ at either
+end of $w$.
+\end{definition}
+
+\begin{remark}[Which reading is in force where]\label{rem:which}
+The three readings occur in different parts of the paper, and the classification is only meaningful
+under (C).
+\begin{center}
+\small
+\begin{tabular}{@{}p{.26\textwidth}p{.14\textwidth}p{.50\textwidth}@{}}
+\toprule
+location & reading & what it establishes \\
+\midrule
+Definition~\ref{def:rule} & (O) & the \emph{semantics} of the rule: $f$ is handed
+$\varphi(\tau[\ell..r])$. Not a cost statement.\\
+the machines of Section~\ref{sec:cost} & (C) & read counts of devices that compute $\varphi$
+themselves; every number in the tables is of this kind.\\
+Theorem~\ref{prop:collapse}, Theorem~\ref{thm:rank} & (C) with a carried $\varphi$-state & the only
+places where the assumption is written down; strictly stronger than Definition~\ref{def:rule}.\\
+the ceiling of Section~\ref{sec:ceiling} & neither & a statistical estimator with a read budget, not
+required to be exact; not a device in the sense of Definition~\ref{def:rule}.\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{remark}
+
+\noindent The consequence of Proposition~\ref{prop:oracle} is worth stating plainly: a paper that
+counted reads under (O) would classify nothing, since every rule would cost zero. Every read count
+below is therefore a statement under (C), and the two theorems that mention a carried $\varphi$-state
+are the only places where that assumption is used at full strength.
+
+\subsection{The predictor, and $\kappa$}\label{app:kappa}
+
+The classification uses $\kappa$, and $\kappa$ is a supremum, so it needs both a definition and a
+statement of what a measurement of it can and cannot establish.
+
+\begin{definition}[Predictor]\label{def:predictor}
+Fix $\rho$, $n$ and a budget $B=B(n)$. A \emph{predictor} is a device that, on input $\tau$, reads at
+most $B(n)$ cells of $\tau$ --- adaptively, in any order --- performs arbitrary computation on what it
+has read, and outputs one value in $D_n$. It is not required to be correct; it is scored. The tapes
+that concern it are the \emph{meeting} tapes, those on which $\delta_{\rho,n}$ is defined: a tape with
+no output has no $\delta$ to predict and is not counted.
+\end{definition}
+
+\begin{definition}[Score, and $\kappa$]\label{def:kappadef}
+For a predictor $P$ let $R^2_n(P)$ be the coefficient of determination of $P$'s output against
+$\delta_{\rho,n}$, computed over the meeting tapes with cross-validation and with the constant
+predictor in the comparison. Define
+\[
+\kappa_{\rho}(c)=\lim_{n\to\infty}\ \sup_{P\,:\,B=cn} R^2_n(P),
+\qquad
+\kappa_{\rho}=\sup_{c\ge1}\kappa_{\rho}(c).
+\]
+The classes are read in this order: \emph{fully linear} if $g_{\rho}=O(n)$; otherwise
+\emph{semi-linear} if $e_{\rho}=O(n)$; otherwise \emph{superlinear}.  The superlinear class is
+not split further: $\kappa_{\rho}$ measures how close a rule comes to a cheap exact machine, no
+member of the catalogue reaches $\kappa_{\rho}=1$, and Conjecture~\ref{conj:perfect} says none can.
+\end{definition}
+
+\begin{remark}[What a measurement of $\kappa$ can establish]\label{rem:kappasup}
+$\kappa$ is a supremum over predictors and a limit in $n$, so a measurement is a \emph{lower} bound:
+it exhibits one predictor and reports what it achieved. Two consequences follow.
+\begin{enumerate}
+\item $\kappa=1$ \emph{can} be established, by exhibiting a device that reads at most $cn$ cells and
+reproduces $\delta$ on every meeting tape.
+\item $\kappa=0$ \emph{cannot} be established by measurement. The strongest statement a table can
+carry is that every predictor tried failed to beat the constant predictor.
+\end{enumerate}
+\end{remark}
+
+\begin{proposition}[Linear mean forces perfect prediction]\label{prop:elinear}
+If $e_{\rho}=O(n)$ then $\kappa_{\rho}=1$.
+\end{proposition}
+
+\begin{proof}
+Let $M$ be a device with mean cost $e\le Cn$ over the meeting tapes. Cap it at $cn$ reads and let it
+guess on the tapes where the cap stops it. By Markov's inequality the capped fraction is at most
+$C/c$, and since $\delta\in[0,1]$ the squared residual on those tapes is at most one, so
+\[
+R^2_n(c)\ \ge\ 1-\frac{C}{c\,\mathrm{Var}(\delta)}
+\]
+for every $n$ and every $c$. Taking $n\to\infty$ and then $c\to\infty$ gives
+$\kappa_{\rho}=1$.
+\end{proof}
+
+\noindent The contrapositive is what the classification uses: $\kappa_{\rho}<1$ implies
+$e_{\rho}=\omega(n)$, so every rule with $\kappa_{\rho}<1$ is superlinear. The converse
+fails --- a rule with superlinear mean cost can still be asymptotically predictable --- and that
+failure is exactly the boundary at $\kappa=1$.
+
+\begin{remark}[$R^2$ is blind to one-cell errors]\label{rem:grid}
+$\delta$ takes values on a grid of spacing $1/(n-1)$. A predictor that is off by exactly one grid cell
+on a constant fraction of tapes still has $R^2\to1$, because the rescaled residual is
+$(n-1)\,|\hat\delta-\delta|=1$ and its square is $1/n^2$ against a total variance of order one. A
+rising $R^2$ therefore does not show that the misses are shrinking. The quantity to report is the
+residual \emph{in grid units}: the fractions with $(n-1)|\hat\delta-\delta|$ equal to $0$, to $1$ and
+to at least $2$, and how those fractions move with $n$.
+\end{remark}
+
+\subsection{The catalogue of rules}\label{app:catalogue}
+
+Every rule the main text names appears in Table~\ref{tab:rule-catalogue}, one row each, with its
+$\varphi$ written on a single line precise enough to reimplement. Write $m=r-\ell+1$,
+$k=\max(1,\lfloor m/2\rfloor)$ and $a_i=2\tau_i\in\{0,1,2\}$; let $s$ be the label tape and $G$ its
+prefix walk, $G_0=0$, $G_{j+1}=G_j+s_j$. Except where a row states otherwise,
+$\varphi=(b_2,b_1)$ with the concavity test
+$b_2=b_2^{\mathrm{conc}}=[\,k\sum_{i=0}^{m-1}a_{\ell+i}>m\sum_{i=0}^{k-1}a_{\ell+i}\,]$ as its second
+coordinate, so each cell of the table records $b_1$ alone. The rows marked four-valued read the label
+tape $s$; the three-valued rows read only $\sigma=a$; by the embedding lemma every $\sigma$-rule is
+bit-identical in the four-valued model, so the two columns are a statement about what the rule needs,
+not about which engine ran it.
+
+The action convention is the canonical four-move table --- $\ell\mapsto\ell-1$ on $(0,0)$,
+$r\mapsto r+1$ on $(0,1)$, $r\mapsto r-1$ on $(1,0)$, $\ell\mapsto\ell+1$ on $(1,1)$, the headers
+moving inward exactly when the two bits agree --- unless the row says otherwise, and three rows do.
+\texttt{hashmod} uses a two-action map that ignores $b_2$: $b_1=0$ moves $r\mapsto r-1$ and $b_1=1$
+takes a left trim. \texttt{PC} and \texttt{CX} use a three-clause convention on $(m,W)$ with
+$W=R-L+1$: move $\ell\mapsto\ell+1$ when $m\le2$, move inward on $b_1$ when $W-m<k(W)$ with
+$k(W)=\max(1,\lfloor W/64\rfloor)$, and otherwise trims on the side fixed by the parity of $\ell-L$.
+Two exit-trim conventions occur in the record, and they differ whenever the window does not touch the
+boundary it leaves through. The canonical engines trim the side \emph{opposite} to the one the move
+would have left; the sign-blind and the four-valued engines trim the \emph{same} side. Only the
+canonical row carries a dagger below and uses the first; every other four-move row uses the second.
+
+\begin{table}[p]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.02}
+\makeatletter
+\newcommand{\catrr}{\raggedright\let\\\@arraycr}
+\makeatother
+\begin{tabular}{@{}p{0.185\textwidth}lp{0.59\textwidth}l@{}}
+\toprule
+rule & tape & $\varphi$ & class \\
+\midrule
+\catrr \texttt{canonical}$^{\dagger}$ & 3-valued &
+\catrr $\big[\,\widehat{\mathrm{corr}}_1(a_\ell,\dots,a_r)>0\,\big]$, with $[a_\ell>\tfrac12]$
+at $m{=}1$, $[a_r>a_\ell]$ at $m{=}2$, and $0$ when either lagged half is constant &
+FL \\
+\catrr \texttt{monotone family} & any &
+\catrr none: the family is defined by $f$, not by $\varphi$ & FL \\
+\catrr \texttt{NBLK} (statistic) & 4-valued &
+\catrr $\mathrm{NBLK}(w)=\#\{\,i\in(\ell,r+1]\;:\;G_i=G_\ell\,\}$ --- the returns of the
+label walk to its starting level & --- \\
+\catrr \texttt{NBLK=1} & 4-valued &
+\catrr $\big[\mathrm{NBLK}(w)=1\big]$ & SU \\
+\catrr \texttt{NBLK>2} & 4-valued &
+\catrr $\big[\mathrm{NBLK}(w)>2\big]$, count $\ge3$ & SU \\
+\catrr \texttt{NBLK>3} & 4-valued &
+\catrr $\big[\mathrm{NBLK}(w)>3\big]$, count $\ge4$ & SU \\
+\catrr \texttt{AMAX} & 4-valued &
+\catrr $\big[G_{r+1}>\max_{\ell\le i\le r}G_i\big]$, the window's border attains a strict
+maximum & SU \\
+\catrr \texttt{AMIN} & 4-valued &
+\catrr $\big[G_{r+1}<\min_{\ell\le i\le r}G_i\big]$ & SU \\
+\catrr \texttt{MAXP} & 4-valued &
+\catrr $\big[(\max_{\ell\le i\le r+1}G_i-G_\ell)^2>m\big]$ & SU \\
+\catrr \texttt{KCHG} & 4-valued &
+\catrr $c=\#\{p\in[\ell+1,r]:s_{p-1}s_p<0\}$, $p_c=$ the $\lceil c/2\rceil$-th such $p$;
+$\big[2(p_c-\ell)>m\big]$, and $0$ if $c=0$ & SU \\
+\catrr \texttt{LAS} & 4-valued &
+\catrr $\mathrm{LAS}(w)=1+\#\{\text{sign changes in }(s_i)_{i\in w,\,s_i\ne0}\}$, (0 if none); $\big[4\,\mathrm{LAS}>m\big]$ & SU \\
+\catrr \texttt{BAL>m/2} & 4-valued &
+\catrr $\mathrm{BAL}(w)=\max\{j-\ell:\ell<j\le r+1,\ G_j=G_\ell\}$, (0 if none);
+$\big[2\,\mathrm{BAL}>m\big]$ & SU \\
+\catrr \texttt{BAL>m/4} & 4-valued &
+\catrr same $\mathrm{BAL}$; $\big[4\,\mathrm{BAL}>m\big]$ & SU \\
+\catrr \texttt{hashmod} & 3-valued &
+\catrr $\big[H(w)\bmod m=0\big]$, $H(w)=\big(\sum_{j=0}^{m-1}2^j a_{\ell+j}\big)\bmod p$,
+$p=10^{9}+7$ & SU \\
+\catrr \texttt{dense2} & 3-valued &
+\catrr $\big[4\,\#\{i\in[\ell,r]:a_i=2\}>m\big]$ & SU \\
+\catrr \texttt{runs} & 3-valued &
+\catrr $\big[2\,\#\{i\in[\ell,r-1]:a_i\ne a_{i+1}\}>m\big]$ & SU \\
+\catrr \texttt{pal} & 3-valued &
+\catrr $\big[a_\ell a_{\ell+1}\cdots a_r=a_r\cdots a_{\ell+1}a_\ell\big]$ & FL \\
+\catrr \texttt{pattern} & 3-valued &
+\catrr $\big[\exists j\in[\ell,r-2]:(a_j,a_{j+1},a_{j+2})=(2,1,1)\big]$, and $0$ if $m<3$ &
+FL \\
+\catrr \texttt{longrun} & 3-valued &
+\catrr $\big[4\,\Lambda_2(w)>m\big]$, $\Lambda_2(w)=\max\{t:\exists j,\ a_j=\cdots=a_{j+t-1}=2\}$ & SU \\
+\catrr \texttt{peak} & 3-valued &
+\catrr $\big[6\,\#\{i\in[\ell+1,r-1]:a_{i-1}<a_i>a_{i+1}\}>m\big]$ & SU \\
+\catrr \texttt{trip} & 3-valued &
+\catrr $\big[6\,\#\{i\in[\ell,r-2]:a_i=a_{i+1}=a_{i+2}\}>m\big]$ & SU \\
+\catrr \texttt{oddrun} & 3-valued &
+\catrr $\big[2\,\#\{\text{maximal constant runs of }w\text{ of odd length}\}>m\big]$ &
+SU \\
+\catrr \texttt{ballast} & 3-valued &
+\catrr the monotone collapse of Section~\ref{sec:classes} with the one-shot defect defined
+there & SL \\
+\catrr \texttt{PC} & 4-valued &
+\catrr $p_0=0$, $p_{t+1}=(3p_t+1+a_{\ell+p_t})\bmod m$, $\big[2p_m\ge m\big]$ & --- \\
+\catrr \texttt{CX} & 4-valued &
+\catrr $q=2^{31}-1$, $h(k)=3^{k^2+1}\bmod q$,
+$B(w)=\sum_{i=\ell}^{r}a_i\,h(i-\ell)\bmod q$, $\big[2B<q\big]$ & --- \\
+\bottomrule
+\end{tabular}
+\caption{The catalogue. Each row is one rule with the tape it reads, its $\varphi$ in one line, and
+the class it is placed in: FL fully linear ($g_\rho=O(n)$), SL semi-linear ($e_\rho=O(n)$ with
+$g_\rho=\omega(n)$), SU superlinear ($e_\rho=\omega(n)$), --- unclassified. The superlinear rows are
+not subdivided here: their measured $\kappa_\rho$ is in Table~\ref{tab:kappa-inc}, and every one of
+them is strictly between $0$ and $1$. A dagger marks the one row that uses the opposite-side exit
+trim; row~1 of the table is the only such row.}
+\label{tab:rule-catalogue}
+\end{table}
+
+Three of these rows --- \texttt{BAL}, \texttt{KCHG} and \texttt{LAS} --- have no prose definition
+anywhere in the record: the manuscript, the measurement notes and the appendix all name them and
+none defines them. Their $\varphi$ above is taken from the implementation rather than from a stated
+definition, so a reader who wants to check them should read the code, and should expect the
+definition it finds to be the one that produced the numbers rather than the one a gloss would
+suggest. \texttt{LAS} is the sharpest case: as implemented it coincides with \texttt{runs}, which is
+why its separate classification rests on measurement alone.
+
+\subsection{Structural facts, and what of them is proved}\label{app:proofs}
+
+Each item below is labelled \emph{proved} or \emph{verified}. The distinction is not decorative: three
+of the six are verified on exhaustive small cases and are not theorems, and saying so is cheaper than
+having a referee say it.
+
+\paragraph{Parity of the boundary (proved).} Write $C$ for the number of cells of the window exceeding
+its mean and $D=2C-m$ for the signed surplus. Since $2C\equiv m \pmod 2$, $D\equiv m\pmod 2$, so the
+boundary $D=0$ --- the only state in which a scan can change an epoch's outcome --- is reachable only
+at even $m$. Verified on all $27\,984$ epochs of the cube for $n=4$--$8$: $b_2=0$ forces a double trim
+without exception, and every epoch whose outcome differs from the $b_1$-side trim visits $D=0$.
+
+\paragraph{Drift (proved for even $n$).} For the ensemble of Definition~\ref{def:rule},
+$\mathbb E[4N_2-m]=0$ at even $n$ and $+2$ at odd $n$, where $N_2$ counts the cells equal to $2$. Hence
+\texttt{dense2}'s bit has no drift at even $n$, flips in $35$ per cent of epochs, and flips the trim
+side with it. Measured consequence: enlarging the endgame buffer from $24$ to $320$ cells leaves the
+error rate at $14$ per cent.
+
+\paragraph{Level counts for the extremum rules (verified).} For a $\pm1$ walk, the statement ``the
+endpoint $r$ is the strict maximum of the window'' is equivalent to ``the level $G_{r+1}$ is never
+visited in $[\ell,r]$''. The equivalence turns \texttt{AMAX} and \texttt{AMIN} into single-level
+counts, which is what makes them reachable by the same band$+$frontier machine as \texttt{NBLK}.
+Verified on $132\,036$ windows with no mismatch. This is a verified equivalence, not a proved one; the
+converse direction is the one that could fail on a longer window, and it was checked only on the
+windows the walk visits.
+
+\paragraph{The rank of the convolution kernel (proved).} For $h(k)=3^{k^{2}}$ and modulus $q$,
+\[
+H_{m}[d,k]=h(k+d)=3^{(k+d)^{2}}=3^{d^{2}}\cdot 9^{dk}\cdot 3^{k^{2}},
+\]
+so $H_{m}=3\,\mathrm{diag}(3^{d^{2}})\,[9^{dk}]\,\mathrm{diag}(3^{k^{2}})$. The middle factor is a
+Vandermonde matrix on the nodes $9^{d}$, $d=0,\dots,m-1$, which are pairwise distinct whenever
+$\mathrm{ord}_{q}(9)>m-1$. With $q=2^{31}-1$, the order is $357\,913\,941$ --- computed, not assumed:
+$q$ is prime, the order divides $q-1$, and it exceeds the largest window the tables use by a factor of
+$21\,845$ (\texttt{probe\_vandermonde/vand\_check.py}) --- so the nodes are pairwise distinct for every
+$m$ in the range studied and $\operatorname{rank}H_{m}=m$ exactly over $\mathbb F_{q}$. The two diagonal
+factors are powers of $3$, nonzero in $\mathbb F_{q}$ and hence invertible, so the rank is that of the
+Vandermonde factor. This is the only rank computation the paper
+relies on.
+
+\paragraph{The witness family for the cubic cost (verified).} The family is $1^{m}$ --- the constant
+tape --- with nine cells changed. The machine's two encodings cover up to eight defects and it uses nine,
+which its accumulator still absorbs; the cost per test is flat in the window length for every fixed
+count that was checked, up to sixteen. On this family the Brent-style machine costs $n^{3}/685$ at $n=4096$ with local
+exponent $2.90$, and $C(m)/m$ is flat in $m$ (per-window exponent $1.07$ on the artificial family,
+$0.95$ on the real tape). The dependence on the defect \emph{count} rather than density is what makes
+the exponent $3$ rather than $2.5$; with a fixed defect density the same machine gives $2.5$ to
+$2.85$. This is a measured witness, not a lower bound: no argument in this paper shows that no better
+machine exists.
+
+\paragraph{Why one number suffices (proved).} If $b_1$ is constant over the epoch's range and that
+constancy is certified by a tape-global maximum, the epoch's effect is a single trim whose side is a
+function of $(b_2,b_1)$ evaluated once, so the strategy costs $O(n\rho)$, where $\rho$ is the longest
+run of $2$s --- this is \texttt{longrun}. If the certificate is instead a last-passage query on a
+$\pm1$ walk, its exact structure needs $\Theta(n)$ words and the strategy does not linearise. The
+dichotomy is the reason the certificate's \emph{shape}, not its size, decides the class.
+
+\paragraph{Step counts, and why there is no clock}\label{app:steps}
+The body states no rule-independent clock, because the measurement contradicts it. On one ensemble,
+with every run allowed to finish, the mean step count at $n=4096$ divided by $n^{2}/128$ is:
+
+The ratio ranges from $0.385$ for \texttt{NBLK>3} to $15.58$ for \texttt{hashmod}, a factor of
+forty, and the growth exponent between $n=1024$ and $4096$ ranges from $1.70$ to $2.20$. These
+are the step counts of the machines of Section~\ref{sec:cost}, regenerated from their traces;
+an earlier draft printed a wider span whose low end was not in the data. A clock would have to
+be a property of the model; this is a property of the rule.
+
+\paragraph{The collapse (verified, not proved).} The collapse (Proposition~\ref{prop:collapse}) was
+checked on $320\,880$ queries with no error, and the body states it as a proposition for that
+reason; the general-$n$ statement is Conjecture~\ref{conj:collapse}.
+
+\paragraph{The general bound, and why it is not sharp.} In cell reads the trivial bound is $O(n^{4})$:
+the walk makes $O(n^{2})$ steps and a step that re-evaluates a window statistic costs up to $O(n)$
+reads. Under the epoch structure the bound is $O(n^{3})$, and the five level-count rules of
+Section~\ref{sec:cost} meet the next rung down at $n^{2}$ with the band$+$frontier machine. The
+$n^{3}$ rung is occupied by \texttt{PC} on the witness family above. What is missing is not a better
+machine but a lower bound: Section~\ref{sec:ceiling} records the two ceilings that block
+the standard arguments.
+\subsection{Protocols and gates}
+\label{app:protocols}
+
+Every machine is written read-exact and gated before any timing, at zero tolerance: the walk against
+the literal definition on the full cube $\{0,1,2\}^{n}$ for $n\le10$ ($88\,560$ tapes) and on random
+tapes at $n=11$--$96$, accepted only at zero mismatches in $\delta$ \emph{and} in the step count; the
+$b_1$ table against an independent implementation on $2\,192\,103$ windows; and the registers after
+every trim against a prefix-sum oracle. Three bugs in our own machines were caught this way after their
+numbers had been computed once, and the numbers were recomputed.
+
+Two protocol choices are recorded because each changed a number. Exponents are fitted on the largest
+three sizes only: fitting from $n=64$ produced two exponents we later withdrew ($1.696$ for
+\texttt{peak} and $1.826$ for \texttt{trip}; both are $2.04$--$2.12$ on the large sizes), because the
+$2n$ initialisation dominates at small $n$. And the worst case is measured on a constructed family
+rather than by hill climbing: on \texttt{NBLK>2} a climb found $4.3\,n^{2}$ where the family found
+$48.9\,n^{2}$ at the same size, a factor of eleven.
+
+\subsection{Verification gates}
+\label{app:gates}
+
+Every machine used for a number in this paper passed a gate of the
+following form before any timing. The counts are totals over the paper's
+strategies.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+what is checked & how & count \\
+\midrule
+the walk against the literal definition & full cube $n\le10$ & $88\,560$ tapes \\
+the same, four-valued model & cube $+$ support $T_n$ & $130\,500$ walks \\
+the machine's registers after every trim & prefix-sum oracle & every scan step \\
+$b_1$ on all windows of the cube & independent implementation & $2\,192\,103$ windows \\
+the endgame at $W=n$ reduces to the walk & cube $n\le10$ & $147\,555$ walks \\
+the constructed worst-case family is realisable & by construction & all members \\
+\bottomrule
+\end{tabular}
+\caption{Gates. A number is reported only if its machine passes. Three real
+bugs in our own machines were caught this way after the numbers had
+already been computed once, and the numbers were recomputed.}
+\end{table}
+
+\subsection{Status of each claim}
+\label{app:status}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{0.46\textwidth}p{0.20\textwidth}p{0.24\textwidth}@{}}
+\toprule
+claim & status & where \\
+\midrule
+parity of the $D=0$ boundary & proved & Appendix~\ref{app:proofs} \\
+\texttt{dense2} has no drift at even $n$ & proved & Appendix~\ref{app:proofs} \\
+$g_\rho=O(n^4)$ in cell reads, $O(n^3)$ under the epoch structure & proved & Appendix~\ref{app:proofs} \\
+$g_\rho=\Theta(n^3)$ for machines that recount per test & proved & Appendix~\ref{app:proofs} \\
+global-max certificate $\Rightarrow$ $O(n\rho)$ & proved & Appendix~\ref{app:proofs} \\
+\texttt{longrun}: $e/n$ rises $8.53\to9.39$ over $n=512\to16384$, $\alpha=1.024$ & measured & Section~\ref{sec:classes} \\
+\texttt{runs} costs $2.77\,n$ on the CES device, exponent $1.00$ & measured & Section~\ref{sec:cost} \\
+$\kappa\in[0.472,0.925]$ for thirteen rules at $c=16$ & measured & Section~\ref{sec:kappa} \\
+$\kappa_{\texttt{hashmod}}\approx0$ & measured & Section~\ref{sec:kappa} \\
+\midrule
+no strategy has $g_\rho=\omega(n^3)$ & \textbf{open} & --- \\
+every rule outside the fully linear class has $g_\rho=\omega(n)$ & \textbf{open} & --- \\
+\midrule
+``every non-linear rule has $g_\rho=\Omega(n^2)$'' & \textbf{false} & the constructed
+$n^{3/2}$ rung ($g=\Theta(n^{1.5})$) and \texttt{ballast} ($g=\Theta(n^2)$) \\
+some rule costs $n^{3}/685$ on the witness family & measured, upper bound & Section~\ref{sec:cost} \\
+``a window statistic can be evaluated in $O(1)$ reads'' & \textbf{false in general} & Appendix~\ref{app:proofs} \\
+\bottomrule
+\end{tabular}
+\caption{What is proved, what is measured, and what is open. ``Measured''
+means the protocol of Appendix~\ref{app:protocols} ran and the gate of
+Appendix~\ref{app:gates} passed; it does not mean a lower bound was
+proved.}
+\end{table}
+
+\subsection{The ensemble}
+\label{app:ensemble}
+
+A tape of length $n$ is drawn by choosing, independently for each of two
+columns, a uniform $h$-subset of $\{1,\dots,n\}$ with $h=\lceil n/2\rceil$;
+a cell's value is the sum of its two bits, so values lie in $\{0,1,2\}$
+with probabilities $(1/4,1/2,1/4)$ up to the dependency induced by the
+subsets. All averages are over this ensemble. Strategies read only
+$\sigma=b_1+b_2$ except where the text says the label $s=b_1-b_2$ is used.

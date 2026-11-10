@@ -1,0 +1,101 @@
+  scanned 50: meet 15 halt 35
+  scanned 100: meet 28 halt 72
+  scanned 150: meet 40 halt 100
+  scanned 200: meet 62 halt 100
+  scanned 250: meet 82 halt 100
+  scanned 300: meet 95 halt 100
+  scanned 350: meet 107 halt 100
+  scanned 400: meet 122 halt 100
+  scanned 450: meet 139 halt 100
+  scanned 500: meet 155 halt 100
+  scanned 550: meet 173 halt 100
+  scanned 600: meet 192 halt 100
+pattern n=512 W=14: 200 meeting, 100 halting out of 638 scanned
+  ces      e/n   3.58  exact meet 198/200  exact all 282/300  halt-invented 16
+  k4       e/n   6.25  exact meet 198/200  exact all 282/300  halt-invented 16
+  oracle   e/n   3.61  exact meet 200/200  exact all 300/300  halt-invented 0
+  w2_32    e/n   3.67  exact meet 200/200  exact all 290/300  halt-invented 10
+  w2_64    e/n   3.89  exact meet 200/200  exact all 293/300  halt-invented 7
+  w2_128   e/n   5.30  exact meet 200/200  exact all 296/300  halt-invented 4
+  w2_256   e/n  13.99  exact meet 200/200  exact all 300/300  halt-invented 0
+  w2_q     e/n   5.30  exact meet 200/200  exact all 296/300  halt-invented 4
+  w2_half  e/n  13.99  exact meet 200/200  exact all 300/300  halt-invented 0
+  w2_3q    e/n  36.56  exact meet 200/200  exact all 300/300  halt-invented 0
+  w2_n     e/n  71.62  exact meet 200/200  exact all 300/300  halt-invented 0
+  scanned 50: meet 13 halt 37
+  scanned 100: meet 21 halt 79
+  scanned 150: meet 28 halt 100
+  scanned 200: meet 44 halt 100
+  scanned 250: meet 57 halt 100
+  scanned 300: meet 71 halt 100
+  scanned 350: meet 80 halt 100
+  scanned 400: meet 89 halt 100
+  scanned 450: meet 99 halt 100
+  scanned 500: meet 106 halt 100
+  scanned 550: meet 111 halt 100
+  scanned 600: meet 124 halt 100
+  scanned 650: meet 132 halt 100
+  scanned 700: meet 137 halt 100
+  scanned 750: meet 145 halt 100
+  scanned 800: meet 155 halt 100
+  scanned 850: meet 165 halt 100
+  scanned 900: meet 174 halt 100
+  scanned 950: meet 183 halt 100
+  scanned 1000: meet 193 halt 100
+  scanned 1050: meet 198 halt 100
+runs n=512 W=36: 200 meeting, 100 halting out of 1057 scanned
+  ces      e/n   3.33  exact meet 186/200  exact all 278/300  halt-invented 8
+  k4       e/n   5.72  exact meet 186/200  exact all 278/300  halt-invented 8
+  oracle   e/n   3.42  exact meet 200/200  exact all 300/300  halt-invented 0
+  w2_32    e/n   3.33  exact meet 186/200  exact all 278/300  halt-invented 8
+  w2_64    e/n   3.48  exact meet 186/200  exact all 279/300  halt-invented 7
+  w2_128   e/n   4.49  exact meet 191/200  exact all 287/300  halt-invented 4
+  w2_256   e/n  11.37  exact meet 196/200  exact all 295/300  halt-invented 1
+  w2_q     e/n   4.49  exact meet 191/200  exact all 287/300  halt-invented 4
+  w2_half  e/n  11.37  exact meet 196/200  exact all 295/300  halt-invented 1
+  w2_3q    e/n  30.33  exact meet 198/200  exact all 298/300  halt-invented 0
+  w2_n     e/n  63.90  exact meet 200/200  exact all 300/300  halt-invented 0
+  scanned 50: meet 21 halt 29
+  scanned 100: meet 37 halt 63
+  scanned 150: meet 55 halt 95
+  scanned 200: meet 69 halt 100
+  scanned 250: meet 87 halt 100
+  scanned 300: meet 101 halt 100
+  scanned 350: meet 114 halt 100
+  scanned 400: meet 134 halt 100
+  scanned 450: meet 151 halt 100
+  scanned 500: meet 166 halt 100
+  scanned 550: meet 188 halt 100
+pattern n=1024 W=14: 200 meeting, 100 halting out of 588 scanned
+  ces      e/n   3.55  exact meet 198/200  exact all 285/300  halt-invented 13
+  k4       e/n   6.19  exact meet 198/200  exact all 285/300  halt-invented 13
+  oracle   e/n   3.57  exact meet 200/200  exact all 300/300  halt-invented 0
+  w2_128   e/n   4.16  exact meet 200/200  exact all 298/300  halt-invented 2
+  w2_256   e/n   6.59  exact meet 200/200  exact all 299/300  halt-invented 1
+  w2_512   e/n  23.30  exact meet 200/200  exact all 299/300  halt-invented 1
+  scanned 50: meet 15 halt 35
+  scanned 100: meet 33 halt 67
+  scanned 150: meet 44 halt 100
+  scanned 200: meet 52 halt 100
+  scanned 250: meet 68 halt 100
+  scanned 300: meet 75 halt 100
+  scanned 350: meet 84 halt 100
+  scanned 400: meet 97 halt 100
+  scanned 450: meet 108 halt 100
+  scanned 500: meet 118 halt 100
+  scanned 550: meet 128 halt 100
+  scanned 600: meet 139 halt 100
+  scanned 650: meet 150 halt 100
+  scanned 700: meet 164 halt 100
+  scanned 750: meet 171 halt 100
+  scanned 800: meet 184 halt 100
+  scanned 850: meet 197 halt 100
+runs n=1024 W=40: 200 meeting, 100 halting out of 862 scanned
+  ces      e/n   3.34  exact meet 197/200  exact all 288/300  halt-invented 9
+  k4       e/n   5.71  exact meet 197/200  exact all 288/300  halt-invented 9
+  oracle   e/n   3.37  exact meet 200/200  exact all 300/300  halt-invented 0
+  w2_128   e/n   3.74  exact meet 198/200  exact all 294/300  halt-invented 4
+  w2_256   e/n   5.70  exact meet 200/200  exact all 298/300  halt-invented 2
+  w2_512   e/n  19.25  exact meet 200/200  exact all 299/300  halt-invented 1
+2
+  w2_512   e/n  19.25  exact meet 200/200  exact all 299/300  halt-invented 1

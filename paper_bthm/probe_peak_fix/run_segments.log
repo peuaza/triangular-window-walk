@@ -1,0 +1,42 @@
+=== n=1024 off=0 nmeet=200
+n=1024 off=0 meetings=200 draws=3379 secs=99 -> seg_1024_0.jsonl
+  base W2=128 exact 199/200  e/n 2.029
+  fix W2=128 exact 199/200  e/n 3.029
+  base W2=256 exact 200/200  e/n 2.151
+  fix W2=256 exact 200/200  e/n 3.151
+=== n=2048 off=0 nmeet=200
+n=2048 off=0 meetings=200 draws=3282 secs=329 -> seg_2048_0.jsonl
+  base W2=128 exact 200/200  e/n 1.999
+  fix W2=128 exact 200/200  e/n 2.999
+  base W2=256 exact 200/200  e/n 2.014
+  fix W2=256 exact 200/200  e/n 3.014
+=== n=4096 off=0 nmeet=100
+n=4096 off=0 meetings=100 draws=2255 secs=854 -> seg_4096_0.jsonl
+  base W2=128 exact 100/100  e/n 2.000
+  fix W2=128 exact 100/100  e/n 3.000
+  base W2=256 exact 100/100  e/n 2.030
+  fix W2=256 exact 100/100  e/n 3.030
+=== n=512 off=900000 nmeet=200
+n=512 off=900000 meetings=200 draws=3311 secs=36 -> seg_512_900000.jsonl
+  base W2=128 exact 200/200  e/n 2.046
+  fix W2=128 exact 200/200  e/n 3.046
+  base W2=256 exact 200/200  e/n 2.333
+  fix W2=256 exact 200/200  e/n 3.333
+=== n=1024 off=500000 nmeet=200
+n=1024 off=500000 meetings=200 draws=3550 secs=108 -> seg_1024_500000.jsonl
+  base W2=128 exact 200/200  e/n 1.972
+  fix W2=128 exact 200/200  e/n 2.972
+  base W2=256 exact 200/200  e/n 2.126
+  fix W2=256 exact 200/200  e/n 3.126
+=== n=2048 off=700000 nmeet=200
+n=2048 off=700000 meetings=200 draws=3893 secs=373 -> seg_2048_700000.jsonl
+  base W2=128 exact 199/200  e/n 1.994
+  fix W2=128 exact 199/200  e/n 2.994
+  base W2=256 exact 199/200  e/n 2.069
+  fix W2=256 exact 199/200  e/n 3.069
+=== n=2048 off=300000 nmeet=200
+n=2048 off=300000 meetings=200 draws=3972 secs=391 -> seg_2048_300000.jsonl
+  base W2=128 exact 198/200  e/n 2.018
+  fix W2=128 exact 198/200  e/n 3.018
+  base W2=256 exact 198/200  e/n 2.066
+  fix W2=256 exact 198/200  e/n 3.066

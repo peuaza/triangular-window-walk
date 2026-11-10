@@ -1,0 +1,14 @@
+pattern  n=4096  nt=60   meet=17   epochs=158202   fail=10     rate=6.32e-05 (rate*n=0.259)
+   b2=1 epochs 72694 fail 10 rate 1.38e-04 | b2=0 epochs 85508 fail 0
+   failure modes: cut_mismatch 0 (all M) / early_term 60 ; of the latter M0>W 10
+   early-terminal M0: {253: 1, 82: 1, 40: 1, 70: 1, 150: 1, 676: 1, 302: 1, 96: 1}  len mean 190.8 max 663
+   shortcut part (M0>14): epochs 157824 fail 10 rate 6.34e-05 ; tapes any 10/60
+   tapes with any fail 10/60 ; meeting tapes with fail 0/17
+   first-fail kind {'term': 10} ; M0: {253: 1, 82: 1, 40: 1, 70: 1, 150: 1, 676: 1, 302: 1, 96: 1, 295: 1, 85: 1}
+runs     n=4096  nt=60   meet=12   epochs=156619   fail=52     rate=3.32e-04 (rate*n=1.36)
+   b2=1 epochs 71973 fail 52 rate 7.22e-04 | b2=0 epochs 84646 fail 0
+   failure modes: cut_mismatch 51 (all M) / early_term 60 ; of the latter M0>W 52
+   early-terminal M0: {89: 1, 112: 1, 69: 1, 93: 1, 59: 1, 150: 1, 1232: 1, 308: 1}  len mean 250.625 max 1231
+   shortcut part (M0>48): epochs 155618 fail 52 rate 3.34e-04 ; tapes any 19/60
+   tapes with any fail 19/60 ; meeting tapes with fail 1/12
+   first-fail kind {'term': 16, 'cut': 3} ; M0: {69: 2, 89: 1, 112: 1, 60: 1, 93: 1, 59: 1, 77: 1, 150: 1, 1232: 1, 308: 1}

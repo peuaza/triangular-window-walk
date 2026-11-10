@@ -1,0 +1,25 @@
+[21:02:33] BAL>m/2  n=4096    500 draws    6 meet  e=33608  g_K=82290  47s  target
+[21:03:16] BAL>m/2  n=4096   1000 draws   21 meet  e=111750  g_K=1817232  90s  target
+[21:04:08] BAL>m/2  n=4096   1500 draws   33 meet  e=144113  g_K=1817232  142s  target
+[21:05:03] BAL>m/2  n=4096   2000 draws   44 meet  e=131574  g_K=1817232  197s  target
+[21:05:52] BAL>m/2  n=4096   2500 draws   61 meet  e=218743  g_K=5504551  246s  target
+[21:06:54] BAL>m/2  n=4096   3000 draws   68 meet  e=219614  g_K=5504551  308s  target
+[21:07:40] BAL>m/2  n=4096   3500 draws   83 meet  e=202132  g_K=5504551  354s  target
+[21:08:44] BAL>m/2  n=4096   4000 draws   92 meet  e=206187  g_K=5504551  418s  target
+[21:10:05] BAL>m/2  n=4096   4500 draws  102 meet  e=209322  g_K=5504551  499s  target
+[21:11:20] BAL>m/2  n=4096   5000 draws  119 meet  e=209918  g_K=5504551  574s  target
+[21:12:38] BAL>m/2  n=4096   5500 draws  126 meet  e=199763  g_K=5504551  652s  target
+[21:13:51] BAL>m/2  n=4096   6000 draws  141 meet  e=191102  g_K=5504551  725s  target
+[21:15:10] BAL>m/2  n=4096   6500 draws  155 meet  e=222394  g_K=6491032  804s  target
+[21:16:20] BAL>m/2  n=4096   7000 draws  165 meet  e=212143  g_K=6491032  874s  target
+[21:17:31] BAL>m/2  n=4096   7500 draws  176 meet  e=206942  g_K=6491032  945s  target
+[21:18:50] BAL>m/2  n=4096   8000 draws  183 meet  e=200466  g_K=6491032  1024s  target
+[21:20:07] BAL>m/2  n=4096   8500 draws  192 meet  e=192909  g_K=6491032  1101s  target
+[21:21:33] BAL>m/2  n=4096   9000 draws  206 meet  e=190592  g_K=6491032  1187s  target
+[21:22:43] BAL>m/2  n=4096   9500 draws  215 meet  e=188330  g_K=6491032  1257s  target
+[21:24:02] BAL>m/2  n=4096  10000 draws  222 meet  e=184819  g_K=6491032  1336s  target
+[21:25:19] BAL>m/2  n=4096  10500 draws  235 meet  e=183074  g_K=6491032  1413s  target
+[21:26:35] BAL>m/2  n=4096  11000 draws  247 meet  e=180284  g_K=6491032  1489s  target
+[21:27:53] BAL>m/2  n=4096  11500 draws  261 meet  e=177977  g_K=6491032  1567s  target
+[21:29:16] BAL>m/2  n=4096  12000 draws  279 meet  e=175192  g_K=6491032  1650s  target
+[21:29:16] BAL>m/2  n=4096  DONE 12000 draws 279 meet e=175192 g_K=6491032 low-K [1650s]

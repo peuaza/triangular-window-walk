@@ -1,0 +1,5 @@
+n=4096 off=900000 meetings=100 draws=1983 secs=761 -> seg_4096_900000.jsonl
+  base W2=128 exact 100/100  e/n 1.995
+  fix W2=128 exact 100/100  e/n 2.995
+  base W2=256 exact 100/100  e/n 2.013
+  fix W2=256 exact 100/100  e/n 3.013

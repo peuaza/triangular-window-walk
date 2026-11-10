@@ -1,0 +1,11 @@
+[23:53:22] oddrun   n=512     500 draws   38 meet  e=27119  g_K=255849  6s  target
+[23:53:27] oddrun   n=512    1000 draws   64 meet  e=26490  g_K=255849  11s  target
+[23:53:32] oddrun   n=512    1500 draws  104 meet  e=26127  g_K=255849  16s  target
+[23:53:36] oddrun   n=512    2000 draws  132 meet  e=27122  g_K=255849  20s  target
+[23:53:42] oddrun   n=512    2500 draws  160 meet  e=27404  g_K=255849  26s  target
+[23:53:47] oddrun   n=512    3000 draws  201 meet  e=25837  g_K=255849  30s  target
+[23:53:51] oddrun   n=512    3500 draws  229 meet  e=24041  g_K=255849  35s  target
+[23:53:56] oddrun   n=512    4000 draws  259 meet  e=23009  g_K=255849  40s  target
+[23:54:01] oddrun   n=512    4500 draws  285 meet  e=23809  g_K=255849  45s  target
+[23:54:03] oddrun   n=512    4690 draws  300 meet  e=23765  g_K=255849  46s  target
+[23:54:03] oddrun   n=512   DONE 4690 draws 300 meet e=23765 g_K=255849 GATE-OK [46s]

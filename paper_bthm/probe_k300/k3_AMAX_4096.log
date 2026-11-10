@@ -1,0 +1,7 @@
+[21:07:47] AMAX     n=4096    500 draws   21 meet  e=2218438  g_K=13181020  361s  target
+[21:18:12] AMAX     n=4096   1000 draws   42 meet  e=2609249  g_K=16985652  986s  target
+[21:27:11] AMAX     n=4096   1500 draws   64 meet  e=2159248  g_K=16985652  1526s  target
+[21:34:21] AMAX     n=4096   2000 draws   79 meet  e=1843172  g_K=16985652  1955s  target
+[21:40:36] AMAX     n=4096   2500 draws  101 meet  e=1676763  g_K=16985652  2330s  target
+[21:41:48] AMAX     n=4096   2620 draws  108 meet  e=1572236  g_K=16985652  2402s  target
+[21:41:48] AMAX     n=4096  DONE 2620 draws 108 meet e=1572236 g_K=16985652 low-K [2402s]

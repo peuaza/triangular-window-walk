@@ -1,0 +1,7 @@
+[23:20:20] MAXP     n=2048    500 draws   65 meet  e=323086  g_K=2507988  71s  target
+[23:21:25] MAXP     n=2048   1000 draws  119 meet  e=344312  g_K=2507988  136s  target
+[23:22:31] MAXP     n=2048   1500 draws  173 meet  e=350024  g_K=2507988  202s  target
+[23:23:34] MAXP     n=2048   2000 draws  223 meet  e=341957  g_K=2507988  264s  target
+[23:24:43] MAXP     n=2048   2500 draws  284 meet  e=375093  g_K=2507988  334s  target
+[23:24:59] MAXP     n=2048   2611 draws  300 meet  e=375428  g_K=2507988  349s  target
+[23:24:59] MAXP     n=2048  DONE 2611 draws 300 meet e=375428 g_K=2507988 GATE-OK [349s]

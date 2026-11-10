@@ -1,0 +1,14 @@
+[22:47:27] AMAX     n=2048    500 draws   20 meet  e=569722  g_K=3823398  96s  target
+[22:48:56] AMAX     n=2048   1000 draws   39 meet  e=592065  g_K=3823398  185s  target
+[22:50:35] AMAX     n=2048   1500 draws   70 meet  e=561028  g_K=3879632  284s  target
+[22:52:04] AMAX     n=2048   2000 draws   95 meet  e=498118  g_K=3879632  373s  target
+[22:53:49] AMAX     n=2048   2500 draws  128 meet  e=540279  g_K=3879632  478s  target
+[22:55:22] AMAX     n=2048   3000 draws  151 meet  e=526681  g_K=3879632  571s  target
+[22:56:46] AMAX     n=2048   3500 draws  167 meet  e=498693  g_K=3879632  655s  target
+[22:58:24] AMAX     n=2048   4000 draws  193 meet  e=498037  g_K=3879632  753s  target
+[22:59:58] AMAX     n=2048   4500 draws  213 meet  e=481834  g_K=3879632  847s  target
+[23:01:34] AMAX     n=2048   5000 draws  231 meet  e=493667  g_K=4304370  944s  target
+[23:03:04] AMAX     n=2048   5500 draws  253 meet  e=467428  g_K=4304370  1033s  target
+[23:04:45] AMAX     n=2048   6000 draws  274 meet  e=484090  g_K=4304370  1134s  target
+[23:06:12] AMAX     n=2048   6495 draws  300 meet  e=459494  g_K=4304370  1221s  target
+[23:06:12] AMAX     n=2048  DONE 6495 draws 300 meet e=459494 g_K=4304370 GATE-OK [1221s]

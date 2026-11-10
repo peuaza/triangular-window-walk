@@ -1,0 +1,8 @@
+[21:45:48] MAXP     n=4096    500 draws   59 meet  e=1246128  g_K=8231413  240s  target
+[21:49:49] MAXP     n=4096   1000 draws  101 meet  e=1542337  g_K=8231413  482s  target
+[21:53:32] MAXP     n=4096   1500 draws  153 meet  e=1512376  g_K=9164412  704s  target
+[21:57:26] MAXP     n=4096   2000 draws  202 meet  e=1354742  g_K=9164412  938s  target
+[22:01:09] MAXP     n=4096   2500 draws  249 meet  e=1363505  g_K=9164412  1161s  target
+[22:05:02] MAXP     n=4096   3000 draws  292 meet  e=1410603  g_K=9164412  1394s  target
+[22:05:50] MAXP     n=4096   3096 draws  300 meet  e=1422323  g_K=9164412  1442s  target
+[22:05:50] MAXP     n=4096  DONE 3096 draws 300 meet e=1422323 g_K=9164412 GATE-OK [1442s]

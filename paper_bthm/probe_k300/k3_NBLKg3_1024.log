@@ -1,0 +1,19 @@
+[23:47:45] NBLK>3   n=1024    500 draws   19 meet  e=27785  g_K=309682  6s  target
+[23:47:51] NBLK>3   n=1024   1000 draws   37 meet  e=16833  g_K=309682  12s  target
+[23:47:56] NBLK>3   n=1024   1500 draws   58 meet  e=12528  g_K=309682  17s  target
+[23:48:02] NBLK>3   n=1024   2000 draws   70 meet  e=11209  g_K=309682  23s  target
+[23:48:09] NBLK>3   n=1024   2500 draws   85 meet  e=10933  g_K=309682  30s  target
+[23:48:16] NBLK>3   n=1024   3000 draws  100 meet  e=10536  g_K=309682  37s  target
+[23:48:22] NBLK>3   n=1024   3500 draws  121 meet  e=9597  g_K=309682  43s  target
+[23:48:27] NBLK>3   n=1024   4000 draws  136 meet  e=9266  g_K=309682  48s  target
+[23:48:34] NBLK>3   n=1024   4500 draws  163 meet  e=9173  g_K=309682  55s  target
+[23:48:39] NBLK>3   n=1024   5000 draws  171 meet  e=9263  g_K=309682  60s  target
+[23:48:45] NBLK>3   n=1024   5500 draws  188 meet  e=9942  g_K=309682  66s  target
+[23:48:50] NBLK>3   n=1024   6000 draws  198 meet  e=10128  g_K=309682  71s  target
+[23:48:55] NBLK>3   n=1024   6500 draws  211 meet  e=11742  g_K=323400  76s  target
+[23:49:01] NBLK>3   n=1024   7000 draws  224 meet  e=11311  g_K=323400  82s  target
+[23:49:06] NBLK>3   n=1024   7500 draws  240 meet  e=11212  g_K=323400  87s  target
+[23:49:12] NBLK>3   n=1024   8000 draws  264 meet  e=10734  g_K=323400  93s  target
+[23:49:17] NBLK>3   n=1024   8500 draws  285 meet  e=10259  g_K=323400  98s  target
+[23:49:21] NBLK>3   n=1024   8777 draws  300 meet  e=10659  g_K=323400  102s  target
+[23:49:21] NBLK>3   n=1024  DONE 8777 draws 300 meet e=10659 g_K=323400 GATE-OK [102s]

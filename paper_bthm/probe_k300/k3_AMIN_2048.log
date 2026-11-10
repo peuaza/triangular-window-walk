@@ -1,0 +1,14 @@
+[22:52:37] AMIN     n=2048    500 draws   26 meet  e=300914  g_K=1483455  94s  target
+[22:54:03] AMIN     n=2048   1000 draws   46 meet  e=287776  g_K=2483390  180s  target
+[22:55:37] AMIN     n=2048   1500 draws   74 meet  e=386563  g_K=2483390  273s  target
+[22:57:00] AMIN     n=2048   2000 draws   97 meet  e=397015  g_K=2714122  357s  target
+[22:58:36] AMIN     n=2048   2500 draws  123 meet  e=367460  g_K=2714122  453s  target
+[23:00:10] AMIN     n=2048   3000 draws  156 meet  e=341526  g_K=2714122  547s  target
+[23:01:37] AMIN     n=2048   3500 draws  179 meet  e=324628  g_K=2723342  633s  target
+[23:03:19] AMIN     n=2048   4000 draws  202 meet  e=350020  g_K=2723342  736s  target
+[23:04:51] AMIN     n=2048   4500 draws  219 meet  e=361249  g_K=2723342  828s  target
+[23:06:30] AMIN     n=2048   5000 draws  248 meet  e=358278  g_K=2919785  926s  target
+[23:08:09] AMIN     n=2048   5500 draws  273 meet  e=364256  g_K=2919785  1026s  target
+[23:09:49] AMIN     n=2048   6000 draws  295 meet  e=368433  g_K=3217360  1126s  target
+[23:10:07] AMIN     n=2048   6128 draws  300 meet  e=362611  g_K=3217360  1144s  target
+[23:10:07] AMIN     n=2048  DONE 6128 draws 300 meet e=362611 g_K=3217360 GATE-OK [1144s]

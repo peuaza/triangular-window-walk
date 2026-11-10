@@ -1,0 +1,10 @@
+[22:09:39] NBLK=1   n=4096    500 draws   10 meet  e=439717  g_K=1967174  265s  target
+[22:14:33] NBLK=1   n=4096   1000 draws   23 meet  e=251787  g_K=1967174  559s  target
+[22:19:00] NBLK=1   n=4096   1500 draws   35 meet  e=310125  g_K=4109990  826s  target
+[22:23:52] NBLK=1   n=4096   2000 draws   46 meet  e=356328  g_K=4109990  1118s  target
+[22:28:01] NBLK=1   n=4096   2500 draws   61 meet  e=391936  g_K=4109990  1367s  target
+[22:33:00] NBLK=1   n=4096   3000 draws   71 meet  e=387395  g_K=4109990  1666s  target
+[22:37:39] NBLK=1   n=4096   3500 draws   82 meet  e=458127  g_K=4593128  1946s  target
+[22:42:05] NBLK=1   n=4096   4000 draws   94 meet  e=437031  g_K=4593128  2211s  target
+[22:45:17] NBLK=1   n=4096   4342 draws  105 meet  e=549144  g_K=7259689  2403s  target
+[22:45:17] NBLK=1   n=4096  DONE 4342 draws 105 meet e=549144 g_K=7259689 low-K [2403s]

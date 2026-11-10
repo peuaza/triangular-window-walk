@@ -1,0 +1,17 @@
+[23:12:57] KCHG     n=2048    500 draws   17 meet  e=57460  g_K=493840  29s  target
+[23:13:19] KCHG     n=2048   1000 draws   35 meet  e=40697  g_K=493840  52s  target
+[23:13:45] KCHG     n=2048   1500 draws   58 meet  e=36678  g_K=493840  78s  target
+[23:14:07] KCHG     n=2048   2000 draws   75 meet  e=35614  g_K=493840  100s  target
+[23:14:33] KCHG     n=2048   2500 draws   97 meet  e=32651  g_K=493840  126s  target
+[23:14:59] KCHG     n=2048   3000 draws  122 meet  e=45966  g_K=1113956  151s  target
+[23:15:22] KCHG     n=2048   3500 draws  136 meet  e=43844  g_K=1113956  174s  target
+[23:15:47] KCHG     n=2048   4000 draws  146 meet  e=41745  g_K=1113956  199s  target
+[23:16:14] KCHG     n=2048   4500 draws  167 meet  e=48409  g_K=1299518  226s  target
+[23:16:41] KCHG     n=2048   5000 draws  187 meet  e=45672  g_K=1299518  253s  target
+[23:17:08] KCHG     n=2048   5500 draws  209 meet  e=43085  g_K=1299518  280s  target
+[23:17:37] KCHG     n=2048   6000 draws  226 meet  e=41864  g_K=1299518  309s  target
+[23:18:02] KCHG     n=2048   6500 draws  246 meet  e=41478  g_K=1299518  335s  target
+[23:18:27] KCHG     n=2048   7000 draws  263 meet  e=41504  g_K=1299518  359s  target
+[23:18:54] KCHG     n=2048   7500 draws  289 meet  e=39334  g_K=1299518  386s  target
+[23:19:09] KCHG     n=2048   7749 draws  300 meet  e=38301  g_K=1299518  401s  target
+[23:19:09] KCHG     n=2048  DONE 7749 draws 300 meet e=38301 g_K=1299518 GATE-OK [401s]

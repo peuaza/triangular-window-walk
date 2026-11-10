@@ -1,0 +1,5 @@
+trip n=1024 offset=500000 meetings=200 draws=3084 secs=98
+   W2= 32  exact 196/200   e/n 2.00
+   W2= 64  exact 196/200   e/n 2.01
+   W2=128  exact 196/200   e/n 2.07
+   W2=256  exact 196/200   e/n 2.25

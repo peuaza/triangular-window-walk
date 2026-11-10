@@ -1,0 +1,23 @@
+[21:37:42] KCHG     n=4096    500 draws   14 meet  e=62585  g_K=330098  72s  target
+[21:39:00] KCHG     n=4096   1000 draws   27 meet  e=103471  g_K=1614698  151s  target
+[21:40:25] KCHG     n=4096   1500 draws   40 meet  e=77445  g_K=1614698  235s  target
+[21:41:36] KCHG     n=4096   2000 draws   53 meet  e=95014  g_K=1614698  306s  target
+[21:42:55] KCHG     n=4096   2500 draws   68 meet  e=95590  g_K=1614698  385s  target
+[21:44:20] KCHG     n=4096   3000 draws   79 meet  e=92673  g_K=1614698  470s  target
+[21:45:39] KCHG     n=4096   3500 draws   93 meet  e=87648  g_K=1614698  549s  target
+[21:47:04] KCHG     n=4096   4000 draws  107 meet  e=85381  g_K=1614698  634s  target
+[21:48:20] KCHG     n=4096   4500 draws  119 meet  e=132503  g_K=5714726  710s  target
+[21:49:40] KCHG     n=4096   5000 draws  137 meet  e=124916  g_K=5714726  791s  target
+[21:50:56] KCHG     n=4096   5500 draws  147 meet  e=118216  g_K=5714726  867s  target
+[21:52:21] KCHG     n=4096   6000 draws  160 meet  e=112712  g_K=5714726  951s  target
+[21:53:42] KCHG     n=4096   6500 draws  172 meet  e=109661  g_K=5714726  1032s  target
+[21:55:13] KCHG     n=4096   7000 draws  185 meet  e=126618  g_K=5714726  1123s  target
+[21:56:28] KCHG     n=4096   7500 draws  199 meet  e=128627  g_K=5714726  1198s  target
+[21:57:50] KCHG     n=4096   8000 draws  214 meet  e=133055  g_K=5714726  1280s  target
+[21:58:57] KCHG     n=4096   8500 draws  233 meet  e=138749  g_K=5714726  1347s  target
+[22:00:16] KCHG     n=4096   9000 draws  244 meet  e=141851  g_K=5714726  1426s  target
+[22:01:39] KCHG     n=4096   9500 draws  257 meet  e=141255  g_K=5714726  1509s  target
+[22:03:10] KCHG     n=4096  10000 draws  272 meet  e=142633  g_K=5714726  1601s  target
+[22:04:13] KCHG     n=4096  10500 draws  290 meet  e=155178  g_K=5714726  1663s  target
+[22:05:14] KCHG     n=4096  10871 draws  300 meet  e=151366  g_K=5714726  1724s  target
+[22:05:14] KCHG     n=4096  DONE 10871 draws 300 meet e=151366 g_K=5714726 GATE-OK [1724s]

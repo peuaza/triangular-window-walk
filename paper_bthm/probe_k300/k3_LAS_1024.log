@@ -1,0 +1,10 @@
+[23:44:52] LAS      n=1024    500 draws   34 meet  e=74604  g_K=704434  14s  target
+[23:45:05] LAS      n=1024   1000 draws   63 meet  e=59224  g_K=704434  27s  target
+[23:45:18] LAS      n=1024   1500 draws  100 meet  e=60453  g_K=704434  41s  target
+[23:45:33] LAS      n=1024   2000 draws  128 meet  e=53640  g_K=704434  56s  target
+[23:45:47] LAS      n=1024   2500 draws  157 meet  e=62918  g_K=879768  70s  target
+[23:45:59] LAS      n=1024   3000 draws  188 meet  e=60432  g_K=879768  82s  target
+[23:46:13] LAS      n=1024   3500 draws  235 meet  e=62702  g_K=879768  96s  target
+[23:46:28] LAS      n=1024   4000 draws  271 meet  e=70840  g_K=879768  111s  target
+[23:46:36] LAS      n=1024   4306 draws  300 meet  e=72776  g_K=879768  119s  target
+[23:46:36] LAS      n=1024  DONE 4306 draws 300 meet e=72776 g_K=879768 GATE-OK [119s]

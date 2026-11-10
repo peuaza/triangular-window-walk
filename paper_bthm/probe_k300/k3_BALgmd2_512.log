@@ -1,0 +1,15 @@
+[23:51:33] BAL>m/2  n=512     500 draws   18 meet  e=6602  g_K=33360  3s  target
+[23:51:36] BAL>m/2  n=512    1000 draws   40 meet  e=7690  g_K=66606  6s  target
+[23:51:38] BAL>m/2  n=512    1500 draws   68 meet  e=6049  g_K=66606  8s  target
+[23:51:41] BAL>m/2  n=512    2000 draws   88 meet  e=5508  g_K=66606  11s  target
+[23:51:43] BAL>m/2  n=512    2500 draws  108 meet  e=5350  g_K=66606  13s  target
+[23:51:46] BAL>m/2  n=512    3000 draws  129 meet  e=5055  g_K=66606  16s  target
+[23:51:48] BAL>m/2  n=512    3500 draws  159 meet  e=5337  g_K=79196  18s  target
+[23:51:51] BAL>m/2  n=512    4000 draws  183 meet  e=5204  g_K=79196  21s  target
+[23:51:53] BAL>m/2  n=512    4500 draws  207 meet  e=5622  g_K=79196  23s  target
+[23:51:56] BAL>m/2  n=512    5000 draws  229 meet  e=5497  g_K=79196  26s  target
+[23:51:58] BAL>m/2  n=512    5500 draws  249 meet  e=5522  g_K=79196  29s  target
+[23:52:01] BAL>m/2  n=512    6000 draws  265 meet  e=5535  g_K=79196  31s  target
+[23:52:03] BAL>m/2  n=512    6500 draws  285 meet  e=5423  g_K=79196  34s  target
+[23:52:05] BAL>m/2  n=512    6830 draws  300 meet  e=5389  g_K=79196  35s  target
+[23:52:05] BAL>m/2  n=512   DONE 6830 draws 300 meet e=5389 g_K=79196 GATE-OK [35s]

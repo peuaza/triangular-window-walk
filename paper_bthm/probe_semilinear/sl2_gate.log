@@ -1,0 +1,5 @@
+n=128   40 tapes x 2 conv   mismatch so far 0/80
+n=256   40 tapes x 2 conv   mismatch so far 0/160
+n=512   40 tapes x 2 conv   mismatch so far 0/240
+n=1024  40 tapes x 2 conv   mismatch so far 0/320
+GATE PASS  (320 runs checked, 0 field mismatches)

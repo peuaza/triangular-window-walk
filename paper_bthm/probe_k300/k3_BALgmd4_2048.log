@@ -1,0 +1,20 @@
+[23:10:17] BAL>m/4  n=2048    500 draws   18 meet  e=58329  g_K=314286  9s  target
+[23:10:25] BAL>m/4  n=2048   1000 draws   35 meet  e=100923  g_K=2232296  18s  target
+[23:10:34] BAL>m/4  n=2048   1500 draws   50 meet  e=110935  g_K=2232296  27s  target
+[23:10:43] BAL>m/4  n=2048   2000 draws   70 meet  e=92078  g_K=2232296  35s  target
+[23:10:51] BAL>m/4  n=2048   2500 draws   88 meet  e=76240  g_K=2232296  44s  target
+[23:11:00] BAL>m/4  n=2048   3000 draws  109 meet  e=78587  g_K=2232296  53s  target
+[23:11:09] BAL>m/4  n=2048   3500 draws  123 meet  e=73075  g_K=2232296  61s  target
+[23:11:17] BAL>m/4  n=2048   4000 draws  142 meet  e=73664  g_K=2232296  70s  target
+[23:11:26] BAL>m/4  n=2048   4500 draws  155 meet  e=69034  g_K=2232296  78s  target
+[23:11:34] BAL>m/4  n=2048   5000 draws  168 meet  e=69347  g_K=2232296  87s  target
+[23:11:43] BAL>m/4  n=2048   5500 draws  184 meet  e=65659  g_K=2232296  96s  target
+[23:11:52] BAL>m/4  n=2048   6000 draws  203 meet  e=61891  g_K=2232296  105s  target
+[23:12:00] BAL>m/4  n=2048   6500 draws  219 meet  e=59064  g_K=2232296  113s  target
+[23:12:09] BAL>m/4  n=2048   7000 draws  236 meet  e=57176  g_K=2232296  122s  target
+[23:12:17] BAL>m/4  n=2048   7500 draws  249 meet  e=58092  g_K=2232296  130s  target
+[23:12:26] BAL>m/4  n=2048   8000 draws  265 meet  e=57718  g_K=2232296  139s  target
+[23:12:35] BAL>m/4  n=2048   8500 draws  275 meet  e=56663  g_K=2232296  147s  target
+[23:12:43] BAL>m/4  n=2048   9000 draws  293 meet  e=54463  g_K=2232296  156s  target
+[23:12:48] BAL>m/4  n=2048   9303 draws  300 meet  e=53548  g_K=2232296  161s  target
+[23:12:48] BAL>m/4  n=2048  DONE 9303 draws 300 meet e=53548 g_K=2232296 GATE-OK [161s]
