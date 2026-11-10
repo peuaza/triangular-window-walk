@@ -11,9 +11,11 @@ it, and each has its own README.
 | `.` (root) | *A triangular window walk on random binary matrices: a conjectured arcsine limit* |
 | `family/` | *Memory and randomness control the shape: a family of limit laws from a triangular-window walk* |
 | `bthm0/` | *A memoryless two-header tape machine: what linear time explains, and what our predictor costs* |
+| `paper_bthm/` | *A memoryless two-header tape machine: what a window costs, and why two lower-bound techniques fail* (the current paper; the arXiv/Zenodo version is `10.5281/zenodo.24115991`) |
 
 Nothing at the root was moved when the subdirectories were added, so every path in the paper-1
-README below still resolves.
+README below still resolves. The root's `archive/` holds the superseded drafts (`bthm_v2.tex`,
+`bthm_jalc.tex`) and the logs they produced; it is not part of any paper.
 
 ## Paper 1
 
@@ -50,7 +52,9 @@ Paper 1 has two tables and six figures. This is the mapping, in the order they a
 | Table 1: exhaustive check of the reduction, $n\le 12$ | `wm_exact.py` (n=4..11), `wm12.py` (n=12) | matrices, classes, inconsistent classes |
 | Table 2: specification sensitivity, n=256 | `_spec_sens.py` | rate, sd, median and KS for the four variants |
 | Fig. 2, 4, 5: histogram, trend and Q-Q against the arcsine | `arcsine_conv.py` | sd, median, KS, n=48..512 |
-| Fig. 6: reversal rate against $rccosho(m)/\pi$ | `ac_corr3.py`, `switch_m.py` | $ho(m)$, $s(m)$ |
+| Fig. 6: reversal rate against $rccos
+ho(m)/\pi$ | `ac_corr3.py`, `switch_m.py` | $
+ho(m)$, $s(m)$ |
 | Fig. 1, 3: flowchart and one walk | — | schematic, no data |
 | rate at n=256..2048, convention A | `confirm_c.py`, `quarter.py` | rate |
 | rate, convention B (revisit terminates) | `fallback_big.py` | rate |
