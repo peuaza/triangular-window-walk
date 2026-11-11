@@ -256,18 +256,26 @@ count, unless it says otherwise. The second half of the definition is negative, 
 on the expensive side only with the evidence we have: a simulator whose cost is $\omega(n)$ and no
 $O(n)$ one. We write ``no $O(n)$ simulator is known'' where that is all we can say.
 
-\paragraph{Two costs and a prediction cost.} For a rule $\rho$ let
+\paragraph{Three costs, each at its own optimum.} For a rule $\rho$ and $n$, all in cell reads by a
+machine with $O(\log n)$ bits of state,
 \[
-G_{\rho}(n)=\exp\mathbb E_{\tau}\bigl[\ln C_{M^{\star}}(\tau)\bigr],\qquad
-e_{\rho}(n)=\mathbb E_{\tau}\bigl[C_{M^{\star}}(\tau)\bigr],\qquad
-g_{\rho}(n)=\max_{\tau}C_{M^{\star}}(\tau),
+G_{\rho}(n)=\min_{M}\exp\mathbb E_{\tau}\bigl[\ln C_{M}(\tau)\bigr],\qquad
+e_{\rho}(n)=\min_{M}\mathbb E_{\tau}\bigl[C_{M}(\tau)\bigr],\qquad
+g_{\rho}(n)=\min_{M}\max_{\tau}C_{M}(\tau),
 \]
-all on one machine, $M^{\star}$, the $e$-best of those built, and all in cell reads with $O(\log n)$
-bits of state.  The rule's own worst case is the min--max over machines,
-$g^{\mathrm{mm}}_{\rho}(n)=\min_{M}\max_{\tau}C_{M}(\tau)$; since $M^{\star}$ is one machine,
-$g^{\mathrm{mm}}_{\rho}\le g_{\rho}$, so every reported worst case is an \emph{upper} bound on the
-rule's.  ``Fully linear'', $g_{\rho}=O(n)$, therefore implies $g^{\mathrm{mm}}_{\rho}=O(n)$, but not
-conversely: a rule whose optimal machine is not the one we built could be placed too cheaply.  Let
+each a minimum over machines, so each is attained by its own machine and $g_{\rho}$ is the min--max.
+The chain $G_{\rho}\le e_{\rho}\le g_{\rho}$ holds although the three minima may be attained by
+different machines. Taking the $e$-optimal $M_{e}$, $G_{\rho}\le G_{M_{e}}\le e_{M_{e}}=e_{\rho}$:
+the first step is the minimum over machines, the second AM--GM on one machine. Taking the
+$g$-optimal $M_{g}$, $e_{\rho}\le e_{M_{g}}\le g_{M_{g}}=g_{\rho}$: the minimum, then mean $\le$
+maximum on one machine. AM--GM is used only inside a machine, which is the only place it holds.
+
+The tables report one machine, $M^{\star}$, the best we built, chosen as the $e$-best. On it we
+measure $G_{M^{\star}},e_{M^{\star}},g_{M^{\star}}$; each is at least the corresponding minimum, so
+every reported number is an \emph{upper} bound on the rule's, never a lower one, and the same chain
+holds on $M^{\star}$ as well. ``Fully linear'', $g_{\rho}=O(n)$, is therefore \emph{witnessed} by
+the machine that attains it; placing a rule on the expensive side needs the absence of a cheaper
+machine, which is where the paper writes ``no $O(n)$ simulator is known''.  Let
 $p_{\rho}(n)$ be the per-tape cost at which a predictor with $O(\log n)$ bits drives the out-of-fold
 residual to zero. The worst case separates
 the fully-linear class from the rest, and the mean separates the semi-linear class from the
@@ -567,11 +575,14 @@ A rule is perfect if its $e$-best machine has a bounded cost ratio.  This covers
 $G_\rho=e_\rho=g_\rho$ exactly.  This is the case for the monotone family ($2n-1$), the half-power
 rule ($\lfloor\sqrt{n-1}\rfloor+2$), the grid family, \texttt{DC} and \texttt{PRF}, whose measured
 $g/e$ is $1.000$.
-\item \emph{Bounded measured spread.}  Measured on the CES device at four sizes, \texttt{pattern} has
-$G_\rho/e_\rho=0.997$--$0.998$ and $g_\rho/e_\rho\le1.11$, and \texttt{runs} $0.997$ and $\le1.16$:
-the measured $\chi\le1.16$ then puts all three of their costs within sixteen per cent of one
-another.  This is a measurement about the tapes, not a theorem about rules: the proposition itself is
-an identity, and its content is that $\kappa$ is small on this catalogue.  \texttt{peak} is measured on the same footing: $G_\rho/e_\rho$ rises $0.984\to1.000$
+\item \emph{Bounded spread on the measured machine.}  Measured on the CES device at four sizes,
+\texttt{pattern} has $G_{M^{\star}}/e_{M^{\star}}=0.997$--$0.998$ and
+$g_{M^{\star}}/e_{M^{\star}}\le1.11$, and \texttt{runs} $0.997$ and $\le1.16$: on that machine
+$\chi\le1.16$, so its three costs agree to within sixteen per cent.  What this gives for the rule is
+that $G_\rho$, $e_\rho$ and $g_\rho$ are all $O(n)$, because each minimum is at most the machine's
+value; it does not bound their ratios, which would need lower bounds on the minima that this paper
+does not have.  The proposition itself is an identity, and its content is that $\chi$ is small on
+this machine and this catalogue.  \texttt{peak} is measured on the same footing: $G_\rho/e_\rho$ rises $0.984\to1.000$
 and $g_\rho/e_\rho$ falls $2.03\to1.05$ over $n=512\to4096$, so it is perfect as well.
 \end{enumerate}
 \end{corollary}
