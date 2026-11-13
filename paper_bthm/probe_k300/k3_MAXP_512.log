@@ -1,6 +1,0 @@
-[23:52:34] MAXP     n=512     500 draws   58 meet  e=34540  g_K=175324  7s  target
-[23:52:40] MAXP     n=512    1000 draws  107 meet  e=31013  g_K=175324  13s  target
-[23:52:45] MAXP     n=512    1500 draws  172 meet  e=29786  g_K=175324  18s  target
-[23:52:51] MAXP     n=512    2000 draws  247 meet  e=28682  g_K=175324  24s  target
-[23:52:56] MAXP     n=512    2325 draws  300 meet  e=27718  g_K=175324  29s  target
-[23:52:56] MAXP     n=512   DONE 2325 draws 300 meet e=27718 g_K=175324 GATE-OK [29s]

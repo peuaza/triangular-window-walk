@@ -1,7 +1,0 @@
-[21:07:24] AMIN     n=4096    500 draws   25 meet  e=1100365  g_K=8747359  338s  target
-[21:16:29] AMIN     n=4096   1000 draws   50 meet  e=1162567  g_K=10520479  883s  target
-[21:25:25] AMIN     n=4096   1500 draws   73 meet  e=1280641  g_K=15564330  1419s  target
-[21:33:04] AMIN     n=4096   2000 draws   88 meet  e=1131528  g_K=15564330  1878s  target
-[21:38:40] AMIN     n=4096   2500 draws  110 meet  e=1193422  g_K=15564330  2214s  target
-[21:41:46] AMIN     n=4096   2784 draws  118 meet  e=1253127  g_K=15564330  2400s  target
-[21:41:46] AMIN     n=4096  DONE 2784 draws 118 meet e=1253127 g_K=15564330 low-K [2400s]

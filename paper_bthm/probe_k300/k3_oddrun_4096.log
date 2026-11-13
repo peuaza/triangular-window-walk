@@ -1,9 +1,0 @@
-[22:50:15] oddrun   n=4096    500 draws   30 meet  e=2112977  g_K=8168864  297s  target
-[22:55:27] oddrun   n=4096   1000 draws   73 meet  e=1855106  g_K=9099665  610s  target
-[23:00:14] oddrun   n=4096   1500 draws  108 meet  e=1895023  g_K=9099665  896s  target
-[23:05:27] oddrun   n=4096   2000 draws  145 meet  e=1782632  g_K=9099665  1210s  target
-[23:10:18] oddrun   n=4096   2500 draws  184 meet  e=1794380  g_K=9099665  1501s  target
-[23:15:41] oddrun   n=4096   3000 draws  222 meet  e=1906250  g_K=9128674  1823s  target
-[23:20:49] oddrun   n=4096   3500 draws  255 meet  e=1936066  g_K=9408210  2132s  target
-[23:25:19] oddrun   n=4096   3945 draws  286 meet  e=2059385  g_K=9408210  2401s  target
-[23:25:19] oddrun   n=4096  DONE 3945 draws 286 meet e=2059385 g_K=9408210 low-K [2402s]

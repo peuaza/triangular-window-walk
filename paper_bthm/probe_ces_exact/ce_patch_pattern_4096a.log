@@ -1,3 +1,0 @@
-pattern n=4096 W=14: 200 meeting, 100 halting out of 614 scanned
-  ces      e/n   2.57  exact meet 200/200  exact all 291/300  halt-invented 9
-  oracle   e/n   2.58  exact meet 200/200  exact all 300/300  halt-invented 0

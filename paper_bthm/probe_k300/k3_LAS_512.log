@@ -1,9 +1,0 @@
-[23:52:18] LAS      n=512     500 draws   38 meet  e=30879  g_K=199263  5s  target
-[23:52:22] LAS      n=512    1000 draws   82 meet  e=24186  g_K=199263  10s  target
-[23:52:27] LAS      n=512    1500 draws  129 meet  e=25155  g_K=216174  14s  target
-[23:52:31] LAS      n=512    2000 draws  167 meet  e=23491  g_K=216174  18s  target
-[23:52:35] LAS      n=512    2500 draws  190 meet  e=21789  g_K=216174  23s  target
-[23:52:39] LAS      n=512    3000 draws  233 meet  e=21593  g_K=216174  27s  target
-[23:52:44] LAS      n=512    3500 draws  284 meet  e=20323  g_K=216174  32s  target
-[23:52:46] LAS      n=512    3662 draws  300 meet  e=20818  g_K=216174  33s  target
-[23:52:46] LAS      n=512   DONE 3662 draws 300 meet e=20818 g_K=216174 GATE-OK [33s]

@@ -1,4 +1,0 @@
-canonical n=512: worst of 200 tapes = tape 127, reads 462541 = 1.764 n^2
-sigma counts: {0: 132, 1: 248, 2: 132}
-runs: 311 longest: [5, 6, 6, 6, 8]
-first eight run lengths: [2, 2, 1, 1, 1, 1, 2, 1]

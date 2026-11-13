@@ -10,11 +10,11 @@ it, and each has its own README.
 |---|---|
 | `.` (root) | *A triangular window walk on random binary matrices: a conjectured arcsine limit* |
 | `family/` | *Memory and randomness control the shape: a family of limit laws from a triangular-window walk* |
-| `paper_bthm/` | *A memoryless two-header tape machine: what a window costs, and why two lower-bound techniques fail* (the current paper; the arXiv/Zenodo version is `10.5281/zenodo.24115991`) |
+| `paper_bthm/` | *A memoryless two-header tape machine: what a window costs, and why two lower-bound techniques fail* — the **experiment code** only; the paper is `10.5281/zenodo.24115991` |
 
 Nothing at the root was moved when the subdirectories were added, so every path in the paper-1
-README below still resolves. The root's `archive/` holds the superseded drafts (`bthm_v2.tex`,
-`bthm_jalc.tex`) and the logs they produced; it is not part of any paper; it holds the earlier BTHM draft (`bthm0/`) as well as the superseded `bthm_v2.tex` and `bthm_jalc.tex`.
+README below still resolves. `archive/` holds the earlier BTHM draft's code (`bthm0/`). No paper
+sources, data, logs or reports are kept in this repository — it carries code, nothing else.
 
 ## Paper 1
 

@@ -1,7 +1,0 @@
-n=256 ｜ 500 条/变体
-variant                              P(delta)       sd   median       KS
-exit one side, revisit shrinks          0.334    0.352    0.506    0.051
-exit one side, revisit stops            0.118    0.403    0.506    0.146
-exit both, revisit shrinks              0.092    0.147    0.498    0.340
-exit both, revisit stops                0.052    0.079    0.496    0.387
-DONE
