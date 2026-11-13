@@ -41,6 +41,36 @@ def stats(recs, n):
     return out
 
 
+def series(recs, rule):
+    """min G, min e, min g at every size, in units of n, and the local exponents."""
+    ns = sorted({r['n'] for r in recs if r['rule'] == rule and r['reads']})
+    G, E, g = [], [], []
+    for n in ns:
+        st = stats([r for r in recs if r['rule'] == rule], n)
+        if not st:
+            continue
+        G.append(min(v[0] for v in st.values()) / n)
+        E.append(min(v[1] for v in st.values()) / n)
+        g.append(min(v[2] for v in st.values()) / n)
+    if len(ns) < 2:
+        return ns, G, E, g, (1.0, 1.0, 1.0)
+    ex = []
+    for ys in (G, E, g):
+        if len(ns) >= 2:
+            # ys are in units of n, so the exponent of the quantity itself is the slope plus one
+            ex.append(float(np.polyfit(np.log(ns), np.log(ys), 1)[0]) + 1.0)
+        else:
+            ex.append(1.0)
+    return ns, G, E, g, tuple(ex)
+
+
+def order_tag(x):
+    """a local order, not a proof: O(n) only when the fitted slope is within noise of one."""
+    if abs(x - 1.0) <= 0.12:
+        return r'$O(n)$'
+    return r'$n^{%.1f}$' % x
+
+
 def panel(ax, rule, recs, n, title=True):
     """Only the machines that attain min G, min e or min g are drawn.
 
@@ -97,16 +127,25 @@ def panel(ax, rule, recs, n, title=True):
                 break
         if not placed:
             groups.append({'x': x, 'qs': [q], 'mk': mk, 'machines': {mm}})
-    order = r'$\Theta(n)$' if rule == 'monotone' else r'$O(n)$'
-    for g in groups:
+    ex = series(recs, rule)[4]
+    QI = {'G': 0, 'e': 1, 'g': 2}
+    for k, g in enumerate(groups):
         mm = sorted(g['machines'])[0]
         merged = len(g['qs']) > 1
         ls = LSQ[g['qs'][0]] if not merged else '-.'
-        ax.axvline(g['x'], color=colors[mm], ls=ls, lw=1.0, alpha=0.9)
-        ax.plot([g['x']], [0.99], g['mk'] if not merged else 'D', ms=5, color=colors[mm],
+        ax.axvline(g['x'], ymin=0.0, ymax=0.72, color=colors[mm], ls=ls, lw=1.0, alpha=0.9)
+        ax.plot([g['x']], [0.76], g['mk'] if not merged else 'D', ms=5, color=colors[mm],
                 markeredgecolor='k', markeredgewidth=0.3, zorder=5)
-        ax.annotate('%s = %.2f$n$, %s' % ('='.join(g['qs']), 10 ** g['x'], order),
-                    xy=(g['x'], 1.01), xytext=(0, 1), textcoords='offset points',
+        name = r'$g_s$' if g['qs'] == ['g'] else '='.join(g['qs'])
+        # the tag is the rule's order, not the sample's: for longrun the sample maximum has slope 0.9
+        # while the rule's g is n^3 on the witness tape, a known fact and not a fit
+        GO = {'longrun': r'$n^3$'}
+        order = GO.get(rule, None) if g['qs'] == ['g'] else None
+        if order is None:
+            order = order_tag(ex[QI[g['qs'][0]]])
+        yy = 0.97 if k % 2 == 0 else 0.87
+        ax.annotate('%s = %.2f$n$, %s' % (name, 10 ** g['x'], order),
+                    xy=(g['x'], yy), xytext=(0, 1), textcoords='offset points',
                     fontsize=5.5, rotation=0, va='bottom', ha='center', color=colors[mm],
                     bbox=dict(boxstyle='round,pad=0.15', fc='white', ec='none', alpha=0.85))
     if title:
@@ -114,7 +153,7 @@ def panel(ax, rule, recs, n, title=True):
                 'NBLK>2': 'NBLK_gt2', 'NBLK>3': 'NBLK_gt3'}
         ax.set_title(NAME.get(rule, rule), fontsize=8, loc='left')
     ax.set_yticks([])
-    ax.set_ylim(0, 1.05)
+    ax.set_ylim(0, 1.08)
     for s in ('top', 'right', 'left'):
         ax.spines[s].set_visible(False)
     ax.tick_params(labelsize=6)

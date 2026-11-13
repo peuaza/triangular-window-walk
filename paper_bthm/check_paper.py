@@ -54,13 +54,14 @@ for name, i, ln in each_line():
 
 # ---------------------------------------------------------------- B. census
 APP = TEXT.get('_appendix_evidence.tex', '')
+def _has(text, name):
+    """the catalogue's row for `name`, ignoring LaTeX escapes"""
+    return ('texttt{%s}' % name) in text.replace('\\', '')
+
 for cls, rows in CFG['census'].items():
     for r in rows:
-        if r not in APP:
+        if not _has(APP, r):
             hit('B', 'appendix', r, f'{cls} member missing from the catalogue')
-for r in CFG['census']['fully_linear'] + CFG['census']['semi_linear'] + CFG['census']['superlinear']:
-    if ('\\texttt{%s}' % r) not in APP and r != 'monotone family':
-        hit('B', 'appendix', r, 'catalogue row is not in the table')
 
 # ---------------------------------------------------------------- C. claims
 for c in CFG['claims']:

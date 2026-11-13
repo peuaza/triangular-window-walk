@@ -1,0 +1,555 @@
+{
+ "paper": [
+  "bthm_v3.tex",
+  "_appendix_evidence.tex",
+  "probe_minima/_mp_profile.tex"
+ ],
+ "note": "Every headline number, the probe that generated it, and the strictest pattern that must appear. check_paper.py reads this file; nothing is hand-written in the checker. When a number changes: change it here, change it in the paper, add a line to CHANGELOG_CLAIMS.md.",
+ "claims": [
+  {
+   "id": "step_ratio_max",
+   "value": "15.58",
+   "source": "probe_master/step counts, hashmod seed 2026",
+   "appear": [
+    {
+     "re": "15\\.58",
+     "min": 2
+    }
+   ],
+   "forbid": [
+    {
+     "re": "15\\.8\\b",
+     "why": "the earlier draft's rounded value"
+    }
+   ]
+  },
+  {
+   "id": "step_ratio_min",
+   "value": "0.385",
+   "source": "same ensemble, NBLK>3",
+   "appear": [
+    {
+     "re": "0\\.385",
+     "min": 2
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "monotone_mean",
+   "value": "2n-1 exactly",
+   "source": "Theorem thm:collapse; measured 1.9998n at 4096",
+   "appear": [
+    {
+     "re": "2n-1",
+     "min": 2
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "pattern_ces",
+   "value": "2.57 n",
+   "source": "probe_ces_exact/ce_patch.py, 200 meeting tapes at 4096",
+   "appear": [
+    {
+     "re": "2\\.57",
+     "min": 1
+    }
+   ],
+   "forbid": [
+    {
+     "re": "4\\.77",
+     "why": "the W=16 variant is a different machine"
+    }
+   ]
+  },
+  {
+   "id": "runs_ces",
+   "value": "2.77 n",
+   "source": "probe_ces_exact/ce_patch.py (w2_256)",
+   "appear": [
+    {
+     "re": "2\\.77",
+     "min": 1
+    }
+   ],
+   "forbid": [
+    {
+     "re": "0\\.12\\\\,n\\^2",
+     "why": "the pre-CES machine"
+    }
+   ]
+  },
+  {
+   "id": "canonical_cost",
+   "value": "147.7 n",
+   "source": "pcr_lib.Runner, n=1024",
+   "appear": [
+    {
+     "re": "147\\.7",
+     "min": 2
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "canonical_c1a",
+   "value": "116.5 n, the c1a variant",
+   "source": "audit2.py",
+   "appear": [
+    {
+     "re": "116\\.5",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "hashmod_cell",
+   "value": "0.08-0.096 n^2",
+   "source": "probe_master (cell reads; the 0.62 n ln n figure is rows)",
+   "appear": [
+    {
+     "re": "0\\.08",
+     "min": 1
+    }
+   ],
+   "forbid": [
+    {
+     "re": "0\\.62\\\\,n\\\\ln n",
+     "why": "rows, not cell reads",
+     "unless": "rows"
+    }
+   ]
+  },
+  {
+   "id": "longrun_witness",
+   "value": "n^3/21",
+   "source": "probe_g_witness/gw.py, four sizes, coefficient 20.5-21.9",
+   "appear": [
+    {
+     "re": "n\\^\\{3\\}/21",
+     "min": 1
+    }
+   ],
+   "forbid": [
+    {
+     "re": "25\\\\,n\\^2",
+     "why": "the n=512 slice"
+    },
+    {
+     "re": "25\\\\.6",
+     "why": "miscalculated"
+    }
+   ]
+  },
+  {
+   "id": "longrun_separation",
+   "value": "g/e = 86232 at 4096",
+   "source": "probe_g_witness",
+   "appear": [
+    {
+     "re": "86\\\\,232",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "cx_order",
+   "value": "n^3/log n for full-rank kernels at s=Theta(log n)",
+   "source": "Theorem thm:rank",
+   "appear": [
+    {
+     "re": "n\\^\\{3\\}/\\\\log n",
+     "min": 3
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "cx_measured",
+   "value": "n^2.93, an upper bound",
+   "source": "probe_cx_down/CX_DOWN.md, s-slot accumulator",
+   "appear": [
+    {
+     "re": "2\\.93",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "ballast_mean",
+   "value": "6.2 n = 5.44 n + n^-1 0.75 n^2",
+   "source": "probe_semilinear/SEMILINEAR.md",
+   "appear": [
+    {
+     "re": "6\\.2\\\\,n",
+     "min": 1
+    },
+    {
+     "re": "0\\.75\\\\,n\\^\\{2\\}",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "ballast_exponents",
+   "value": "e n^0.997, g n^1.995, G n^1.000",
+   "source": "probe_semilinear",
+   "appear": [
+    {
+     "re": "0\\.997",
+     "min": 2
+    },
+    {
+     "re": "1\\.995",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "ballast_ratios",
+   "value": "e/n 6.11-6.24, g/n^2 0.751-0.759",
+   "source": "probe_semilinear",
+   "appear": [
+    {
+     "re": "6\\.11",
+     "min": 1
+    },
+    {
+     "re": "0\\.751",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "info_ceiling_sum",
+   "value": "1.893 reads/query",
+   "source": "Theorem thm:info (3-valued alphabet)",
+   "appear": [
+    {
+     "re": "1\\.893",
+     "min": 3
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "info_ceiling_four",
+   "value": "1.5 reads/query",
+   "source": "Theorem thm:info (four-state cell)",
+   "appear": [
+    {
+     "re": "1\\.5\\b",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "certificate_sum",
+   "value": "1285703 cells vs union 1020",
+   "source": "probe_ceiling",
+   "appear": [
+    {
+     "re": "1\\\\,285\\\\,703",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "transfer_slope",
+   "value": "f = 0.104 at n=128, f ~ n^-0.99",
+   "source": "probe_r2k",
+   "appear": [
+    {
+     "re": "0\\.104",
+     "min": 1
+    },
+    {
+     "re": "n\\^\\{-0\\.99\\}",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "peak_exact",
+   "value": "1496/1500 at W2=128; 2.0 n",
+   "source": "probe_peak_fix/PEAK_FIX.md",
+   "appear": [
+    {
+     "re": "1\\\\,496",
+     "min": 1
+    },
+    {
+     "re": "2\\.0\\\\,n",
+     "min": 1
+    }
+   ],
+   "forbid": [
+    {
+     "re": "1497/1500",
+     "why": "the corrected count is 1496"
+    }
+   ]
+  },
+  {
+   "id": "n2_rung",
+   "value": "<= 1.33 n^2 (measured 1.12)",
+   "source": "probe_class_rerun",
+   "appear": [
+    {
+     "re": "1\\.33",
+     "min": 1
+    },
+    {
+     "re": "1\\.12",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "defects",
+   "value": "nine defects, encodings cover eight",
+   "source": "PC_PUSH 2.2",
+   "appear": [
+    {
+     "re": "nine",
+     "min": 1
+    }
+   ],
+   "forbid": [
+    {
+     "re": "nine is the maximum|the maximum.{0,20}is nine",
+     "why": "eight is the maximum; nine is used"
+    }
+   ]
+  },
+  {
+   "id": "kappa_range",
+   "value": "0.472-0.925 at c=16, n=512",
+   "source": "probe_kappa_inc2/KAPPA_INC2.md",
+   "appear": [
+    {
+     "re": "0\\.472",
+     "min": 1
+    },
+    {
+     "re": "0\\.925",
+     "min": 1
+    }
+   ],
+   "forbid": [
+    {
+     "re": "0\\.196",
+     "why": "the pre-INC range"
+    }
+   ]
+  },
+  {
+   "id": "kappa_star",
+   "value": "kappa* >= 0.93",
+   "source": "same",
+   "appear": [
+    {
+     "re": "0\\.93",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "g_over_e_fl",
+   "value": "0.997-1.000",
+   "source": "probe_r2k/gfl.py",
+   "appear": [
+    {
+     "re": "0\\.997",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "g_over_e_super",
+   "value": "G/e <= 0.26 for the band rules; 0.997-1.000 for the fully linear ones",
+   "source": "probe_r2k/gsup.py",
+   "appear": [
+    {
+     "re": "0\\.26",
+     "min": 1
+    }
+   ],
+   "forbid": [
+    {
+     "re": "0\\.875",
+     "why": "belongs to the six-rule supplement, not to the paper's table"
+    }
+   ]
+  },
+  {
+   "id": "gates_cube",
+   "value": "88560 tapes at n<=10",
+   "source": "probe gates",
+   "appear": [
+    {
+     "re": "88\\\\,560",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "gates_windows",
+   "value": "2192103 windows",
+   "source": "probe gates",
+   "appear": [
+    {
+     "re": "2\\\\,192\\\\,103",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "gates_four",
+   "value": "130500 walks",
+   "source": "probe gates",
+   "appear": [
+    {
+     "re": "130\\\\,500",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "gates_endgame",
+   "value": "147555 walks",
+   "source": "probe gates",
+   "appear": [
+    {
+     "re": "147\\\\,555",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "gates_epochs",
+   "value": "27984 epochs",
+   "source": "probe gates",
+   "appear": [
+    {
+     "re": "27\\\\,984",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  },
+  {
+   "id": "class_census",
+   "value": "21 natural rules: 5 fully linear, 16 superlinear; 1 constructed semi-linear",
+   "source": "catalogue table",
+   "appear": [
+    {
+     "re": "five\\n?natural|five natural",
+     "min": 1
+    }
+   ],
+   "forbid": []
+  }
+ ],
+ "banned": [
+  {
+   "term": "quasi-linear",
+   "why": "the class was removed: p = Theta(e) leaves no cell"
+  },
+  {
+   "term": "weak superlinear",
+   "why": "the superlinear class is no longer split"
+  },
+  {
+   "term": "strong superlinear",
+   "why": "the superlinear class is no longer split"
+  },
+  {
+   "term": "pointer class",
+   "why": "class name from the earlier model"
+  },
+  {
+   "term": "walk class",
+   "why": "class name from the earlier model"
+  },
+  {
+   "term": "four level-count",
+   "why": "there are five"
+  },
+  {
+   "term": "four classes",
+   "why": "there are three"
+  },
+  {
+   "term": "n^{1/\\log n}",
+   "why": "that factor is a constant, not a rung",
+   "unless": "would be a constant"
+  },
+  {
+   "term": "\\\\Omega(n^2)$ & \\\\textbf{open}",
+   "why": "refuted by the n^{3/2} rung and ballast"
+  },
+  {
+   "term": "never derived from a step count",
+   "why": "false: some exponents are derived from step counts"
+  },
+  {
+   "term": "weak and a strong half",
+   "why": "the superlinear class is no longer split"
+  },
+  {
+   "term": "weak and strong",
+   "why": "the superlinear class is no longer split"
+  }
+ ],
+ "census": {
+  "fully_linear": [
+   "pal",
+   "pattern",
+   "runs",
+   "peak",
+   "monotone_majority"
+  ],
+  "semi_linear": [
+   "ballast"
+  ],
+  "superlinear": [
+   "canonical",
+   "dense2",
+   "hashmod",
+   "longrun",
+   "KCHG",
+   "LAS",
+   "MAXP",
+   "trip",
+   "oddrun",
+   "NBLK_1",
+   "NBLK_gt2",
+   "NBLK_gt3",
+   "AMAX",
+   "AMIN",
+   "BAL_m/2",
+   "BAL_m/4",
+   "PC",
+   "CX"
+  ]
+ }
+}
