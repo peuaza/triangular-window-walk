@@ -51,9 +51,14 @@ L.append("\\bottomrule")
 L.append("\\end{tabular}")
 L.append("\\caption{The machine profile at the largest measured size: the three minima over the machines "
          "tested for each rule, in units of $n$, and the machine that attains each.  The minima are over "
-         "the machines tested (\\texttt{pcr}, \\texttt{band\\_B64}, \\texttt{ces\\_kp\\_W64}, \\texttt{scan}), "
-         "so each is an \\emph{upper} bound on the rule's own minimum, not the minimum over all machines.  "
-         "Where the three columns name one machine, that machine attains all three minima at this size.}")
+         "the machines tested (ten configurations of four families: \\texttt{pcr}, \\texttt{band\_B8}--\\texttt{B128}, "
+         "\\texttt{ces\_W8}--\\texttt{W64}, \\texttt{scan}), "
+         "so each is a bound on the rule's own minimum, not the minimum over all machines: from above "
+         "for $G$ and $e$, and from below for $g$, since a sample maximum can only undershoot.  "
+         "Where the three columns name one machine, that machine attains all three minima at this size.  "
+         "The panel is fixed and is not the best known set for every rule: \\texttt{peak}, for instance, "
+         "has a device at $2.0\\,n$ that is not in the panel, so this table's minima for it are not the "
+         "paper's best values.}")
 L.append("\\label{tab:profile}")
 L.append("\\end{table}")
 

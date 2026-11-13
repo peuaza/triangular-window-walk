@@ -49,11 +49,11 @@
   },
   {
    "id": "pattern_ces",
-   "value": "2.57 n",
+   "value": "3.7-4.2 n",
    "source": "probe_ces_exact/ce_patch.py, 200 meeting tapes at 4096",
    "appear": [
     {
-     "re": "2\\.57",
+     "re": "3\\.7",
      "min": 1
     }
    ],
@@ -62,15 +62,17 @@
      "re": "4\\.77",
      "why": "the W=16 variant is a different machine"
     }
-   ]
+   ],
+   "pattern": "3\\.7",
+   "note": "post-fix CES: pattern reads_meet_n 3.679 at n=4096; the 2.57 n was the pre-fix number"
   },
   {
    "id": "runs_ces",
-   "value": "2.77 n",
+   "value": "3.8-8.5 n",
    "source": "probe_ces_exact/ce_patch.py (w2_256)",
    "appear": [
     {
-     "re": "2\\.77",
+     "re": "3\\.8",
      "min": 1
     }
    ],
@@ -336,7 +338,7 @@
   },
   {
    "id": "kappa_range",
-   "value": "0.472-0.925 at c=16, n=512",
+   "value": "0.472-0.789 at c=16 (0.472 is trip at n=4096)",
    "source": "probe_kappa_inc2/KAPPA_INC2.md",
    "appear": [
     {
@@ -357,15 +359,16 @@
   },
   {
    "id": "kappa_star",
-   "value": "kappa* >= 0.93",
+   "value": "0.925",
    "source": "same",
    "appear": [
     {
-     "re": "0\\.93",
+     "re": "0\\.925",
      "min": 1
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "pattern": "0\\.925"
   },
   {
    "id": "g_over_e_fl",
@@ -389,12 +392,8 @@
      "min": 1
     }
    ],
-   "forbid": [
-    {
-     "re": "0\\.875",
-     "why": "belongs to the six-rule supplement, not to the paper's table"
-    }
-   ]
+   "forbid": [],
+   "stale": []
   },
   {
    "id": "gates_cube",
@@ -458,11 +457,11 @@
   },
   {
    "id": "class_census",
-   "value": "21 natural rules: 5 fully linear, 16 superlinear; 1 constructed semi-linear",
+   "value": "25 rules: 5 natural fully linear, 1 fully-linear construction (halfpower), 1 semi-linear construction (ballast), 16 superlinear, 2 unclassified (PC, CX)",
    "source": "catalogue table",
    "appear": [
     {
-     "re": "five\\n?natural|five natural",
+     "re": "twenty-five rules",
      "min": 1
     }
    ],

@@ -1,4 +1,4 @@
-"""Data-driven consistency check for bthm_jalc_v2.tex + _appendix_evidence.tex.
+"""Data-driven consistency check for bthm_v3.tex + _appendix_evidence.tex.
 
 Every headline number lives in claims.json with the probe that generated it; the spelling bans and the
 catalogue census live there too.  This file contains no facts of its own -- only the checks:
