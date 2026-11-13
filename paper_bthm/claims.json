@@ -45,7 +45,9 @@
      "min": 2
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "rule",
+   "direction": "exact"
   },
   {
    "id": "pattern_ces",
@@ -64,7 +66,9 @@
     }
    ],
    "pattern": "3\\.7",
-   "note": "post-fix CES: pattern reads_meet_n 3.679 at n=4096; the 2.57 n was the pre-fix number"
+   "note": "post-fix CES: pattern reads_meet_n 3.679 at n=4096; the 2.57 n was the pre-fix number",
+   "level": "machine",
+   "direction": "upper"
   },
   {
    "id": "runs_ces",
@@ -81,7 +85,9 @@
      "re": "0\\.12\\\\,n\\^2",
      "why": "the pre-CES machine"
     }
-   ]
+   ],
+   "level": "machine",
+   "direction": "upper"
   },
   {
    "id": "canonical_cost",
@@ -93,7 +99,9 @@
      "min": 2
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "machine",
+   "direction": "upper"
   },
   {
    "id": "canonical_c1a",
@@ -105,7 +113,9 @@
      "min": 1
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "machine",
+   "direction": "upper"
   },
   {
    "id": "hashmod_cell",
@@ -123,7 +133,9 @@
      "why": "rows, not cell reads",
      "unless": "rows"
     }
-   ]
+   ],
+   "level": "machine",
+   "direction": "upper"
   },
   {
    "id": "longrun_witness",
@@ -144,7 +156,9 @@
      "re": "25\\\\.6",
      "why": "miscalculated"
     }
-   ]
+   ],
+   "level": "machine",
+   "direction": "upper"
   },
   {
    "id": "longrun_separation",
@@ -156,7 +170,9 @@
      "min": 1
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "machine",
+   "direction": "exact"
   },
   {
    "id": "cx_order",
@@ -168,7 +184,9 @@
      "min": 3
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "rule",
+   "direction": "upper"
   },
   {
    "id": "cx_measured",
@@ -180,7 +198,9 @@
      "min": 1
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "machine",
+   "direction": "upper"
   },
   {
    "id": "ballast_mean",
@@ -196,7 +216,9 @@
      "min": 1
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "machine",
+   "direction": "exact"
   },
   {
    "id": "ballast_exponents",
@@ -212,7 +234,9 @@
      "min": 1
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "machine",
+   "direction": "exact"
   },
   {
    "id": "ballast_ratios",
@@ -228,7 +252,9 @@
      "min": 1
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "machine",
+   "direction": "exact"
   },
   {
    "id": "info_ceiling_sum",
@@ -240,7 +266,9 @@
      "min": 3
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "rule",
+   "direction": "upper"
   },
   {
    "id": "info_ceiling_four",
@@ -252,7 +280,9 @@
      "min": 1
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "rule",
+   "direction": "upper"
   },
   {
    "id": "certificate_sum",
@@ -264,7 +294,9 @@
      "min": 1
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "rule",
+   "direction": "upper"
   },
   {
    "id": "transfer_slope",
@@ -280,7 +312,9 @@
      "min": 1
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "machine",
+   "direction": "exact"
   },
   {
    "id": "peak_exact",
@@ -301,7 +335,9 @@
      "re": "1497/1500",
      "why": "the corrected count is 1496"
     }
-   ]
+   ],
+   "level": "machine",
+   "direction": "upper"
   },
   {
    "id": "n2_rung",
@@ -317,7 +353,9 @@
      "min": 1
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "machine",
+   "direction": "upper"
   },
   {
    "id": "defects",
@@ -355,7 +393,9 @@
      "re": "0\\.196",
      "why": "the pre-INC range"
     }
-   ]
+   ],
+   "level": "machine",
+   "direction": "exact"
   },
   {
    "id": "kappa_star",
@@ -380,7 +420,9 @@
      "min": 1
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "machine",
+   "direction": "exact"
   },
   {
    "id": "g_over_e_super",
@@ -393,7 +435,9 @@
     }
    ],
    "forbid": [],
-   "stale": []
+   "stale": [],
+   "level": "machine",
+   "direction": "upper"
   },
   {
    "id": "gates_cube",
@@ -465,7 +509,9 @@
      "min": 1
     }
    ],
-   "forbid": []
+   "forbid": [],
+   "level": "rule",
+   "direction": "exact"
   }
  ],
  "banned": [
