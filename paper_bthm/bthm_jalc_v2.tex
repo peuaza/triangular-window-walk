@@ -265,17 +265,55 @@ g_{\rho}(n)=\min_{M}\max_{\tau}C_{M}(\tau),
 \]
 each a minimum over machines, so each is attained by its own machine and $g_{\rho}$ is the min--max.
 The chain $G_{\rho}\le e_{\rho}\le g_{\rho}$ holds although the three minima may be attained by
-different machines. Taking the $e$-optimal $M_{e}$, $G_{\rho}\le G_{M_{e}}\le e_{M_{e}}=e_{\rho}$:
-the first step is the minimum over machines, the second AM--GM on one machine. Taking the
-$g$-optimal $M_{g}$, $e_{\rho}\le e_{M_{g}}\le g_{M_{g}}=g_{\rho}$: the minimum, then mean $\le$
-maximum on one machine. AM--GM is used only inside a machine, which is the only place it holds.
+different machines, and it needs no case analysis: on \emph{every} machine $M$,
+$G_{M}\le e_{M}\le g_{M}$ by AM--GM and by mean $\le$ maximum, so the pointwise inequality passes
+to the minima. Conversely $G_{M}>e_{M}$ is impossible for any $M$: the $e$-optimal machine would then
+beat $M$ on $G$ as well, so $M$ could not be $G$-optimal. What the chain does \emph{not} give is a
+lower bound in the other direction: a machine whose cost is very skewed has a small geometric mean
+and a large arithmetic one, so $G_{\rho}$ can be much smaller than $e_{\rho}$, and `the three agree'
+at the level of the rule needs lower bounds that this paper does not have.
 
 The tables report one machine, $M^{\star}$, the best we built, chosen as the $e$-best. On it we
 measure $G_{M^{\star}},e_{M^{\star}},g_{M^{\star}}$; each is at least the corresponding minimum, so
 every reported number is an \emph{upper} bound on the rule's, never a lower one, and the same chain
 holds on $M^{\star}$ as well. ``Fully linear'', $g_{\rho}=O(n)$, is therefore \emph{witnessed} by
 the machine that attains it; placing a rule on the expensive side needs the absence of a cheaper
-machine, which is where the paper writes ``no $O(n)$ simulator is known''.  Let
+machine, which is where the paper writes ``no $O(n)$ simulator is known''.
+
+\begin{proposition}[One machine suffices, up to a constant]\label{prop:simult}
+For every content-dependent rule and every $\varepsilon>0$ there is a machine $M_{\times}$ with
+\[
+G(M_{\times})\le 5(1+\varepsilon)\,G_{\rho},\qquad
+e(M_{\times})\le 5(1+\varepsilon)\,e_{\rho},\qquad
+g(M_{\times})\le 5(1+\varepsilon)\,g_{\rho},
+\]
+the right-hand sides being the minima over machines.
+\end{proposition}
+
+\begin{proof}
+Let $M_{G},M_{e},M_{g}$ come within $1+\varepsilon$ of the three minima. Let $M_{\times}$ run the three
+in lockstep, advancing one cell read at a time, and output the answer of the first to halt. Its state is
+three copies of $O(\log n)$ bits, hence $O(\log n)$, and the model allows arbitrary computation on what
+has been read, so it is a machine. On a tape $\tau$ write $c_{i}=C_{M_{i}}(\tau)$: the first to halt has
+read $\min_{i}c_{i}$ cells and the other two have read at most $\min_{i}c_{i}+1$ each, so
+$C_{M_{\times}}(\tau)\le 3\min_{i}c_{i}+2$. Then
+$e(M_{\times})\le 3\,\mathbb E\min_{i}c_{i}+2\le 5\min_{i}\mathbb E c_{i}$,
+$g(M_{\times})\le 3\max_{\tau}\min_{i}c_{i}+2\le 5\max_{\tau}c_{g}$, and
+$G(M_{\times})=\exp\mathbb E\ln C\le 5\min_{i}G(M_{i})$, using $\mathbb E\min\le\min\mathbb E$,
+$\max\min\le\max$, and $3x+2\le5x$ for $x\ge1$ --- the last because a content-dependent rule cannot be
+answered with zero reads on any tape, so every $c_{i}\ge1$.
+\end{proof}
+
+\begin{remark}[What this does and does not settle]\label{rem:simult}
+The three optima may sit at different orders --- \texttt{ballast} measures $G/e\approx0.88$ with
+$g=\Theta(n^{2})$ against $e=\Theta(n)$ --- and the proposition still produces one machine within a constant of all three: the
+machine inherits the rule's skew. What it does not produce is a machine whose three costs are of the
+same order, which is what a perfect rule means (Section~\ref{sec:kappa}) and which can fail. In the
+measured catalogue one machine attains all three minima exactly, at every size; that is stronger than
+the proposition, and it is a measured property of these rules rather than a consequence of it.
+\end{remark}
+
+Let
 $p_{\rho}(n)$ be the per-tape cost at which a predictor with $O(\log n)$ bits drives the out-of-fold
 residual to zero. The worst case separates
 the fully-linear class from the rest, and the mean separates the semi-linear class from the
