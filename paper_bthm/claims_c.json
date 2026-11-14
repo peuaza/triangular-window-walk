@@ -239,6 +239,21 @@
      "min": 1
     }
    ]
+  },
+  {
+   "id": "empty_share",
+   "value": "4173 = 23.2%",
+   "source": "cut_cells.json sum b0_empty",
+   "appear": [
+    {
+     "re": "4\\{,\\}173",
+     "min": 1
+    },
+    {
+     "re": "23\\.2\\%",
+     "min": 1
+    }
+   ]
   }
  ],
  "bans": [

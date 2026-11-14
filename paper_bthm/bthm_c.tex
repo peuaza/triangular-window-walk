@@ -24,8 +24,7 @@
 A tape machine with two headers, a window and three trims answers a query at each step; in the companion
 paper its cost is measured on the tapes whose walk \emph{meets}. This paper asks how many of them do, and
 what a machine has to be told --- one bit per query --- to turn the rest into runs with an answer. The bit is a query, not a memory: the machine's state stays $O(\log n)$ bits and the visited set is the oracle's, with room for up to $2{,}945{,}071$ quadruples in a single run at $n=2048$. No lower bound is claimed: the paper measures what the query buys, not the least memory that would suffice. Over $18{,}000$ measured
-tape-runs in sixty (rule, $n$) cells, $14.9\%$ of the runs meet and $61.9\%$ close a period and then repeat it for ever,
-dying at the step cap; the cycle is short, a median of two steps. One bit --- the answer to ``has this
+tape-runs in sixty (rule, $n$) cells, $14.9\%$ of the runs meet, $61.9\%$ close a period and then repeat it for ever, dying at the step cap, and $23.2\%$ empty the region without ever meeting; the cycle is short, a median of two steps. One bit --- the answer to ``has this
 window occurred before?'' --- takes the meeting rate to $37.8\%$ and rescues $36.9\%$ of the runs that
 otherwise die. The bit is not state: the visited set is the oracle's, the machine keeps $O(\log n)$ bits.
 It buys termination and no cheapness: a run that used to die now continues to an answer, trims cascade (a
@@ -157,6 +156,8 @@ cap-diers, and the median number of repair trims a rescued tape needs. \emph{rea
 tapes the companion paper counts, and over all tapes under the bit.}
 \label{tab:cyc}
 \end{table}
+
+\paragraph{The outcomes, and the roster.} Every run ends in one of three ways, and the paper reports all three: $2{,}681$ ($14.9\%$) meet, $11{,}146$ ($61.9\%$) close a period and die at the cap, and $4{,}173$ ($23.2\%$) empty the region without meeting. The two remaining outcome codes are zero in every cell, so the three shares sum to the whole. The roster is the twenty natural rules for which the record has a machine, each at the three sizes, with \texttt{monotone} entered analytically (it cannot cycle) and therefore outside every share quoted here.
 
 \paragraph{What the bit buys.} Over the $18{,}000$ tape-runs the meeting rate goes from $14.9\%$ to $37.8\%$,
 and $4{,}115$ of the $11{,}146$ cap-diers are rescued ($36.9\%$). No run under the bit hit the cap. The
