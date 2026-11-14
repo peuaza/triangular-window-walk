@@ -50,3 +50,14 @@ print('period check n=%d nt=%d: %d/%d cells consistent' % (n, NT, tot - bad, tot
 for rule, (ok, cls) in per.items():
     if cls:
         print('%-10s periods: %s' % (rule, sorted(cls)[:12]))
+
+import io
+import json
+import os
+
+_out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cyc_period.json")
+io.open(_out, "w", encoding="utf-8", newline="\n").write(json.dumps(
+    {"n": n, "nt": NT, "consistent": tot - bad, "total": tot, "bad": bad,
+     "per_rule": {r: {"ok": ok, "periods": sorted(cls)} for r, (ok, cls) in per.items()}},
+    indent=1, ensure_ascii=False) + "\n")
+print("wrote cyc_period.json: %d/%d consistent" % (tot - bad, tot))
