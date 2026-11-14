@@ -1,0 +1,324 @@
+{
+ "ns": [
+  256,
+  512,
+  1024
+ ],
+ "nt": 10,
+ "fields": [
+  "steps",
+  "reads",
+  "cuts",
+  "end",
+  "ntrim",
+  "nl",
+  "nr",
+  "nused",
+  "msum"
+ ],
+ "rules": {
+  "canonical|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "runs|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "dense2|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "peak|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "trip|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "oddrun|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "pattern|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "LAS|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "MAXP|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "KCHG|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "BAL>m/2|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "BAL>m/4|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "NBLK=1|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "NBLK>2|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "NBLK>3|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "AMAX|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "AMIN|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "longrun|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "pal|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "hashmod|256": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "canonical|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "runs|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "dense2|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "peak|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "trip|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "oddrun|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "pattern|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "LAS|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "MAXP|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "KCHG|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "BAL>m/2|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "BAL>m/4|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "NBLK=1|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "NBLK>2|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "NBLK>3|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "AMAX|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "AMIN|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "longrun|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "pal|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "hashmod|512": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "canonical|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "runs|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "dense2|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "peak|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "trip|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "oddrun|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "pattern|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "LAS|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "MAXP|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "KCHG|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "BAL>m/2|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "BAL>m/4|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "NBLK=1|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "NBLK>2|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "NBLK>3|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "AMAX|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "AMIN|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "longrun|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "pal|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  },
+  "hashmod|1024": {
+   "tapes": 10,
+   "field_mismatches": 0,
+   "tapes_diverging": 0
+  }
+ },
+ "mismatches": 0,
+ "first": null,
+ "secs": 56.1
+}

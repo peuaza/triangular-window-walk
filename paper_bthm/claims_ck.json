@@ -1,0 +1,547 @@
+{
+ "paper": "bthm_ck.tex",
+ "note": "Numbers in the merged paper (the flag and the count). The flag's numbers are the BTHM-C ones (probe_cycle_cut/cut_cells.json); the count's are the k-sweep's (probe_colour_k/k_cells.json).",
+ "claims": [
+  {
+   "id": "cells",
+   "value": "18000 tape-runs",
+   "source": "probe_cycle_cut/cut_cells.json",
+   "appear": [
+    {
+     "re": "18\\{,\\}000",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "b0_meet",
+   "value": "14.9%",
+   "source": "sum b0_meet / 18000",
+   "appear": [
+    {
+     "re": "14\\.9\\\\%",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "b0_cap",
+   "value": "61.9%",
+   "source": "sum b0_cyc / 18000",
+   "appear": [
+    {
+     "re": "61\\.9\\\\%",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "bC_meet",
+   "value": "37.8%",
+   "source": "sum bC_meet / 18000",
+   "appear": [
+    {
+     "re": "37\\.8\\\\%",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "rescued",
+   "value": "4115 of 11146 = 36.9%",
+   "source": "sum bC_rescue / sum b0_cyc",
+   "appear": [
+    {
+     "re": "4\\{,\\}115",
+     "min": 1
+    },
+    {
+     "re": "36\\.9\\\\%",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "trims_max",
+   "value": "1956",
+   "source": "cut_cells.json max bC_trim_max",
+   "appear": [
+    {
+     "re": "1\\{,\\}956",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "retraction_trims",
+   "value": "3,627,840",
+   "source": "probe_cycle/cyc_cells.json",
+   "appear": [
+    {
+     "re": "3\\{,\\}627\\{,\\}840",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "retraction_meet",
+   "value": "74.0%",
+   "source": "probe_cycle/cyc_cells.json",
+   "appear": [
+    {
+     "re": "74\\.0\\\\%",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "cycle_med",
+   "value": "2 steps",
+   "source": "cut_cells.json cyc_len_med",
+   "appear": [
+    {
+     "re": "two steps",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "width_pal",
+   "value": "5 cells",
+   "source": "cut_cells.json pal/512",
+   "appear": [
+    {
+     "re": "five cells",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "width_longrun",
+   "value": "11 cells",
+   "source": "cut_cells.json longrun/512",
+   "appear": [
+    {
+     "re": "eleven",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "width_nblk",
+   "value": "749 and 720",
+   "source": "cut_cells.json NBLK>2 / BAL>m/2",
+   "appear": [
+    {
+     "re": "749",
+     "min": 1
+    },
+    {
+     "re": "720",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "rescue_range",
+   "value": "0.276 to 0.737 (longrun largest)",
+   "source": "cut_cells.json bC_rescue_frac@512",
+   "appear": [
+    {
+     "re": "0\\.276",
+     "min": 1
+    },
+    {
+     "re": "0\\.737",
+     "min": 1
+    },
+    {
+     "re": "0\\.5045",
+     "min": 1
+    },
+    {
+     "re": "0\\.5033",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "gates",
+   "value": "99/99, 120/120, 800/800, 30/30",
+   "source": "CUT.md and cyc_verify",
+   "appear": [
+    {
+     "re": "99/99",
+     "min": 1
+    },
+    {
+     "re": "120/120",
+     "min": 1
+    },
+    {
+     "re": "800/800",
+     "min": 1
+    },
+    {
+     "re": "30/30",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "termination",
+   "value": "(n+1)(n^2+1)",
+   "source": "Theorem 3",
+   "appear": [
+    {
+     "re": "\\(n\\+1\\)\\(n\\^\\{2\\}\\+1\\)",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "repair_gap",
+   "value": "peak 0.813 vs 0.340; BAL>m/2 0.887 vs 0.393",
+   "source": "comparison_512",
+   "appear": [
+    {
+     "re": "0\\.813",
+     "min": 1
+    },
+    {
+     "re": "0\\.340",
+     "min": 1
+    },
+    {
+     "re": "0\\.887",
+     "min": 1
+    },
+    {
+     "re": "0\\.393",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "oracle_size",
+   "value": "2945071",
+   "source": "cut_cells.json nused_max",
+   "appear": [
+    {
+     "re": "2\\{,\\}945\\{,\\}071",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "trim_medians",
+   "value": "73 / 101 / 212",
+   "source": "cut_cells.json bC_trim_med",
+   "appear": [
+    {
+     "re": "73",
+     "min": 1
+    },
+    {
+     "re": "212",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "empty_share",
+   "value": "4173 = 23.2%",
+   "source": "cut_cells.json sum b0_empty",
+   "appear": [
+    {
+     "re": "4\\{,\\}173",
+     "min": 1
+    },
+    {
+     "re": "23\\.2",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "k_cells",
+   "value": "36 colour cells",
+   "source": "k_cells.json cells",
+   "appear": [
+    {
+     "re": "36\\$ colour cells",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "k_table_runs512",
+   "value": "runs n=512: 0.550 at k=4, +41 at k=1->2",
+   "source": "_k_table.tex",
+   "appear": [
+    {
+     "re": "0\\.550",
+     "min": 1
+    },
+    {
+     "re": "\\+41",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "k_table_peak",
+   "value": "peak n=2048: 0.540 at k=4, +28 at k=1->2",
+   "source": "_k_table.tex",
+   "appear": [
+    {
+     "re": "0\\.540",
+     "min": 1
+    },
+    {
+     "re": "\\+28",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "k_exp_range",
+   "value": "1.287 to 2.016 (meeting), 1.715 to 1.922 (all)",
+   "source": "k_cells.json exp",
+   "appear": [
+    {
+     "re": "1\\.287",
+     "min": 1
+    },
+    {
+     "re": "2\\.016",
+     "min": 1
+    },
+    {
+     "re": "1\\.715",
+     "min": 1
+    },
+    {
+     "re": "1\\.922",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "k_tail_min",
+   "value": "min g/e 4.07, min e/G 2.61",
+   "source": "k_cells.json tail",
+   "appear": [
+    {
+     "re": "4\\.07",
+     "min": 1
+    },
+    {
+     "re": "2\\.61",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "k_no_trim_rescues",
+   "value": "227/674=33.7% at k=2; 356/808=44.1% at k=4",
+   "source": "k_cells.json rescue_no_trim/rescue_num",
+   "appear": [
+    {
+     "re": "227",
+     "min": 1
+    },
+    {
+     "re": "674",
+     "min": 1
+    },
+    {
+     "re": "33\\.7",
+     "min": 1
+    },
+    {
+     "re": "356",
+     "min": 1
+    },
+    {
+     "re": "808",
+     "min": 1
+    },
+    {
+     "re": "44\\.1",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "k_peak_trims",
+   "value": "peak n=2048: 174 -> 128",
+   "source": "k_cells.json peak/2048",
+   "appear": [
+    {
+     "re": "174",
+     "min": 1
+    },
+    {
+     "re": "128",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "k_engine_gate",
+   "value": "384 sampled runs",
+   "source": "k_indep.json",
+   "appear": [
+    {
+     "re": "384",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "k_max_gain",
+   "value": "up to 19 points (runs 512: 0.360 -> 0.550)",
+   "source": "k_cells.json meets",
+   "appear": [
+    {
+     "re": "19\\$ points",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "gates_120",
+   "value": "120/120 on six tapes and twenty rules",
+   "source": "cut_verify.json B_cells",
+   "appear": [
+    {
+     "re": "120/120",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "two_step_pooled",
+   "value": "6,253 of 11,146 = 56.1% pooled",
+   "source": "cyc_cells.json cyc_len_frac2 x b0_cyc",
+   "appear": [
+    {
+     "re": "6\\{,\\}253",
+     "min": 1
+    },
+    {
+     "re": "11\\{,\\}146",
+     "min": 1
+    },
+    {
+     "re": "56\\.1",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "k_gate_scope",
+   "value": "the k=1 gate covers 9 cells, 21,600 field values",
+   "source": "k_cells.json gates",
+   "appear": [
+    {
+     "re": "21\\{,\\}600",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "hashmod_share",
+   "value": "hashmod meets 300/300; its 900 runs are part of the baseline",
+   "source": "cut_cells.json",
+   "appear": [
+    {
+     "re": "hashmod",
+     "min": 1
+    },
+    {
+     "re": "900",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "count_term",
+   "value": "count model: at most (k+1)n^3 steps",
+   "source": "Section 5",
+   "appear": [
+    {
+     "re": "\\(k\\+1\\)n\\^\\{3\\}",
+     "min": 1
+    }
+   ]
+  }
+ ],
+ "bans": [
+  {
+   "re": "double trim dominates",
+   "why": "the double trim is not measured"
+  },
+  {
+   "re": "one conjecture",
+   "why": "the companion paper withdrew its conjecture"
+  },
+  {
+   "re": "n \\+ S - 1",
+   "why": "the companion theorem is n + S"
+  },
+  {
+   "re": "worse than every rule",
+   "why": "O(n^3) ties the most expensive rule"
+  },
+  {
+   "re": "95\\.4",
+   "why": "that is the retraction's rescue rate, not the cut's"
+  },
+  {
+   "re": "saturat(es|ed) at",
+   "why": "the sweep decelerates; it is not saturated by k=4"
+  },
+  {
+   "re": "a different paper",
+   "why": "the count is measured in Section 5 of this paper now"
+  },
+  {
+   "re": "new rung",
+   "why": "no cost exponent leaves the ladder's rungs"
+  },
+  {
+   "re": "114/114",
+   "why": "the recorded gate is 120/120"
+  },
+  {
+   "re": "49\\\\% of the periods",
+   "why": "the pooled share is 56.1%; 0.49 is the median cell share"
+  },
+  {
+   "re": "most of the rescue",
+   "why": "the share is a third to 44%, stated per k"
+  },
+  {
+   "re": "room for \\$2",
+   "why": "2,945,071 is the largest observed set, not a capacity"
+  },
+  {
+   "re": "collapse family",
+   "why": "the charge model is named instead"
+  }
+ ],
+ "counts": [
+  {
+   "re": "twenty rules",
+   "min": 1,
+   "why": "the aggregate excludes monotone and must say so"
+  },
+  {
+   "re": "sixty \\(rule, \\$n\\$\\)\\s+cells",
+   "min": 1,
+   "why": "the merged abstract must name the flag's cell count"
+  }
+ ]
+}

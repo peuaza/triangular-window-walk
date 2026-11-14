@@ -1,0 +1,256 @@
+{
+ "files": [
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/mk_lib.py",
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/mk_pal.py",
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/mk_pat.py",
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/mk_gate.py",
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/mk_run.py",
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/mk_diag.py",
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/mk_report.py",
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/paldiag_trace.py",
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/mk_probe.py",
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/mk_probe2.py",
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/mk_probe3.py",
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/mk_cells.json",
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/mk_diag.json",
+  "C:/Users/shini/poetry_axis/paper/probe_markplane/MARKPLANE.md"
+ ],
+ "pal": {
+  "baseline": {
+   "machine": "palmach2.walk_mach2 (probe_cert), charge: 1 read per comparison",
+   "tapes": "tr_lib T_n, 300 tapes, n = 512 / 1024 / 2048",
+   "reads": {
+    "512": 44186.2,
+    "1024": 156386.6,
+    "2048": 722628.8
+   },
+   "reads_exponent": 2.016,
+   "gate": "the plane machine with policy none reproduces walk_mach2 reads, delta, end, steps on all 900 tapes: 0 mismatches; the means reproduce the record e = 4.419e4 / 1.564e5 / 7.226e5 exactly"
+  },
+  "variants": {
+   "cert": {
+    "mechanism": "certified-pair marks: a comparison that comes out equal marks both cells (1 ink each); a later scan may answer from the marks when they are provably about the same diagonal",
+    "reads": {
+     "512": 44186.2,
+     "1024": 156386.6,
+     "2048": 722628.8
+    },
+    "ink": {
+     "512": 12115.6,
+     "1024": 50111.6,
+     "2048": 254856.1
+    },
+    "ratio_to_baseline": {
+     "512": 1.0,
+     "1024": 1.0,
+     "2048": 1.0
+    },
+    "saving": {
+     "512": 0.0,
+     "1024": 0.0,
+     "2048": 0.0
+    },
+    "reads_exponent": 2.016,
+    "exact": "yes, 300/300 tapes at every n (delta and end)",
+    "consults": "0 on all 900 tapes: the walk moves one endpoint per step so s = ell+r changes at every step, and a 1-bit mark cannot carry which diagonal it was written for, so no exact cross-diagonal consultation exists"
+   },
+   "run": {
+    "mechanism": "run marks: _seed walks a constant run cell by cell, so it marks every cell whose value continues the certified run; a scan may read a mark (1 read) instead of the value (1 read)",
+    "reads": {
+     "512": 44186.2,
+     "1024": 156386.6,
+     "2048": 722628.8
+    },
+    "ink": {
+     "512": 1203.9,
+     "1024": 2513.4,
+     "2048": 5825.1
+    },
+    "ratio_to_baseline": {
+     "512": 1.0,
+     "1024": 1.0,
+     "2048": 1.0
+    },
+    "saving": {
+     "512": 0.0,
+     "1024": 0.0,
+     "2048": 0.0
+    },
+    "reads_exponent": 2.016,
+    "exact": "yes, 300/300 tapes at every n",
+    "why_zero": "a read of a mark returns the cell's value too, so the mark can never replace the read it rides on; to pay it would have to be a fact about another cell, and one bit cannot name which"
+   },
+   "cert_naive": {
+    "mechanism": "the same certified-pair marks trusted by position alone, with no diagonal discipline: the obvious implementation",
+    "reads": {
+     "512": 558660.2,
+     "1024": 2702146.8,
+     "2048": 15609832.0
+    },
+    "ink": {
+     "512": 680.8,
+     "1024": 1364.4,
+     "2048": 2960.1
+    },
+    "ratio_to_baseline": {
+     "512": 12.6433,
+     "1024": 17.2786,
+     "2048": 21.6015
+    },
+    "reads_exponent": 2.402,
+    "exact": "NO: wrong delta on 91 / 85 / 98 of 300 tapes, wrong end on 78 / 78 / 84. DISCARDED, not counted as a use of the plane"
+   }
+  },
+  "ceiling_for_any_certificate_scheme": {
+   "repeat_comparisons_share_of_b1": {
+    "512": 0.344,
+    "1024": 0.357,
+    "2048": 0.365
+   },
+   "b1_with_K1": {
+    "512": 22585,
+    "1024": 80401,
+    "2048": 372784
+   },
+   "b1_with_K_inf": {
+    "512": 15051,
+    "1024": 52280,
+    "2048": 238391
+   },
+   "ceiling_reads": {
+    "512": 7534,
+    "1024": 28121,
+    "2048": 134393
+   },
+   "ceiling_share_of_total_reads": {
+    "512": 0.171,
+    "1024": 0.18,
+    "2048": 0.186
+   },
+   "median_lag_of_a_repeat_steps": {
+    "512": 129,
+    "1024": 230,
+    "2048": 462
+   },
+   "certificate_bits_needed_at_n512": 27,
+   "certificates_the_plane_can_hold_at_n512": 18,
+   "repeat_comparisons_per_tape_at_n512": 5740
+  },
+  "does_the_saving_scale": "no: exactly 0 at every n for both exact variants, so there is no exponent to fit; even an unbounded, perfectly tagged certificate store would save only 17.1 / 18.0 / 18.6% of the charge, and the plane holds about 18 of the ~5740 certificates one tape needs"
+ },
+ "pattern": {
+  "baseline": {
+   "machine": "pcr_lib.Runner(...).run('pattern'), charge INC: 1 read per cell taken in or given up + re-span per cut",
+   "tapes": "tr_lib T_n, 300 tapes, n = 512 / 1024 / 2048",
+   "reads": {
+    "512": 76152.9,
+    "1024": 272692.0,
+    "2048": 1158319.4
+   },
+   "reads_exponent": 1.963,
+   "gate": "policy none reproduces Runner reads, delta, end, steps and cuts on all 900 tapes: 0 mismatches; the means reproduce the record e = 7.615e4 / 2.727e5 / 1.16e6 exactly"
+  },
+  "variants": {
+   "adj": {
+    "mechanism": "adjacency marks: m[i] = [a[i+1]==a[i]] written while the opening pass reads the tape; the adjacent-pair pass, charged 2 reads per pair, then needs 1 read per pair because reading cell i returns a[i] and m[i]",
+    "reads": {
+     "512": 75963.1,
+     "1024": 272308.9,
+     "2048": 1157551.0
+    },
+    "ink": {
+     "512": 511.0,
+     "1024": 1023.0,
+     "2048": 2047.0
+    },
+    "ratio_to_baseline": {
+     "512": 0.9975,
+     "1024": 0.9986,
+     "2048": 0.9993
+    },
+    "saving": {
+     "512": 189.8,
+     "1024": 383.1,
+     "2048": 768.4
+    },
+    "saving_exponent": 1.009,
+    "reads_exponent": 1.965,
+    "exact": "yes, 300/300 tapes at every n"
+   },
+   "occ": {
+    "mechanism": "local-run marks (the suggested candidate): m[i] = [a[i-2..i]==2,1,1], the established fact that a run of two 1s ends here after a 2; phi is evaluated as a range OR over marks at 1 read per mark",
+    "reads": {
+     "512": 319963.8,
+     "1024": 1097035.9,
+     "2048": 4579401.5
+    },
+    "ink": {
+     "512": 31.7,
+     "1024": 64.0,
+     "2048": 128.7
+    },
+    "ratio_to_baseline": {
+     "512": 4.2016,
+     "1024": 4.023,
+     "2048": 3.9535
+    },
+    "reads_exponent": 1.92,
+    "exact": "yes, 300/300 tapes at every n"
+   },
+   "occ_null": {
+    "mechanism": "the same marks written but never consulted: phi stays on the prefix array, which the INC charge gives free. The best case of occ",
+    "reads": {
+     "512": 76152.9,
+     "1024": 272692.0,
+     "2048": 1158319.4
+    },
+    "ink": {
+     "512": 31.7,
+     "1024": 64.0,
+     "2048": 128.7
+    },
+    "ratio_to_baseline": {
+     "512": 1.0,
+     "1024": 1.0,
+     "2048": 1.0
+    },
+    "saving": {
+     "512": 0.0,
+     "1024": 0.0,
+     "2048": 0.0
+    },
+    "reads_exponent": 1.963,
+    "exact": "yes, 300/300 tapes at every n"
+   }
+  },
+  "charge_structure": {
+   "opening": {
+    "512": 1792,
+    "1024": 3584,
+    "2048": 7168
+   },
+   "steps": {
+    "512": 15692,
+    "1024": 50709,
+    "2048": 231835
+   },
+   "charge_outside_the_opening": {
+    "512": 77549,
+    "1024": 251937,
+    "2048": 1155738
+   },
+   "distinct_cells_touched": {
+    "512": 511,
+    "1024": 1023,
+    "2048": 2048
+   },
+   "re_read_share": {
+    "512": 0.9934,
+    "1024": 0.9959,
+    "2048": 0.9982
+   }
+  },
+  "does_the_saving_scale": "no: the one working mechanism saves 190 / 383 / 768 reads, fitted exponent 1.009, against a charge that fits 1.963 - O(n) against O(n^2), so the ratio goes 0.9975 -> 0.9986 -> 0.9993 and tends to 1. The 99.3-99.8% of the charge that is re-reads is not recoverable, because a mark read costs what the cell read costs"
+ },
+ "verdict": "A one-bit active plane buys nothing on either rule. A read returns the data and the mark together for one read, so consulting a mark costs exactly what consulting the cell costs; a mark can only pay by answering a question about several cells, and one bit can do that in just two ways: a fixed-offset relation, which pays only where the charge is per pair, and a monotone Boolean range summary, which pays only where the predicate is not already free. pal is the first case already (one comparison = one read for two cells) and its only worthwhile certificate, the diagonal (s, lo, pos), needs about 27 bits at n = 512 and recurs 129 / 230 / 462 steps later (median lag), so an untagged 1-bit mark is stale exactly when it would be useful: both exact variants read exactly the baseline, 44186 / 156387 / 722629 at 512 / 1024 / 2048 (ratio 1.0000 at every size) and only spend ink (12116 / 50112 / 254856 and 1204 / 2513 / 5825), while the position-only version of the same idea reads 12.6-21.6x more and returns the wrong (delta, end) on 91 / 85 / 98 of 300 tapes; even an unbounded, perfectly tagged certificate store would save only 17.1 / 18.0 / 18.6% of the charge, and the plane holds about 18 of the ~5740 certificates one tape needs. pattern has one real mechanism, the adjacency bit on the paired opening pass, worth 190 / 383 / 768 reads (0.25% / 0.14% / 0.07%): the saving fits n^1.009 against a charge that fits n^1.963, so it does not scale, and the local-run range summary (the only composable 1-bit predicate in play) targets phi, which the machine's charge already computes for free, so implementing it costs 3.95x and the best case of those marks is exactly the baseline. Recommendation: drop the model - on the two rules the record has real machines for, the plane is unreadable on pal and redundant on pattern."
+}

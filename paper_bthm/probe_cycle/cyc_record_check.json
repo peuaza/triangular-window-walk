@@ -1,0 +1,322 @@
+{
+ "canonical@512": {
+  "rec": 51,
+  "cyc": 51,
+  "agree": true
+ },
+ "runs@512": {
+  "rec": 71,
+  "cyc": 71,
+  "agree": true
+ },
+ "dense2@512": {
+  "rec": 56,
+  "cyc": 56,
+  "agree": true
+ },
+ "peak@512": {
+  "rec": 21,
+  "cyc": 21,
+  "agree": true
+ },
+ "trip@512": {
+  "rec": 24,
+  "cyc": 24,
+  "agree": true
+ },
+ "oddrun@512": {
+  "rec": 27,
+  "cyc": 27,
+  "agree": true
+ },
+ "pattern@512": {
+  "rec": 95,
+  "cyc": 95,
+  "agree": true
+ },
+ "LAS@512": {
+  "rec": 23,
+  "cyc": 23,
+  "agree": true
+ },
+ "MAXP@512": {
+  "rec": 35,
+  "cyc": 35,
+  "agree": true
+ },
+ "KCHG@512": {
+  "rec": 17,
+  "cyc": 17,
+  "agree": true
+ },
+ "BAL>m/2@512": {
+  "rec": 17,
+  "cyc": 17,
+  "agree": true
+ },
+ "BAL>m/4@512": {
+  "rec": 12,
+  "cyc": 12,
+  "agree": true
+ },
+ "NBLK=1@512": {
+  "rec": 10,
+  "cyc": 10,
+  "agree": true
+ },
+ "NBLK>2@512": {
+  "rec": 7,
+  "cyc": 7,
+  "agree": true
+ },
+ "NBLK>3@512": {
+  "rec": 7,
+  "cyc": 7,
+  "agree": true
+ },
+ "AMAX@512": {
+  "rec": 11,
+  "cyc": 11,
+  "agree": true
+ },
+ "AMIN@512": {
+  "rec": 19,
+  "cyc": 19,
+  "agree": true
+ },
+ "longrun@512": {
+  "rec": 66,
+  "cyc": 66,
+  "agree": true
+ },
+ "pal@512": {
+  "rec": 43,
+  "cyc": 43,
+  "agree": true
+ },
+ "hashmod@512": {
+  "rec": 300,
+  "cyc": 300,
+  "agree": true
+ },
+ "monotone@512": {
+  "rec": 300,
+  "cyc": 300,
+  "agree": true
+ },
+ "canonical@1024": {
+  "rec": 33,
+  "cyc": 33,
+  "agree": true
+ },
+ "runs@1024": {
+  "rec": 75,
+  "cyc": 75,
+  "agree": true
+ },
+ "dense2@1024": {
+  "rec": 45,
+  "cyc": 45,
+  "agree": true
+ },
+ "peak@1024": {
+  "rec": 22,
+  "cyc": 22,
+  "agree": true
+ },
+ "trip@1024": {
+  "rec": 19,
+  "cyc": 19,
+  "agree": true
+ },
+ "oddrun@1024": {
+  "rec": 24,
+  "cyc": 24,
+  "agree": true
+ },
+ "pattern@1024": {
+  "rec": 101,
+  "cyc": 101,
+  "agree": true
+ },
+ "LAS@1024": {
+  "rec": 19,
+  "cyc": 19,
+  "agree": true
+ },
+ "MAXP@1024": {
+  "rec": 45,
+  "cyc": 45,
+  "agree": true
+ },
+ "KCHG@1024": {
+  "rec": 12,
+  "cyc": 12,
+  "agree": true
+ },
+ "BAL>m/2@1024": {
+  "rec": 16,
+  "cyc": 16,
+  "agree": true
+ },
+ "BAL>m/4@1024": {
+  "rec": 14,
+  "cyc": 14,
+  "agree": true
+ },
+ "NBLK=1@1024": {
+  "rec": 12,
+  "cyc": 12,
+  "agree": true
+ },
+ "NBLK>2@1024": {
+  "rec": 14,
+  "cyc": 14,
+  "agree": true
+ },
+ "NBLK>3@1024": {
+  "rec": 15,
+  "cyc": 15,
+  "agree": true
+ },
+ "AMAX@1024": {
+  "rec": 14,
+  "cyc": 14,
+  "agree": true
+ },
+ "AMIN@1024": {
+  "rec": 20,
+  "cyc": 20,
+  "agree": true
+ },
+ "longrun@1024": {
+  "rec": 56,
+  "cyc": 56,
+  "agree": true
+ },
+ "pal@1024": {
+  "rec": 35,
+  "cyc": 35,
+  "agree": true
+ },
+ "hashmod@1024": {
+  "rec": 300,
+  "cyc": 300,
+  "agree": true
+ },
+ "monotone@1024": {
+  "rec": 300,
+  "cyc": 300,
+  "agree": true
+ },
+ "canonical@2048": {
+  "rec": 27,
+  "cyc": 27,
+  "agree": true
+ },
+ "runs@2048": {
+  "rec": 67,
+  "cyc": 67,
+  "agree": true
+ },
+ "dense2@2048": {
+  "rec": 50,
+  "cyc": 50,
+  "agree": true
+ },
+ "peak@2048": {
+  "rec": 24,
+  "cyc": 24,
+  "agree": true
+ },
+ "trip@2048": {
+  "rec": 16,
+  "cyc": 16,
+  "agree": true
+ },
+ "oddrun@2048": {
+  "rec": 18,
+  "cyc": 18,
+  "agree": true
+ },
+ "pattern@2048": {
+  "rec": 100,
+  "cyc": 100,
+  "agree": true
+ },
+ "LAS@2048": {
+  "rec": 15,
+  "cyc": 15,
+  "agree": true
+ },
+ "MAXP@2048": {
+  "rec": 38,
+  "cyc": 38,
+  "agree": true
+ },
+ "KCHG@2048": {
+  "rec": 10,
+  "cyc": 10,
+  "agree": true
+ },
+ "BAL>m/2@2048": {
+  "rec": 7,
+  "cyc": 7,
+  "agree": true
+ },
+ "BAL>m/4@2048": {
+  "rec": 11,
+  "cyc": 11,
+  "agree": true
+ },
+ "NBLK=1@2048": {
+  "rec": 8,
+  "cyc": 8,
+  "agree": true
+ },
+ "NBLK>2@2048": {
+  "rec": 9,
+  "cyc": 9,
+  "agree": true
+ },
+ "NBLK>3@2048": {
+  "rec": 11,
+  "cyc": 11,
+  "agree": true
+ },
+ "AMAX@2048": {
+  "rec": 11,
+  "cyc": 11,
+  "agree": true
+ },
+ "AMIN@2048": {
+  "rec": 20,
+  "cyc": 20,
+  "agree": true
+ },
+ "longrun@2048": {
+  "rec": 81,
+  "cyc": 81,
+  "agree": true
+ },
+ "pal@2048": {
+  "rec": 55,
+  "cyc": 55,
+  "agree": true
+ },
+ "hashmod@2048": {
+  "rec": 300,
+  "cyc": 300,
+  "agree": true
+ },
+ "monotone@2048": {
+  "rec": 300,
+  "cyc": 300,
+  "agree": true
+ },
+ "monotone@4096": {
+  "rec": 300,
+  "cyc": 300,
+  "agree": true
+ }
+}
