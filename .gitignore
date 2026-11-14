@@ -7,3 +7,7 @@ _enum_small.json
 
 # withheld work: not for circulation
 bthm_merged.tex
+paper_bthm/*.tex
+paper_bthm/*.pdf
+paper_bthm/probe_trim/_*.tex
+paper_bthm/_mp_profile.tex
