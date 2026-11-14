@@ -182,11 +182,11 @@
   },
   {
    "id": "termination",
-   "value": "n + n(n^2+1)",
+   "value": "(n+1)(n^2+1)",
    "source": "Theorem 3",
    "appear": [
     {
-     "re": "n\\+n\\(n\\^\\{2\\}\\+1\\)",
+     "re": "\\(n\\+1\\)\\(n\\^\\{2\\}\\+1\\)",
      "min": 1
     }
    ]
@@ -210,6 +210,32 @@
     },
     {
      "re": "0\\.393",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "oracle_size",
+   "value": "2945071",
+   "source": "cut_cells.json nused_max",
+   "appear": [
+    {
+     "re": "2\\{,\\}945\\{,\\}071",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "trim_medians",
+   "value": "73 / 101 / 212",
+   "source": "cut_cells.json bC_trim_med",
+   "appear": [
+    {
+     "re": "73",
+     "min": 1
+    },
+    {
+     "re": "212",
      "min": 1
     }
    ]

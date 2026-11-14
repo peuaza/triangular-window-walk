@@ -13,7 +13,7 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
-\title{One bit stops the walk: cycle detection in a two-header tape machine}
+\title{One query bit stops the walk: cycle detection with a membership oracle}
 \author{HaoWei Luo\thanks{ORCID: 0009-0007-7206-7095; \texttt{luohaowei@bjtu.edu.cn}.}}
 \date{November 2026}
 
@@ -23,7 +23,7 @@
 \begin{abstract}
 A tape machine with two headers, a window and three trims answers a query at each step; in the companion
 paper its cost is measured on the tapes whose walk \emph{meets}. This paper asks how many of them do, and
-what the least possible memory is that turns the rest into runs with an answer. Over $18{,}000$ measured
+what a machine has to be told --- one bit per query --- to turn the rest into runs with an answer. The bit is a query, not a memory: the machine's state stays $O(\log n)$ bits and the visited set is the oracle's, with room for up to $2{,}945{,}071$ quadruples in a single run at $n=2048$. No lower bound is claimed: the paper measures what the query buys, not the least memory that would suffice. Over $18{,}000$ measured
 tape-runs in sixty (rule, $n$) cells, $14.9\%$ of the runs meet and $61.9\%$ close a period and then repeat it for ever,
 dying at the step cap; the cycle is short, a median of two steps. One bit --- the answer to ``has this
 window occurred before?'' --- takes the meeting rate to $37.8\%$ and rescues $36.9\%$ of the runs that
@@ -75,16 +75,17 @@ name the states it has seen. In particular the oracle does not answer \emph{how 
 occurred, and the rule cannot recover a count from it (Section~\ref{sec:not}).
 
 \paragraph{The trim side.} The bit says that the state has occurred; it does not say which end to trim. This
-is a real degree of freedom: trimming the left end and trimming the right differ by a median of $0.010$ in
+is a real degree of freedom, but its measurement is inherited: the $0.010$ median and the $0.107$ maximum quoted here were taken on the window-retraction variant, and the side sensitivity of the trim itself is not measured. For the retraction, trimming the left end against the right differs by a median of $0.010$ in
 meeting fraction and by at most $0.107$ (\texttt{AMAX}, \texttt{AMIN}). The model therefore declares the side rather
 than leaving it to the implementation: on a repeat the rule trims the side its own table selects for that
-state --- the same parity rule it uses when it cuts --- one cell per repeat. The repair is a trim in the
+state --- the same parity rule it uses when it trims --- one cell per repeat. The repair is a trim in the
 companion paper's sense: it removes the boundary cell of the \emph{tape}, so the region shrinks. It is not a
 withdrawal of the window, which the walk could undo by widening it again; the difference matters in
 Section~\ref{sec:term}.
 
 \begin{lemma}[Containment]\label{lem:contain}
-Every rule of the companion paper is a rule of this model with the same cost on every tape. A rule that
+Every rule of the companion paper is a rule of this model with the same cost on every tape both models
+count. A rule that
 halts without an answer when the bit is $1$ behaves exactly as in the companion paper: the tapes on which it
 halts without an answer are the tapes the companion paper does not count either.
 \end{lemma}
@@ -103,14 +104,14 @@ measures it.
 \section{Termination, and what it costs}\label{sec:term}
 
 \begin{theorem}\label{thm:term}
-If a rule trims a tape cell whenever the bit is $1$, every run halts in at most $n+n(n^{2}+1)$ steps.
+If a rule trims a tape cell whenever the bit is $1$, every run halts in at most $(n+1)(n^{2}+1)$ steps.
 \end{theorem}
 \begin{proof}
-Every trim removes a cell of the tape --- the rule's own cuts and the repair alike --- so there are at
+Every trim removes a cell of the tape --- the rule's own trims and the repair alike --- so there are at
 most $n$ trims in the whole run. Between two of them the region $[L,R]$ is fixed, so the state is the pair
 $(\ell,r)$ with $L\le\ell\le r\le R$: at most $n^{2}$ states. If the walk returned to a state it had already visited, the
 bit would be $1$ there and the rule would trim, so no state repeats between trims; hence at most $n^{2}$
-steps between trims, and with at most $n$ trims the run has at most $n+n(n^{2}+1)$ steps.
+steps between trims, and with at most $n$ trims the run has at most $(n+1)(n^{2}+1)$ steps.
 \end{proof}
 
 \begin{corollary}\label{cor:cost}
@@ -122,7 +123,7 @@ The bound of Theorem~\ref{thm:term}, and of Corollary~\ref{cor:cost} for the rea
 improvement: it is no better than the most expensive rule in the published catalogue, whose cheapest
 family costs $n+S$ and whose most expensive costs $n^{3}$. The bit guarantees that a run ends, not that it
 ends cheaply, and two features make that concrete. First, the repair itself costs: a median rescued tape
-needs a few hundred trims and the worst needs $1{,}956$ (\texttt{NBLK=1}, $n=2048$), each paid at one read
+needs $73$ trims at $n=512$, $101$ at $1024$ and $212$ at $2048$ (medians of the per-cell medians), and the largest single run needs $1{,}956$ (\texttt{NBLK=1}, $n=2048$), each paid at one read
 plus the head re-read. Second, the rescued runs are the expensive ones: a tape that used to die at the cap
 now continues to an answer and pays for the continuation, so the median reads over all tapes rise even as
 the meeting rate does.
@@ -143,13 +144,13 @@ random tapes and twenty rules; $800/800$ detected periods re-run for a full peri
 matching a second, independently written engine on all six fields of the repair; and, on every one of the
 $18{,}000$ tape-runs, the no-memory walk reproduced field by field against the earlier run ($0$ mismatches on
 seven fields), which is what makes the two runs comparable. The repair never fires more than $n$ times
-(Table~\ref{tab:agg}), no run hit the step cap, and no cell ran out of oracle table.
+(Table~\ref{tab:agg}), no run hit the step cap (both cap counters are zero in every cell), and the largest visited set in any run is $2{,}945{,}071$ quadruples.
 
 \begin{table}[t]
 \centering
 \small
-\input{probe_cycle_cut/_cut_table.tex}
-\caption{One row per rule at $n=512$, $300$ tapes, with the cut repair. \emph{BTHM-0}: the share of tapes
+\input{probe_trim/_trim_table.tex}
+\caption{One row per rule at $n=512$, $300$ tapes, with the trim repair. \emph{BTHM-0}: the share of tapes
 that meet, and the share that close a period and die at the cap. \emph{cycle}: the median period length in
 steps and the median window width at the repeat. \emph{BTHM-C}: the meeting share, the rescued share of the
 cap-diers, and the median number of repair trims a rescued tape needs. \emph{reads}: the median over the
@@ -159,12 +160,12 @@ tapes the companion paper counts, and over all tapes under the bit.}
 
 \paragraph{What the bit buys.} Over the $18{,}000$ tape-runs the meeting rate goes from $14.9\%$ to $37.8\%$,
 and $4{,}115$ of the $11{,}146$ cap-diers are rescued ($36.9\%$). No run under the bit hit the cap. The
-rescue is uneven: it is $1.000$ for \texttt{hashmod} and \texttt{monotone}, which never cycle, and between
+rescue is uneven: it is undefined for \texttt{hashmod} and \texttt{monotone}, which never cycle, and between
 $0.28$ and $0.50$ for the rules that do, the largest for \texttt{dense2} ($0.503$ at $n=512$) and the
 smallest for \texttt{runs} ($0.276$).
 
 \paragraph{The shape of a cycle.} The walk does not wander before it repeats: the median period is
-\textbf{two steps}, a move out and the same move back, at every size and for most rules. The width at which
+\textbf{two steps}, a move out and the same move back, at every size and for most rules --- $49\%$ of the periods are exactly two steps, the ninetieth percentile is six, the longest seen is $1{,}318$. The width at which
 the repeat happens is rule-specific (Figure~\ref{fig:width}) --- five cells for \texttt{pal}, eleven for
 \texttt{longrun}, about a third of the tape for \texttt{NBLK>2} and \texttt{BAL>m/2} ($749$ and $720$ cells
 at $n=2048$). A long period is the exception: \texttt{dense2} cycles in $13$--$14$ steps, \texttt{pattern}
@@ -191,12 +192,12 @@ The repair is where the model is tested, in three ways.
 repair to consume a cell of the tape. A cheaper repair suggests itself: retract the window one cell and leave
 the tape untouched. Measured, that repair is far better at rescuing runs --- $74.0\%$ of them meet against
 $37.8\%$ --- and it hits the cap on no tape either; but the walk can undo it by re-widening the window, so its
-repair count has no bound ($3{,}627{,}840$ trims at $n=2048$, against $1{,}956$ for the cut) and no
-termination theorem applies to it. This paper reports the cut, because a model whose termination is observed
+repair count has no bound ($3{,}627{,}840$ trims at $n=2048$, against $1{,}956$ for the trim) and no
+termination theorem applies to it. This paper reports the trim, because a model whose termination is observed
 but not proved is a weaker claim than one whose termination is proved.
 
-\emph{It decides the rescue rate, by a factor of two.} Table~\ref{tab:repair} gives the two repairs side by
-side at $n=512$: the retraction rescues up to three times as many runs on the rules that cycle most
+\emph{It decides the meeting share, by a factor of two.} Table~\ref{tab:repair} gives the two repairs side by
+side at $n=512$: the retraction meets on up to three times as many tapes on the rules that cycle most
 (\texttt{peak} $0.813$ against $0.340$, \texttt{BAL>m/2} $0.887$ against $0.393$), and the gap is a property
 of the repair, not of the bit.
 
@@ -207,7 +208,7 @@ alternates between two seen states. Escaping needs a change in the geometry, and
 \begin{table}[t]
 \centering
 \small
-\input{probe_cycle_cut/_cutagg_table.tex}
+\input{probe_trim/_trimagg_table.tex}
 \caption{The aggregate at the three sizes, over the twenty rules that were run (\texttt{monotone} is
 analytic and enters no cell). The meeting rate falls slowly with $n$ while the cap share rises: divergence is
 not a small-size artefact. The last column is the largest number of repair trims a single run needed; it is
@@ -218,8 +219,8 @@ always at most $n$, as the theorem requires.}
 \begin{table}[t]
 \centering
 \small
-\input{probe_cycle_cut/_cutrep_table.tex}
-\caption{The repair decides the rescue rate: the window retraction against the cut, at $n=512$, as the share
+\input{probe_trim/_trimrep_table.tex}
+\caption{The repair decides the rescue rate: the window retraction against the trim, at $n=512$, as the share
 of tapes that meet. The retraction is better everywhere and far better on the rules that cycle most, and it
 is the repair for which no termination bound holds.}
 \label{tab:repair}
@@ -290,7 +291,7 @@ repeats with $O(\log n)$ bits --- a question about the rule, not about the model
 answer.
 
 \paragraph{Counting instead of remembering.} An oracle that answers \emph{how many times} (or the count
-modulo $k$) is a different model: its memory is $O(n^{2}\log k)$ bits, it is Langton's-ant-shaped
+modulo $k$) is a different model: its table has $\Theta(n^{4}\log k)$ bits, it is Langton's-ant-shaped
 \citep{langton1986}, and the interesting question there is not cost but computational power. It should not
 share a paper with this one.
 
