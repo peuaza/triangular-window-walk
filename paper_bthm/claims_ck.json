@@ -476,6 +476,32 @@
      "min": 1
     }
    ]
+  },
+  {
+   "id": "pair_n512",
+   "value": "71.8% and 37.3% over the 6,000-run twenty-rule pool at n=512",
+   "source": "cyc_cells.json / cut_cells.json, monotone excluded",
+   "appear": [
+    {
+     "re": "71\\.8",
+     "min": 1
+    },
+    {
+     "re": "37\\.3",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "agg_max1024",
+   "value": "1,002 (pal, all runs)",
+   "source": "cut_cells.json bC_trim_max_all",
+   "appear": [
+    {
+     "re": "1,002",
+     "min": 1
+    }
+   ]
   }
  ],
  "bans": [
@@ -530,6 +556,10 @@
   {
    "re": "collapse family",
    "why": "the charge model is named instead"
+  },
+  {
+   "re": "76\\.8",
+   "why": "the monotone-free pool gives 71.8%"
   }
  ],
  "counts": [

@@ -15,8 +15,8 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PAPER = os.path.join(HERE, "bthm_ck.tex")
-TABLE_DIRS = [os.path.join(HERE, "probe_cycle"), os.path.join(HERE, "probe_colour_k")]
-INCLUDED = ["_cyc_table.tex", "_agg_table.tex", "_rep_table.tex", "_k_table.tex"]
+TABLE_DIRS = [os.path.join(HERE, "probe_trim"), os.path.join(HERE, "probe_colour_k")]
+INCLUDED = ["_trim_table.tex", "_trimagg_table.tex", "_trimrep_table.tex", "_k_table.tex"]
 
 
 def main():

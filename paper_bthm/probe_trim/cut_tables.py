@@ -54,7 +54,7 @@ def per_rule():
 
 def agg():
     L = [r"\begin{tabular}{@{}lrrrrr@{}}", r"\toprule",
-         r"$n$ & BTHM-0 meet & cap & BTHM-C meet & rescued & max trims \\", r"\midrule"]
+         r"$n$ & BTHM-0 meet & cap & BTHM-C meet & rescued & max trims (all runs) \\", r"\midrule"]
     for n in ("512", "1024", "2048"):
         keys = ("tapes", "b0_meet", "b0_cyc", "bC_meet", "bC_rescue")
         s = {k: 0 for k in keys}
@@ -66,8 +66,8 @@ def agg():
                 continue
             for k in keys:
                 s[k] += c.get(k) or 0
-        tm = max([c["bC_trim_max"] for r, by in R.items() if r != "monotone"
-                  for k, c in by.items() if k == n and c.get("bC_trim_max") is not None] or [0])
+        tm = max([c["bC_trim_max_all"] for r, by in R.items() if r != "monotone"
+                  for k, c in by.items() if k == n and c.get("bC_trim_max_all") is not None] or [0])
         L.append("%s & %s & %s & %s & %s & %s \\\\" % (
             n, f(s["b0_meet"] / s["tapes"]), f(s["b0_cyc"] / s["tapes"]), f(s["bC_meet"] / s["tapes"]),
             f(s["bC_rescue"] / s["b0_cyc"]), "{:,}".format(int(tm))))
