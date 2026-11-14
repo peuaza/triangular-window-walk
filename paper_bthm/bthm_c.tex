@@ -24,7 +24,7 @@
 A tape machine with two headers, a window and three trims answers a query at each step; in the companion
 paper its cost is measured on the tapes whose walk \emph{meets}. This paper asks how many of them do, and
 what the least possible memory is that turns the rest into runs with an answer. Over $18{,}000$ measured
-(rule, $n$, tape) cells, $14.9\%$ of the runs meet and $61.9\%$ close a period and then repeat it for ever,
+tape-runs in sixty (rule, $n$) cells, $14.9\%$ of the runs meet and $61.9\%$ close a period and then repeat it for ever,
 dying at the step cap; the cycle is short, a median of two steps. One bit --- the answer to ``has this
 window occurred before?'' --- takes the meeting rate to $37.8\%$ and rescues $36.9\%$ of the runs that
 otherwise die. The bit is not state: the visited set is the oracle's, the machine keeps $O(\log n)$ bits.
@@ -277,7 +277,7 @@ different subpopulations, and a revision should print the rate beside the mean.
 
 Second, divergence is not a defect of particular rules: it is what the model does. The walk is memoryless,
 so a rule that can return to a state will return to it, and the state space is $O(n^{4})$. Of the twenty
-rules measured, eighteen cycle on some tapes, and for fifteen of them the cycle is the majority outcome at some
+rules measured, nineteen cycle on some tapes, and for fifteen of them the cycle is the majority outcome at some
 size. What saves the meeting tapes is geometry, not design: the walks that shrink monotonically cannot
 repeat, and the walks that end quickly escape the cap.
 
