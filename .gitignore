@@ -12,3 +12,4 @@ paper_bthm/*.pdf
 paper_bthm/probe_trim/_*.tex
 paper_bthm/_mp_profile.tex
 paper_bthm/**/*.md
+archive/bthm0/_bz_results.md
