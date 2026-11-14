@@ -10,11 +10,13 @@ it, and each has its own README.
 |---|---|
 | `.` (root) | *A triangular window walk on random binary matrices: a conjectured arcsine limit* |
 | `family/` | *Memory and randomness control the shape: a family of limit laws from a triangular-window walk* |
-| `paper_bthm/` | *A memoryless two-header tape machine: what a window costs, and why two lower-bound techniques fail* — the **experiment code** only; the paper is `10.5281/zenodo.24115991` |
+| `paper_bthm/` | *A memoryless two-header tape machine* (v2.0, `10.5281/zenodo.24199236`) and *One query per state: a flag buys termination, a count buys behaviour* — the **experiment code** only; its README maps every table and figure of both papers to its generator and record |
 
 Nothing at the root was moved when the subdirectories were added, so every path in the paper-1
 README below still resolves. `archive/` holds the earlier BTHM draft's code (`bthm0/`). No paper
-sources, data, logs or reports are kept in this repository — it carries code, nothing else.
+sources, PDFs, logs or reports are kept in this repository; beside the scripts it carries only the
+per-run JSON records the table generators read, and each subdirectory's README says which artifact comes
+from which record.
 
 ## Paper 1
 
