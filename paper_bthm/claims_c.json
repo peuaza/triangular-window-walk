@@ -1,0 +1,247 @@
+{
+ "paper": "bthm_c.tex",
+ "note": "Numbers in the BTHM-C paper, with the file that produced them, after the repair was changed to a real tape trim (probe_cycle_cut/cut_cells.json).",
+ "claims": [
+  {
+   "id": "cells",
+   "value": "18000 tape-runs",
+   "source": "probe_cycle_cut/cut_cells.json",
+   "appear": [
+    {
+     "re": "18\\{,\\}000",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "b0_meet",
+   "value": "14.9%",
+   "source": "sum b0_meet / 18000",
+   "appear": [
+    {
+     "re": "14\\.9\\\\%",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "b0_cap",
+   "value": "61.9%",
+   "source": "sum b0_cyc / 18000",
+   "appear": [
+    {
+     "re": "61\\.9\\\\%",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "bC_meet",
+   "value": "37.8%",
+   "source": "sum bC_meet / 18000",
+   "appear": [
+    {
+     "re": "37\\.8\\\\%",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "rescued",
+   "value": "4115 of 11146 = 36.9%",
+   "source": "sum bC_rescue / sum b0_cyc",
+   "appear": [
+    {
+     "re": "4\\{,\\}115",
+     "min": 1
+    },
+    {
+     "re": "36\\.9\\\\%",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "trims_max",
+   "value": "1956",
+   "source": "cut_cells.json max bC_trim_max",
+   "appear": [
+    {
+     "re": "1\\{,\\}956",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "retraction_trims",
+   "value": "3,627,840",
+   "source": "probe_cycle/cyc_cells.json",
+   "appear": [
+    {
+     "re": "3\\{,\\}627\\{,\\}840",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "retraction_meet",
+   "value": "74.0%",
+   "source": "probe_cycle/cyc_cells.json",
+   "appear": [
+    {
+     "re": "74\\.0\\\\%",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "cycle_med",
+   "value": "2 steps",
+   "source": "cut_cells.json cyc_len_med",
+   "appear": [
+    {
+     "re": "two steps",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "width_pal",
+   "value": "5 cells",
+   "source": "cut_cells.json pal/512",
+   "appear": [
+    {
+     "re": "five cells",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "width_longrun",
+   "value": "11 cells",
+   "source": "cut_cells.json longrun/512",
+   "appear": [
+    {
+     "re": "eleven",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "width_nblk",
+   "value": "749 and 720",
+   "source": "cut_cells.json NBLK>2 / BAL>m/2",
+   "appear": [
+    {
+     "re": "749",
+     "min": 1
+    },
+    {
+     "re": "720",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "rescue_range",
+   "value": "0.276 to 0.503",
+   "source": "cut_cells.json bC_rescue_frac at 512",
+   "appear": [
+    {
+     "re": "0\\.503",
+     "min": 1
+    },
+    {
+     "re": "0\\.276",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "gates",
+   "value": "99/99, 114/114, 800/800, 30/30",
+   "source": "CUT.md and cyc_verify",
+   "appear": [
+    {
+     "re": "99/99",
+     "min": 1
+    },
+    {
+     "re": "114/114",
+     "min": 1
+    },
+    {
+     "re": "800/800",
+     "min": 1
+    },
+    {
+     "re": "30/30",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "termination",
+   "value": "n + n(n^2+1)",
+   "source": "Theorem 3",
+   "appear": [
+    {
+     "re": "n\\+n\\(n\\^\\{2\\}\\+1\\)",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "repair_gap",
+   "value": "peak 0.813 vs 0.340; BAL>m/2 0.887 vs 0.393",
+   "source": "comparison_512",
+   "appear": [
+    {
+     "re": "0\\.813",
+     "min": 1
+    },
+    {
+     "re": "0\\.340",
+     "min": 1
+    },
+    {
+     "re": "0\\.887",
+     "min": 1
+    },
+    {
+     "re": "0\\.393",
+     "min": 1
+    }
+   ]
+  }
+ ],
+ "bans": [
+  {
+   "re": "double trim dominates",
+   "why": "the double trim is not measured"
+  },
+  {
+   "re": "one conjecture",
+   "why": "the companion paper withdrew its conjecture"
+  },
+  {
+   "re": "n \\+ S - 1",
+   "why": "the companion theorem is n + S"
+  },
+  {
+   "re": "worse than every rule",
+   "why": "O(n^3) ties the most expensive rule"
+  },
+  {
+   "re": "95\\.4",
+   "why": "that is the retraction's rescue rate, not the cut's"
+  }
+ ],
+ "counts": [
+  {
+   "re": "twenty rules",
+   "min": 1,
+   "why": "the aggregate excludes monotone and must say so"
+  }
+ ]
+}
